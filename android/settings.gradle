@@ -1,0 +1,3 @@
+rootProject.name = 'SSConnect'
+
+include ':app'
