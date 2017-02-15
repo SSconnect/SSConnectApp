@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text
-} from 'reac-tnative'
+} from 'react-native'
 
 class HomeScreen extends Component {
   render() {
