@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "packager": "./node_modules/react-native/packager/packager.sh",
+    "packager:reset": "./node_modules/react-native/packager/packager.sh --reset-cache",
     "ios": "react-native run-ios --project-path ./ios",
     "test": "jest"
   },
