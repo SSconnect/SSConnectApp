@@ -1,19 +1,29 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import RootContainer from './RootContainer';
+import HomeScreen from './HomeScreen';
+import { Scene, Router } from 'react-native-router-flux';
+import { Colors } from '../Themes'
 
-const a: string = 10
+const Styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		marginTop: 100,
+		backgroundColor: Colors.white
+	},
+	listContent: {
+		marginTop: Metrics.baseMargin
+	}
+})
+
 
 class App extends Component {
   render() {
     const text = 1;
     return (
-      <View>
-        <Text>
-          Hello!
-        </Text>
-      </View>
+      <Router style={styles.container} hideNavBar hideTabBar>
+        <Scene key="homeScreen" container={HomeScreen} passProps />
+      </Router>
     );
   }
 }
