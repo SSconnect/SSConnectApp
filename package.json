@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "packager": "./node_modules/react-native/packager/packager.sh",
+    "ios": "react-native run-ios --project-path ./ios",
     "test": "jest"
   },
   "dependencies": {
@@ -15,9 +17,11 @@
     "babel-preset-react-native": "1.9.1",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-flow": "^1.0.2",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
+    "flow-bin": "^0.39.0",
     "jest": "18.1.0",
     "react-test-renderer": "~15.4.0"
   },
