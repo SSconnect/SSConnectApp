@@ -1096,6 +1096,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.elzup.SSConnect;
 				PRODUCT_NAME = SSConnect;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1114,6 +1115,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.elzup.SSConnect;
 				PRODUCT_NAME = SSConnect;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
