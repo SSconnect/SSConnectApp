@@ -7,6 +7,7 @@
     "packager": "./node_modules/react-native/packager/packager.sh",
     "packager:reset": "./node_modules/react-native/packager/packager.sh --reset-cache",
     "ios": "react-native run-ios --project-path ./ios",
+    "flow": "node_modules/.bin/flow",
     "test": "jest"
   },
   "dependencies": {
