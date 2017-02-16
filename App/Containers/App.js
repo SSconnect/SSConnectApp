@@ -9,7 +9,7 @@ import { Colors } from '../Themes';
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 100,
+    marginTop: 60,
     backgroundColor: Colors.white,
   },
   listContent: {
