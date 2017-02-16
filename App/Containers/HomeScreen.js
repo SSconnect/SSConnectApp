@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Linking,
   ListView,
+  TouchableOpacity
 } from 'react-native';
 import feedClient from '../Services/FeedClient';
 import type { Feed } from '../Services/FeedClient';
@@ -35,12 +37,15 @@ class HomeScreen extends Component {
 
   renderRow (feed: Feed, sectionID: number) {
     return (
-      <ListItem
-        roundAvatar
-        key={sectionID}
-        title={feed.title}
-        subtitle={feed.blogname}
-      />
+      <TouchableOpacity onPress={() => {
+        Linking.openURL(feed.link);
+      }}>
+        <ListItem
+          key={sectionID}
+          title={feed.title}
+          subtitle={feed.blogname}
+        />
+      </TouchableOpacity>
     )
   }
 
@@ -50,6 +55,7 @@ class HomeScreen extends Component {
         <ListView
           renderRow={this.renderRow}
           dataSource={this.state.dataSource}
+          enableEmptySections
         />
       </List>
     )
