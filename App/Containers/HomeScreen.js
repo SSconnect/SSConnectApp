@@ -6,11 +6,13 @@ import {
   Text,
   Linking,
   ListView,
+  StyleSheet,
   TouchableOpacity
 } from 'react-native';
 import feedClient from '../Services/FeedClient';
 import type { Feed } from '../Services/FeedClient';
 import { List, ListItem } from 'react-native-elements'
+import realm from '../Models/RealmModel'
 
 class HomeScreen extends Component {
 
@@ -38,11 +40,21 @@ class HomeScreen extends Component {
   renderRow (feed: Feed, sectionID: number) {
     return (
       <TouchableOpacity onPress={() => {
+        realm.write(() => {
+          realm.create('Read', {
+            url: feed.link
+          })
+        })
         Linking.openURL(feed.link);
+        feed.read = true;
       }}>
         <ListItem
           key={sectionID}
-          title={feed.title}
+          title={
+            <View>
+              <Text style={feed.readed ? styles.readed : null} >{feed.title}</Text>
+            </View>
+          }
           subtitle={feed.blogname}
         />
       </TouchableOpacity>
@@ -60,6 +72,12 @@ class HomeScreen extends Component {
       </List>
     )
   }
-
 }
+
+const styles = StyleSheet.create({
+  readed: {
+    color: 'gray'
+  }
+})
+
 export default HomeScreen;

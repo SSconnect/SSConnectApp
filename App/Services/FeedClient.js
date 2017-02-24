@@ -6,6 +6,7 @@ export type Feed = {
   blogname: string,
   title: string,
   link: string,
+  read: boolean,
   description: string
 }
 
@@ -27,6 +28,7 @@ class FeedClient {
           blogname: this.elementValue(item, 'dc:creator'),
           title: this.elementValue(item, 'title'),
           link: this.elementValue(item, 'link'),
+          read: false,
           description: this.elementValue(item, 'description'),
         });
       }
