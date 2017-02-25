@@ -1,7 +1,7 @@
 /* @flow */
 
 const colors = {
-	white: '#fff',
-}
+	white: '#fff'
+};
 
 export default colors;

@@ -1,11 +1,14 @@
-const Realm from 'realm';
+/* @flow */
+
+import Realm from 'realm';
 
 const ReadSchema = {
-  name: 'Read'
-  properties: {
-    url: 'string'
-  }
-}
+	name: 'Read',
+	properties: {
+		url: 'string'
+	}
+};
 
-const realm = new Realm({schema: [ReadSchema]})
-export realm
+export default new Realm({
+	schema: [ReadSchema]
+});

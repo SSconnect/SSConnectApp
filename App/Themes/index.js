@@ -2,4 +2,4 @@
 
 import Colors from './Colors';
 
-export { Colors };
+export {Colors};
