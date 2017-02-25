@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   View,
   Text,
@@ -14,27 +14,30 @@ import type {Feed} from '../Services/FeedClient';
 import {List, ListItem} from 'react-native-elements';
 import realm from '../Models/RealmModel';
 
-class HomeScreen extends Component {
+type Props = {
 
-	state: {
-    dataSource: Object
-  }
+}
 
-	constructor(props: Object) {
-		super(props);
-		const rowHasChanged = (r1: Feed, r2: Feed) => r1.title + r1.blogname !== r2.title + r2.blogname;
-		const ds = new ListView.DataSource({rowHasChanged});
-		this.state = {
-			dataSource: ds.cloneWithRows([])
-		};
+type State = {
+  dataSource: any
+}
+const rowHasChanged = (r1: Feed, r2: Feed) => r1.title + r1.blogname !== r2.title + r2.blogname;
+
+class HomeScreen extends PureComponent {
+	props: Props
+	state: State = {
+		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([])
 	}
 
 	componentDidMount() {
-		feedClient.fetchFeed().then((feeds: Array<Feed>) => {
-			this.setState({
-				dataSource: this.state.dataSource.cloneWithRows(feeds)
-			});
-		}).done();
+		this.init();
+	}
+
+	async init() {
+		const feeds = await feedClient.fetchFeed();
+		this.setState({
+			dataSource: this.state.dataSource.cloneWithRows(feeds)
+		});
 	}
 
 	renderRow(feed: Feed, sectionID: number) {
