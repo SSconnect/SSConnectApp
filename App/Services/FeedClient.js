@@ -15,9 +15,10 @@ class FeedClient {
 	async fetchFeed(): Promise<Array<Feed>> {
 		const parser = new DOMParser();
 		const res = await fetch('http://ssmatomesokuho.com/feed.xml');
-		const doc = parser.parseFromString(res.text(), 'application/xml');
-		const items = doc.documentElement.getElementsByTagName('item');
-		return _.map(items, this.wrapFeed);
+		const text = await res.text();
+		const doc = await parser.parseFromString(text, 'application/xml');
+		const items = await doc.documentElement.getElementsByTagName('item');
+		return _.map(items, this.wrapFeed.bind(this));
 	}
 
 	wrapFeed(item: any): Feed {
