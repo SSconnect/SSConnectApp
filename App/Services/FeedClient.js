@@ -1,38 +1,49 @@
 /* @flow */
 
-import {DOMParser} from 'xmldom';
-import _ from 'lodash';
+import {create} from 'apisauce';
+import moment from 'moment';
 
-export type Feed = {
-  blogname: string,
+import res1 from '../../sample/v1/articles';
+
+export type Article = {
+  id: number,
+  posted_at: number,
   title: string,
-  link: string,
-  read: boolean,
-  description: string
+  url: string,
+  blog: Blog
+}
+
+export type Blog = {
+  id: number,
+  title: string,
+  url: string,
+  rss: string
 }
 
 class FeedClient {
-	async fetchFeed(): Promise<Array<Feed>> {
-		const parser = new DOMParser();
-		const res = await fetch('http://ssmatomesokuho.com/feed.xml');
-		const text = await res.text();
-		const doc = await parser.parseFromString(text, 'application/xml');
-		const items = await doc.documentElement.getElementsByTagName('item');
-		return _.map(items, this.wrapFeed.bind(this));
+	api: any
+	host = 'https://ssconnect.elzup.com'
+
+	constructor() {
+		console.log('Gen AnncitAPI');
+		this.api = create({
+			baseURL: this.host,
+			timeout: 10000
+		});
 	}
 
-	wrapFeed(item: any): Feed {
-		return {
-			blogname: this.elementValue(item, 'dc:creator'),
-			title: this.elementValue(item, 'title'),
-			link: this.elementValue(item, 'link'),
-			read: false,
-			description: this.elementValue(item, 'description')
+	async getArticles(page?: number): Promise<Array<Article>> {
+		const params = {
+			page: page || 1
 		};
-	}
+		const res = this.api.get('/v1/artciles', params);
 
-	elementValue(e: Object, tagName: string) {
-		return e.getElementsByTagName(tagName)[0].childNodes[0].data;
+		console.log(res);
+		if (res.ok) {
+			return res.data;
+		}
+		console.log(res1);
+		return res1;
 	}
 }
 

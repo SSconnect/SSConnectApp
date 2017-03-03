@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import feedClient from '../Services/FeedClient';
-import type {Feed} from '../Services/FeedClient';
+import type {Article} from '../Services/FeedClient';
 import {List, ListItem} from 'react-native-elements';
 import realm from '../Models/RealmModel';
 
@@ -21,7 +21,7 @@ type Props = {
 type State = {
   dataSource: any
 }
-const rowHasChanged = (r1: Feed, r2: Feed) => r1.title + r1.blogname !== r2.title + r2.blogname;
+const rowHasChanged = (r1: Article, r2: Article) => r1 == r2;
 
 class HomeScreen extends PureComponent {
 	props: Props
@@ -34,33 +34,34 @@ class HomeScreen extends PureComponent {
 	}
 
 	async init() {
-		const feeds = await feedClient.fetchFeed();
+		const articles = await feedClient.getArticles();
+		console.log(articles);
 		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(feeds)
+			dataSource: this.state.dataSource.cloneWithRows(articles)
 		});
 	}
 
-	renderRow(feed: Feed, sectionID: number) {
+	renderRow(article: Article, sectionID: number) {
 		return (
 			<TouchableOpacity
 				onPress={() => {
 					realm.write(() => {
 						realm.create('Read', {
-							url: feed.link
+							url: article.url
 						});
 					});
-					Linking.openURL(feed.link);
-					feed.read = true;
+					Linking.openURL(article.url);
+					// article.read = true;
 				}}
 				>
 				<ListItem
 					key={sectionID}
 					title={
 						<View>
-							<Text style={feed.readed ? styles.readed : null} >{feed.title}</Text>
+							<Text style={false ? styles.readed : null} >{article.title}</Text>
 						</View>
           }
-					subtitle={feed.blogname}
+					subtitle={article.blog.title}
 					/>
 			</TouchableOpacity>
 		);
