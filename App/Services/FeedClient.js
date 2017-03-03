@@ -1,43 +1,39 @@
 /* @flow */
 
-import { DOMParser } from 'xmldom';
+import {DOMParser} from 'xmldom';
+import _ from 'lodash';
 
 export type Feed = {
   blogname: string,
   title: string,
   link: string,
+  read: boolean,
   description: string
 }
 
 class FeedClient {
-  constructor() {
-  }
+	async fetchFeed(): Promise<Array<Feed>> {
+		const parser = new DOMParser();
+		const res = await fetch('http://ssmatomesokuho.com/feed.xml');
+		const text = await res.text();
+		const doc = await parser.parseFromString(text, 'application/xml');
+		const items = await doc.documentElement.getElementsByTagName('item');
+		return _.map(items, this.wrapFeed.bind(this));
+	}
 
-  fetchFeed() {
-    const parser = new DOMParser();
-    return fetch('http://ssmatomesokuho.com/feed.xml')
-    .then(res => res.text())
-    .then(text => parser.parseFromString(text, 'application/xml'))
-    .then(doc => doc.documentElement.getElementsByTagName('item'))
-    .then(items => {
-      const feeds: Array<Feed> = [];
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        feeds.push({
-          blogname: this.elementValue(item, 'dc:creator'),
-          title: this.elementValue(item, 'title'),
-          link: this.elementValue(item, 'link'),
-          description: this.elementValue(item, 'description'),
-        });
-      }
-      return feeds;
-    },
-    );
-  }
-  elementValue(e: Object, tagName: string) {
-    return e.getElementsByTagName(tagName)[0].childNodes[0].data
-  }
+	wrapFeed(item: any): Feed {
+		return {
+			blogname: this.elementValue(item, 'dc:creator'),
+			title: this.elementValue(item, 'title'),
+			link: this.elementValue(item, 'link'),
+			read: false,
+			description: this.elementValue(item, 'description')
+		};
+	}
+
+	elementValue(e: Object, tagName: string) {
+		return e.getElementsByTagName(tagName)[0].childNodes[0].data;
+	}
 }
-
 
 export default new FeedClient();

@@ -1,3 +1,4 @@
 {
-  "extends": ["airbnb"]
+  "extends": ["xo", "xo-react", "plugin:flowtype/recommended"],
+  "plugins": ["react", "import", "flowtype"]
 }
