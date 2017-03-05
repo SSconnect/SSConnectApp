@@ -36,9 +36,9 @@ class FeedClient {
 		const params = {
 			page: page || 1
 		};
-		const res = this.api.get('/v1/artciles', params);
+		const res = await this.api.get('/v1/articles', params);
 
-		console.log(res);
+		console.log('res', res);
 		if (res.ok) {
 			return res.data;
 		}
