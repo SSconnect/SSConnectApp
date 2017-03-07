@@ -4,6 +4,7 @@ import React, {PureComponent} from 'react';
 import {
   View,
   Text,
+  Picker,
   Linking,
   ListView,
   StyleSheet,
@@ -20,14 +21,19 @@ type Props = {
 }
 
 type State = {
-  dataSource: any
+  dataSource: any,
+  blogID: number,
+  blogs: Array<any>
 }
-const rowHasChanged = (r1: Article, r2: Article) => r1 == r2;
+
+const rowHasChanged = (r1: Article, r2: Article) => true;
 
 class BlogScreen extends PureComponent {
 	props: Props
 	state: State = {
-		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([])
+		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
+		blogID: 0,
+		blogs: []
 	}
 
 	componentDidMount() {
@@ -35,11 +41,9 @@ class BlogScreen extends PureComponent {
 	}
 
 	async init() {
-		const articles = await feedClient.getArticles();
-		console.log(articles);
-		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(articles)
-		});
+		const blogs = await feedClient.getBlogs();
+		console.log('blogs', blogs);
+		this.setState({blogs});
 	}
 
 	renderRow(article: Article, sectionID: number) {
@@ -68,9 +72,40 @@ class BlogScreen extends PureComponent {
 		);
 	}
 
+	async onValueChange(blogID: number) {
+		console.log(blogID);
+		await this.setState({blogID});
+		await this.loadArticles();
+	}
+
+	async loadArticles() {
+		console.log(this.state.blogID);
+		if (this.state.blogID == 0) {
+			return;
+		}
+		const articles = await feedClient.getArticles(0, this.state.blogID);
+		console.log('articles', articles);
+		console.log(articles.length);
+		this.setState({
+			dataSource: this.state.dataSource.cloneWithRows(articles)
+		});
+	}
+
 	render() {
+		const items = [(<Picker.Item key={0} label="---" value={0}/>)];
+		this.state.blogs.forEach(e => {
+			items.push((
+				<Picker.Item key={e.id} label={e.title} value={e.id}/>
+      ));
+		});
 		return (
 			<View style={{marginTop: 40, marginBottom: 50}}>
+				<Picker
+					style={styles.picker}
+					onValueChange={this.onValueChange.bind(this)}
+					selectedValue={this.state.blogID}
+					mode="dropdown"
+					>{items}</Picker>
 				<List>
 					<ListView
 						renderRow={this.renderRow}
@@ -86,6 +121,8 @@ class BlogScreen extends PureComponent {
 const styles = StyleSheet.create({
 	readed: {
 		color: 'gray'
+	},
+	picker: {
 	}
 });
 
