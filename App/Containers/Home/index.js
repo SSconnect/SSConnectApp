@@ -11,23 +11,27 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 
+import Indicator from '../../Components/Indicator';
+
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
 
 type Props = {
-
 }
 
 type State = {
-  dataSource: any
+  dataSource: any,
+  loading: boolean
 }
+
 const rowHasChanged = (r1: Article, r2: Article) => r1 == r2;
 
 class HomeScreen extends PureComponent {
 	props: Props
 	state: State = {
-		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([])
+		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
+		loading: true
 	}
 
 	componentDidMount() {
@@ -38,7 +42,8 @@ class HomeScreen extends PureComponent {
 		const articles = await feedClient.getArticles();
 		console.log(articles);
 		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(articles)
+			dataSource: this.state.dataSource.cloneWithRows(articles),
+			loading: false
 		});
 	}
 
@@ -76,10 +81,15 @@ class HomeScreen extends PureComponent {
 						renderRow={this.renderRow}
 						dataSource={this.state.dataSource}
 						enableEmptySections
+						renderFooter={this.renderFooter.bind(this)}
 						/>
 				</List>
 			</View>
 		);
+	}
+
+	renderFooter() {
+		return (<Indicator loading={this.state.loading}/>);
 	}
 }
 
