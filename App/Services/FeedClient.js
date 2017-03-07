@@ -1,5 +1,3 @@
-/* @flow */
-
 import {create} from 'apisauce';
 import moment from 'moment';
 
@@ -22,7 +20,7 @@ export type Blog = {
 
 class FeedClient {
 	api: any
-	host = 'https://ssconnect.elzup.com'
+	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
 
 	constructor() {
 		console.log('Gen AnncitAPI');
@@ -32,17 +30,27 @@ class FeedClient {
 		});
 	}
 
-	async getArticles(page?: number): Promise<Array<Article>> {
-		const params = {
-			page: page || 1
-		};
+	async getArticles(page = 1, blog_id = null): Promise<Array<Article>> {
+		const params = {page};
+		if (blog_id) {
+			params.blog_id = blog_id;
+		}
 		const res = await this.api.get('/v1/articles', params);
 
 		console.log('res', res);
 		if (res.ok) {
 			return res.data;
 		}
-		console.log(res1);
+		return res1;
+	}
+
+	async getBlogs(): Promise<Array<Blog>> {
+		const res = await this.api.get('/v1/blogs');
+
+		console.log('res', res);
+		if (res.ok) {
+			return res.data;
+		}
 		return res1;
 	}
 }
