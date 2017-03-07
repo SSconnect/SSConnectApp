@@ -60,15 +60,10 @@ class HomeScreen extends PureComponent {
 					// article.read = true;
 				}}
 				>
-				<ListItem
-					key={sectionID}
-					title={
-						<View>
-							<Text style={false ? styles.readed : null} >{article.title}</Text>
-						</View>
-          }
-					subtitle={article.blog.title}
-					/>
+				<View style={{padding: 10}}>
+					<Text>{article.blog.title}</Text>
+					<Text style={{fontSize: 20}}>{article.title}</Text>
+				</View>
 			</TouchableOpacity>
 		);
 	}
@@ -76,14 +71,12 @@ class HomeScreen extends PureComponent {
 	render() {
 		return (
 			<View style={{marginTop: 40, marginBottom: 50}}>
-				<List>
-					<ListView
-						renderRow={this.renderRow}
-						dataSource={this.state.dataSource}
-						enableEmptySections
-						renderFooter={this.renderFooter.bind(this)}
-						/>
-				</List>
+				<ListView
+					renderRow={this.renderRow}
+					dataSource={this.state.dataSource}
+					enableEmptySections
+					renderFooter={this.renderFooter.bind(this)}
+					/>
 			</View>
 		);
 	}
