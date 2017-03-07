@@ -3,17 +3,23 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import HomeScreen from './HomeScreen';
+import BlogScreen from './BlogScreen';
 import {Scene, Router} from 'react-native-router-flux';
+
+import TabIcon from '../Components/TabIcon';
+
 import {Colors} from '../Themes';
 
 const Styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 60,
 		backgroundColor: Colors.white
 	},
-	listContent: {
-		marginTop: 100
+	navBar: {
+		backgroundColor: Colors.white
+	},
+	tabBarStyle: {
+		backgroundColor: Colors.white
 	}
 });
 
@@ -21,9 +27,28 @@ class App extends Component {
 	render() {
 		const text = 1;
 		return (
-			<Router style={Styles.container} hideNavBar hideTabBar>
-				<Scene key="root" passProps >
-					<Scene initial key="homeScreen" component={HomeScreen}/>
+			<Router style={Styles.container}>
+				<Scene key="root">
+					<Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
+						<Scene
+							initial key="homeScreen"
+							titleStyle={Styles.title}
+							component={HomeScreen}
+							title="Home"
+							tabTitle="Home"
+							iconName="home"
+							icon={TabIcon}
+							/>
+						<Scene
+							key="blogScreen"
+							titleStyle={Styles.title}
+							component={BlogScreen}
+							title="Blog"
+							tabTitle="Blog"
+							iconName="web"
+							icon={TabIcon}
+							/>
+					</Scene>
 				</Scene>
 			</Router>
 		);
