@@ -70,13 +70,15 @@ class BlogScreen extends PureComponent {
 
 	render() {
 		return (
-			<List>
-				<ListView
-					renderRow={this.renderRow}
-					dataSource={this.state.dataSource}
-					enableEmptySections
-					/>
-			</List>
+			<View style={{marginTop: 40, marginBottom: 50}}>
+				<List>
+					<ListView
+						renderRow={this.renderRow}
+						dataSource={this.state.dataSource}
+						enableEmptySections
+						/>
+				</List>
+			</View>
 		);
 	}
 }

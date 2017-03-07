@@ -2,18 +2,21 @@
 
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import HomeScreen from './HomeScreen';
-import BlogScreen from './BlogScreen';
+import HomeScreen from '../Home';
+import BlogScreen from '../Blog';
 import {Scene, Router} from 'react-native-router-flux';
 
-import TabIcon from '../Components/TabIcon';
+import TabIcon from '../../Components/TabIcon';
 
-import {Colors} from '../Themes';
+import {Colors} from '../../Themes';
 
 const Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.white
+	},
+	main: {
+		marginTop: 300
 	},
 	navBar: {
 		backgroundColor: Colors.white
