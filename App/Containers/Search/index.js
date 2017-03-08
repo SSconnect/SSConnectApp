@@ -84,9 +84,15 @@ class SearchScreen extends PureComponent {
 				dataSource: this.state.dataSource.cloneWithRows([])
 			});
 		}
-		this.setState({loading: true});
 		const page = this.state.page + 1;
-		const articles = await feedClient.getArticles(page, null, this.state.q);
+		this.setState({loading: true});
+		let articles = [];
+		let q = '';
+    // q が非同期で更新されていないか常にチェック
+		while (q != this.state.q) {
+			q = this.state.q;
+			articles = await feedClient.getArticles(page, null, q);
+		}
 
 		this._articles = this._articles.concat(articles);
 		await new Promise(resolve => setTimeout(resolve, 2000));
