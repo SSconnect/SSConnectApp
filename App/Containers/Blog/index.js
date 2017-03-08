@@ -6,15 +6,16 @@ import {
   Text,
   Picker,
   Linking,
+  ScrollView,
   ListView,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
+import {Colors, Scales} from '../../Themes/';
 
 type Props = {
 
@@ -59,15 +60,10 @@ class BlogScreen extends PureComponent {
 					// article.read = true;
 				}}
 				>
-				<ListItem
-					key={sectionID}
-					title={
-						<View>
-							<Text style={false ? styles.readed : null} >{article.title}</Text>
-						</View>
-          }
-					subtitle={article.blog.title}
-					/>
+				<View style={{padding: 10}}>
+					<Text>{article.blog.title}</Text>
+					<Text style={{fontSize: 20}}>{article.title}</Text>
+				</View>
 			</TouchableOpacity>
 		);
 	}
@@ -99,20 +95,21 @@ class BlogScreen extends PureComponent {
       ));
 		});
 		return (
-			<View style={{marginTop: 40, marginBottom: 50}}>
-				<Picker
-					style={styles.picker}
-					onValueChange={this.onValueChange.bind(this)}
-					selectedValue={this.state.blogID}
-					mode="dropdown"
-					>{items}</Picker>
-				<List>
+			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
+				<ScrollView>
+					<View style={styles.pickerBox} >
+						<Picker
+							onValueChange={this.onValueChange.bind(this)}
+							selectedValue={this.state.blogID}
+							mode="dropdown"
+							>{items}</Picker>
+					</View>
 					<ListView
 						renderRow={this.renderRow}
 						dataSource={this.state.dataSource}
 						enableEmptySections
 						/>
-				</List>
+				</ScrollView>
 			</View>
 		);
 	}
@@ -123,6 +120,11 @@ const styles = StyleSheet.create({
 		color: 'gray'
 	},
 	picker: {
+	},
+	pickerBox: {
+		height: 100,
+		overflow: 'hidden',
+		justifyContent: 'space-around'
 	}
 });
 

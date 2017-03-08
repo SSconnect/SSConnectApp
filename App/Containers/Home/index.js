@@ -9,7 +9,6 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
 
 import Indicator from '../../Components/Indicator';
 
