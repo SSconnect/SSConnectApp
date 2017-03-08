@@ -14,10 +14,10 @@ import {
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import Indicator from '../../Components/Indicator';
+import ArticleCell from '../../Components/ArticleCell';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
-import realm from '../../Models/RealmModel';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {
@@ -58,24 +58,11 @@ class BlogScreen extends PureComponent {
 		});
 	}
 
-	renderRow(article: Article, sectionID: number) {
+	renderRow(article: Article) {
 		return (
-			<TouchableOpacity
-				onPress={() => {
-					realm.write(() => {
-						realm.create('Read', {
-							url: article.url
-						});
-					});
-					Linking.openURL(article.url);
-					// article.read = true;
-				}}
-				>
-				<View style={{padding: 10}}>
-					<Text>{article.blog.title}</Text>
-					<Text style={{fontSize: 20}}>{article.title}</Text>
-				</View>
-			</TouchableOpacity>
+			<ArticleCell
+				article={article}
+				/>
 		);
 	}
 
