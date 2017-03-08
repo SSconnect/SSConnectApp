@@ -115,7 +115,7 @@ class HomeScreen extends PureComponent {
 	}
 
 	renderFooter() {
-		return (<Indicator loading={this.state.loading}/>);
+		return (<Indicator loading={this.state.page == 0 && this.state.loading}/>);
 	}
 }
 
