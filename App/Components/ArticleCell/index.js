@@ -1,11 +1,13 @@
+// @flow
+
 import React from 'react';
 import {View, TouchableOpacity, Text, Linking} from 'react-native';
 import Spinner from 'react-native-spinkit';
+import moment from 'moment';
 
 import {Colors} from '../../Themes/';
 
 import realm from '../../Models/RealmModel';
-import moment from 'moment';
 
 const Styles = {
 };

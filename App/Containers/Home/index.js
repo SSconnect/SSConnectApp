@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import React, {PureComponent} from 'react';
 import {
@@ -15,7 +15,6 @@ import Indicator from '../../Components/Indicator';
 import ArticleCell from '../../Components/ArticleCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article} from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
 import {Colors, Scales} from '../../Themes/';
 
@@ -37,6 +36,7 @@ class HomeScreen extends PureComponent {
 		loading: true,
 		page: 0
 	}
+	articles: Array<Article>
 
 	componentDidMount() {
 		this.init();

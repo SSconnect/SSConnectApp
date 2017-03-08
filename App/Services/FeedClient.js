@@ -2,21 +2,7 @@
 
 import {create} from 'apisauce';
 import moment from 'moment';
-
-export type Article = {
-  id: number,
-  posted_at: number,
-  title: string,
-  url: string,
-  blog: Blog
-}
-
-export type Blog = {
-  id: number,
-  title: string,
-  url: string,
-  rss: string
-}
+import {Article, Blog} from '../Types';
 
 type Props = {
   page?: number,
@@ -25,7 +11,6 @@ type Props = {
 }
 
 class FeedClient {
-	api: any
 	host = 'https://ssconnect.elzup.com'
 	// host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
 
@@ -53,7 +38,7 @@ class FeedClient {
 		console.log('res', res);
 
 		if (!res.ok) {
-			throw new Error('');
+			throw new Error('Response error');
 		}
 		return res.data;
 	}
