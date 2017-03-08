@@ -30,10 +30,13 @@ class FeedClient {
 		});
 	}
 
-	async getArticles(page = 1, blog_id = null): Promise<Array<Article>> {
+	async getArticles(page = 1, blog_id = null, q = ''): Promise<Array<Article>> {
 		const params = {page};
 		if (blog_id) {
 			params.blog_id = blog_id;
+		}
+		if (q) {
+			params.q = q;
 		}
 		const res = await this.api.get('/v1/articles', params);
 
