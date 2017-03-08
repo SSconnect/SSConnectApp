@@ -12,6 +12,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
+import {SearchBar} from 'react-native-elements';
 
 import Indicator from '../../Components/Indicator';
 import ArticleCell from '../../Components/ArticleCell';
@@ -26,7 +27,7 @@ type Props = {
 
 type State = {
   dataSource: any,
-  blogID: number,
+  q: string,
   page: number,
   loading: boolean,
   blogs: Array<any>
@@ -34,12 +35,12 @@ type State = {
 
 const rowHasChanged = (r1: Article, r2: Article) => true;
 
-class BlogScreen extends PureComponent {
+class SearchScreen extends PureComponent {
 	props: Props
 	state: State = {
 		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
 		loading: true,
-		blogID: 0,
+		q: '',
 		page: 0,
 		blogs: []
 	}
@@ -66,15 +67,14 @@ class BlogScreen extends PureComponent {
 		);
 	}
 
-	async onValueChange(blogID: number) {
-		console.log(blogID);
-		await this.setState({blogID});
+	async onValueChange(q: string) {
+		console.log(q);
+		await this.setState({q});
 		await this.loadMore(true);
 	}
 
 	async loadMore(reset = false) {
-		console.log(this.state.blogID);
-		if (this.state.blogID == 0) {
+		if (this.state.q == '') {
 			return;
 		}
 		if (reset) {
@@ -84,9 +84,15 @@ class BlogScreen extends PureComponent {
 				dataSource: this.state.dataSource.cloneWithRows([])
 			});
 		}
-		this.setState({loading: true});
 		const page = this.state.page + 1;
-		const articles = await feedClient.getArticles(page, this.state.blogID);
+		this.setState({loading: true});
+		let articles = [];
+		let q = '';
+    // q が非同期で更新されていないか常にチェック
+		while (q != this.state.q) {
+			q = this.state.q;
+			articles = await feedClient.getArticles(page, null, q);
+		}
 
 		this._articles = this._articles.concat(articles);
 		await new Promise(resolve => setTimeout(resolve, 2000));
@@ -98,21 +104,14 @@ class BlogScreen extends PureComponent {
 	}
 
 	render() {
-		const items = [(<Picker.Item key={0} label="---" value={0}/>)];
-		this.state.blogs.forEach(e => {
-			items.push((
-				<Picker.Item key={e.id} label={e.title} value={e.id}/>
-      ));
-		});
 		return (
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
-				<View style={styles.pickerBox} >
-					<Picker
-						onValueChange={this.onValueChange.bind(this)}
-						selectedValue={this.state.blogID}
-						mode="dropdown"
-						>{items}</Picker>
-				</View>
+				<SearchBar
+					lightTheme
+					onChangeText={this.onValueChange.bind(this)}
+					placeholder="作品名、キャラ名など..."
+					/>
+
 				<ListView
 					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
 					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
@@ -155,4 +154,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default BlogScreen;
+export default SearchScreen;
