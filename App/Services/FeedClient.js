@@ -1,7 +1,7 @@
+// @flow
+
 import {create} from 'apisauce';
 import moment from 'moment';
-
-import res1 from '../../sample/v1/articles';
 
 export type Article = {
   id: number,
@@ -18,9 +18,15 @@ export type Blog = {
   rss: string
 }
 
+type Props = {
+  page?: number,
+  blog_id?: number,
+  q?: string
+}
+
 class FeedClient {
 	api: any
-	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
+	host = 'https://ssconnect.elzup.com'
 
 	constructor() {
 		console.log('Gen AnncitAPI');
@@ -30,31 +36,25 @@ class FeedClient {
 		});
 	}
 
-	async getArticles(page = 1, blog_id = null, q = ''): Promise<Array<Article>> {
-		const params = {page};
-		if (blog_id) {
-			params.blog_id = blog_id;
-		}
-		if (q) {
-			params.q = q;
-		}
-		const res = await this.api.get('/v1/articles', params);
+	async getArticles(props: Props): Promise<Array<Article>> {
+		const defaultProps: Props = {page: 1, q: ''};
+		const res = await this.api.get('/v1/articles', {...defaultProps, ...props});
 
 		console.log('res', res);
-		if (res.ok) {
-			return res.data;
+		if (!res.ok) {
+			throw new Error('can\'t request');
 		}
-		return res1;
+		return res.data;
 	}
 
 	async getBlogs(): Promise<Array<Blog>> {
 		const res = await this.api.get('/v1/blogs');
-
 		console.log('res', res);
-		if (res.ok) {
-			return res.data;
+
+		if (!res.ok) {
+			throw new Error('');
 		}
-		return res1;
+		return res.data;
 	}
 }
 

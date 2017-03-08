@@ -12,7 +12,11 @@ const Styles = {
 	}
 };
 
-function Indicator({loading}) {
+type Props = {
+	loading: boolean
+}
+
+function Indicator({loading = ture}: Props) {
 	if (!loading) {
 		return null;
 	}
@@ -22,13 +26,5 @@ function Indicator({loading}) {
 		</View>
 	);
 }
-
-Indicator.propTypes = {
-	loading: React.PropTypes.bool
-};
-
-Indicator.defaultProps = {
-	loading: true
-};
 
 export default Indicator;

@@ -44,6 +44,7 @@ class SearchScreen extends PureComponent {
 		page: 0,
 		blogs: []
 	}
+	_articles: Array<Article>
 
 	componentDidMount() {
 		this.init();
@@ -73,7 +74,7 @@ class SearchScreen extends PureComponent {
 		await this.loadMore(true);
 	}
 
-	async loadMore(reset = false) {
+	async loadMore(reset: boolean = false) {
 		if (this.state.q == '') {
 			return;
 		}
@@ -91,7 +92,7 @@ class SearchScreen extends PureComponent {
     // q が非同期で更新されていないか常にチェック
 		while (q != this.state.q) {
 			q = this.state.q;
-			articles = await feedClient.getArticles(page, null, q);
+			articles = await feedClient.getArticles({page, q});
 		}
 
 		this._articles = this._articles.concat(articles);
