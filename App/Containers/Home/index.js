@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import Indicator from '../../Components/Indicator';
 
@@ -73,13 +74,21 @@ class HomeScreen extends PureComponent {
 		return (
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<ListView
+					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
+					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
 					renderRow={this.renderRow}
 					dataSource={this.state.dataSource}
+					canLoadMore
 					enableEmptySections
+					distanceToLoadMore={25}
 					renderFooter={this.renderFooter.bind(this)}
 					/>
 			</View>
 		);
+	}
+
+	loadMoreContentAsync() {
+		console.log('more');
 	}
 
 	renderFooter() {

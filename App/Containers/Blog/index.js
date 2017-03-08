@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
