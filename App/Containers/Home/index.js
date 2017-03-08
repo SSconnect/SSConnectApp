@@ -9,20 +9,22 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import Indicator from '../../Components/Indicator';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
+import {Colors, Scales} from '../../Themes/';
 
 type Props = {
 }
 
 type State = {
   dataSource: any,
-  loading: boolean
+  loading: boolean,
+  page: number,
 }
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 == r2;
@@ -31,7 +33,8 @@ class HomeScreen extends PureComponent {
 	props: Props
 	state: State = {
 		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
-		loading: true
+		loading: true,
+		page: 0
 	}
 
 	componentDidMount() {
@@ -40,10 +43,26 @@ class HomeScreen extends PureComponent {
 
 	async init() {
 		const articles = await feedClient.getArticles();
+		this._articles = articles;
 		console.log(articles);
+		await new Promise(resolve => setTimeout(resolve, 2000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(articles),
-			loading: false
+			loading: false,
+			page: 1
+		});
+	}
+
+	async loadMore() {
+		const nextPage = this.state.page + 1;
+		const articles = await feedClient.getArticles(nextPage);
+		console.log(nextPage, articles);
+		this._articles = this._articles.concat(articles);
+		await new Promise(resolve => setTimeout(resolve, 2000));
+		this.setState({
+			dataSource: this.state.dataSource.cloneWithRows(this._articles),
+			loading: false,
+			page: nextPage
 		});
 	}
 
@@ -60,36 +79,43 @@ class HomeScreen extends PureComponent {
 					// article.read = true;
 				}}
 				>
-				<ListItem
-					key={sectionID}
-					title={
-						<View>
-							<Text style={false ? styles.readed : null} >{article.title}</Text>
-						</View>
-          }
-					subtitle={article.blog.title}
-					/>
+				<View style={{padding: 10}}>
+					<Text>{article.blog.title}</Text>
+					<Text style={{fontSize: 20}}>{article.title}</Text>
+				</View>
 			</TouchableOpacity>
 		);
 	}
 
 	render() {
 		return (
-			<View style={{marginTop: 40, marginBottom: 50}}>
-				<List>
-					<ListView
-						renderRow={this.renderRow}
-						dataSource={this.state.dataSource}
-						enableEmptySections
-						renderFooter={this.renderFooter.bind(this)}
-						/>
-				</List>
+			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
+				<ListView
+					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
+					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
+					renderRow={this.renderRow}
+					dataSource={this.state.dataSource}
+					canLoadMore
+					enableEmptySections
+					distanceToLoadMore={0}
+					renderFooter={this.renderFooter.bind(this)}
+					/>
 			</View>
 		);
 	}
 
+	async loadMoreContentAsync() {
+		if (this.state.loading) {
+			return;
+		}
+		console.log('more');
+		this.setState({loading: true});
+		await this.loadMore();
+		this.setState({loading: false});
+	}
+
 	renderFooter() {
-		return (<Indicator loading={this.state.loading}/>);
+		return (<Indicator loading={this.state.page == 0 && this.state.loading}/>);
 	}
 }
 
