@@ -16,6 +16,7 @@ import Indicator from '../../Components/Indicator';
 import feedClient from '../../Services/FeedClient';
 import type {Article} from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
+import {Colors, Scales} from '../../Themes/';
 
 type Props = {
 }
@@ -41,6 +42,7 @@ class HomeScreen extends PureComponent {
 	async init() {
 		const articles = await feedClient.getArticles();
 		console.log(articles);
+		await new Promise(resolve => setTimeout(resolve, 2000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(articles),
 			loading: false
@@ -70,7 +72,7 @@ class HomeScreen extends PureComponent {
 
 	render() {
 		return (
-			<View style={{marginTop: 40, marginBottom: 50}}>
+			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<ListView
 					renderRow={this.renderRow}
 					dataSource={this.state.dataSource}
