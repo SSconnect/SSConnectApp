@@ -23,7 +23,8 @@ type Props = {
 
 type State = {
   dataSource: any,
-  loading: boolean
+  loading: boolean,
+  page: number,
 }
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 == r2;
@@ -32,7 +33,8 @@ class HomeScreen extends PureComponent {
 	props: Props
 	state: State = {
 		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
-		loading: true
+		loading: true,
+		page: 0
 	}
 
 	componentDidMount() {
@@ -41,11 +43,26 @@ class HomeScreen extends PureComponent {
 
 	async init() {
 		const articles = await feedClient.getArticles();
+		this._articles = articles;
 		console.log(articles);
 		await new Promise(resolve => setTimeout(resolve, 2000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(articles),
-			loading: false
+			loading: false,
+			page: this.state.page + 1
+		});
+	}
+
+	async loadMore() {
+		const nextPage = this.state.page + 1;
+		const articles = await feedClient.getArticles(nextPage);
+		console.log(nextPage, articles);
+		this._articles = this._articles.concat(articles);
+		await new Promise(resolve => setTimeout(resolve, 2000));
+		this.setState({
+			dataSource: this.state.dataSource.cloneWithRows(this._articles),
+			loading: false,
+			page: nextPage
 		});
 	}
 
@@ -80,15 +97,21 @@ class HomeScreen extends PureComponent {
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
-					distanceToLoadMore={25}
+					distanceToLoadMore={0}
 					renderFooter={this.renderFooter.bind(this)}
 					/>
 			</View>
 		);
 	}
 
-	loadMoreContentAsync() {
+	async loadMoreContentAsync() {
+		if (this.state.loading) {
+			return;
+		}
 		console.log('more');
+		this.setState({loading: true});
+		await this.loadMore();
+		this.setState({loading: false});
 	}
 
 	renderFooter() {
