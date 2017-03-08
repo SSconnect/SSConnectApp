@@ -5,11 +5,14 @@ import Spinner from 'react-native-spinkit';
 import {Colors} from '../../Themes/';
 
 import realm from '../../Models/RealmModel';
+import moment from 'moment';
 
 const Styles = {
 };
 
 function ArticleCell({article}) {
+	moment.updateLocale('ja');
+	const timestamp = moment.utc(article.posted_at, );
 	return (
 		<TouchableOpacity
 			onPress={() => {
@@ -19,12 +22,16 @@ function ArticleCell({article}) {
 					});
 				});
 				Linking.openURL(article.url);
-      // article.read = true;
+				// article.read = true;
 			}}
 			>
 			<View style={{padding: 10}}>
-				<Text>{article.blog.title}</Text>
+				<View style={{marginBottom: 5, flex: 2, flexDirection: 'row', justifyContent: 'space-between'}} >
+					<Text style={{color: Colors.disable}}>{article.blog.title}</Text>
+					<Text>{timestamp.fromNow()}</Text>
+				</View>
 				<Text style={{fontSize: 20}}>{article.title}</Text>
+				<Text style={{marginTop: 5}}>{article.category_list.join(',')}</Text>
 			</View>
 		</TouchableOpacity>
 	);
