@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import HomeScreen from '../Home';
 import BlogScreen from '../Blog';
+import SearchScreen from '../Search';
 import {Scene, Router} from 'react-native-router-flux';
 
 import TabIcon from '../../Components/TabIcon';
@@ -37,7 +38,7 @@ class App extends Component {
 							initial key="homeScreen"
 							titleStyle={Styles.title}
 							component={HomeScreen}
-							title="Home"
+							title="新着"
 							tabTitle="Home"
 							iconName="home"
 							icon={TabIcon}
@@ -46,9 +47,18 @@ class App extends Component {
 							key="blogScreen"
 							titleStyle={Styles.title}
 							component={BlogScreen}
-							title="Blog"
+							title="ブログ"
 							tabTitle="Blog"
 							iconName="web"
+							icon={TabIcon}
+							/>
+						<Scene
+							key="searchScreen"
+							titleStyle={Styles.title}
+							component={SearchScreen}
+							title="検索"
+							tabTitle="Search"
+							iconName="search"
 							icon={TabIcon}
 							/>
 					</Scene>
