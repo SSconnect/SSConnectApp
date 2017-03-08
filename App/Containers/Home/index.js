@@ -49,7 +49,7 @@ class HomeScreen extends PureComponent {
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(articles),
 			loading: false,
-			page: this.state.page + 1
+			page: 1
 		});
 	}
 
