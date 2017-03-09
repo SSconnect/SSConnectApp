@@ -26,6 +26,7 @@ class FeedClient {
 	async getArticles(params: ?Params): Promise<Array<Article>> {
 		const defaultProps: Params = {page: 1, q: ''};
 		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
+		console.log(reqParams);
 		const res = await this.api.get('/v1/articles', reqParams);
 
 		console.log('res', res);
