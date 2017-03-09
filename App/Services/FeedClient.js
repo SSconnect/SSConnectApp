@@ -2,15 +2,16 @@
 
 import {create} from 'apisauce';
 import moment from 'moment';
-import {Article, Blog} from '../Types';
+import type {Article, Blog} from '../Types';
 
-type Props = {
+type Params = {
   page?: number,
   blog_id?: number,
   q?: string
 }
 
 class FeedClient {
+	api: any
 	host = 'https://ssconnect.elzup.com'
 	// host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
 
@@ -22,9 +23,10 @@ class FeedClient {
 		});
 	}
 
-	async getArticles(props: Props): Promise<Array<Article>> {
-		const defaultProps: Props = {page: 1, q: ''};
-		const res = await this.api.get('/v1/articles', {...defaultProps, ...props});
+	async getArticles(params: ?Params): Promise<Array<Article>> {
+		const defaultProps: Params = {page: 1, q: ''};
+		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
+		const res = await this.api.get('/v1/articles', reqParams);
 
 		console.log('res', res);
 		if (!res.ok) {

@@ -9,12 +9,19 @@ import {Colors} from '../../Themes/';
 
 import realm from '../../Models/RealmModel';
 
+import type {Article} from '../../Types';
+
 const Styles = {
 };
 
-function ArticleCell({article}) {
+type Props = {
+	article: Article
+}
+
+function ArticleCell({article}: Props) {
+	console.log(article);
 	moment.updateLocale('ja');
-	const timestamp = moment.utc(article.posted_at, );
+	const timestamp = moment.utc(article.posted_at);
 	return (
 		<TouchableOpacity
 			onPress={() => {
@@ -38,13 +45,5 @@ function ArticleCell({article}) {
 		</TouchableOpacity>
 	);
 }
-
-ArticleCell.propTypes = {
-	loading: React.PropTypes.object
-};
-
-ArticleCell.defaultProps = {
-	loading: {}
-};
 
 export default ArticleCell;

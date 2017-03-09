@@ -17,6 +17,7 @@ import ArticleCell from '../../Components/ArticleCell';
 import feedClient from '../../Services/FeedClient';
 import realm from '../../Models/RealmModel';
 import {Colors, Scales} from '../../Themes/';
+import type {Article} from '../../Types';
 
 type Props = {
 }
@@ -36,7 +37,7 @@ class HomeScreen extends PureComponent {
 		loading: true,
 		page: 0
 	}
-	articles: Array<Article>
+	_articles: Array<Article>
 
 	componentDidMount() {
 		this.init();
@@ -56,7 +57,7 @@ class HomeScreen extends PureComponent {
 
 	async loadMore() {
 		const nextPage = this.state.page + 1;
-		const articles = await feedClient.getArticles(nextPage);
+		const articles = await feedClient.getArticles({page: nextPage});
 		console.log(nextPage, articles);
 		this._articles = this._articles.concat(articles);
 		await new Promise(resolve => setTimeout(resolve, 2000));
@@ -68,6 +69,7 @@ class HomeScreen extends PureComponent {
 	}
 
 	renderRow(article: Article) {
+		console.log(article);
 		return (
 			<ArticleCell
 				article={article}
@@ -99,7 +101,6 @@ class HomeScreen extends PureComponent {
 		console.log('more');
 		this.setState({loading: true});
 		await this.loadMore();
-		this.setState({loading: false});
 	}
 
 	renderFooter() {

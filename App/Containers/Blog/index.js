@@ -17,7 +17,7 @@ import Indicator from '../../Components/Indicator';
 import ArticleCell from '../../Components/ArticleCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article} from '../../Services/FeedClient';
+import type {Article} from '../../Types';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {

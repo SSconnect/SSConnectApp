@@ -18,7 +18,13 @@ const styles = StyleSheet.create({
 	}
 });
 
-const TabIcon = (props: any) => (
+type Props = {
+  iconName: string,
+  selected: boolean,
+  tabTitle: string
+}
+
+const TabIcon = ({iconName, selected, tabTitle}: Props) => (
 	<View>
 		<Icon
 			containerStyle={{
@@ -27,13 +33,13 @@ const TabIcon = (props: any) => (
 				marginTop: 5
 			}}
 			color={Colors.black}
-			name={props.iconName}
+			name={iconName}
 			size={25}
 			/>
 		<Text
 			style={{color: Colors.black}}
 			>
-			{props.selected ? props.tabTitle : ''}
+			{selected ? tabTitle : ''}
 		</Text>
 	</View>
   );
