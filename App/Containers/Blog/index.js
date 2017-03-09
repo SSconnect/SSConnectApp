@@ -17,7 +17,7 @@ import Indicator from '../../Components/Indicator';
 import ArticleCell from '../../Components/ArticleCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article} from '../../Services/FeedClient';
+import type {Article} from '../../Types';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {
@@ -43,6 +43,7 @@ class BlogScreen extends PureComponent {
 		page: 0,
 		blogs: []
 	}
+	_articles: Array<Article>
 
 	componentDidMount() {
 		this.init();
@@ -72,7 +73,7 @@ class BlogScreen extends PureComponent {
 		await this.loadMore(true);
 	}
 
-	async loadMore(reset = false) {
+	async loadMore(reset: boolean = false) {
 		console.log(this.state.blogID);
 		if (this.state.blogID == 0) {
 			return;
@@ -86,7 +87,7 @@ class BlogScreen extends PureComponent {
 		}
 		this.setState({loading: true});
 		const page = this.state.page + 1;
-		const articles = await feedClient.getArticles(page, this.state.blogID);
+		const articles = await feedClient.getArticles({page, blog_id: this.state.blogID});
 
 		this._articles = this._articles.concat(articles);
 		await new Promise(resolve => setTimeout(resolve, 2000));
