@@ -10,5 +10,6 @@ const ReadSchema = {
 };
 
 export default new Realm({
-	schema: [ReadSchema]
+	schema: [ReadSchema],
+	version: 2
 });

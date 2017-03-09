@@ -36,11 +36,7 @@ const TabIcon = ({iconName, selected, tabTitle}: Props) => (
 			name={iconName}
 			size={25}
 			/>
-		<Text
-			style={{color: Colors.black}}
-			>
-			{selected ? tabTitle : ''}
-		</Text>
+		<Text style={{color: Colors.black}}>{tabTitle}</Text>
 	</View>
   );
 
