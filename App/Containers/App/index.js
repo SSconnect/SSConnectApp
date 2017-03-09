@@ -29,6 +29,33 @@ const Styles = StyleSheet.create({
 class App extends Component {
 	render() {
 		const text = 1;
+		const columns = [
+			{
+				q: 'モバP'
+			},
+			{
+				q: '幼馴染'
+			},
+			{
+				q: 'ヴィーネ'
+			}
+		];
+		const scenes = [];
+		columns.forEach((c, i) => {
+			scenes.push((
+				<Scene
+					key={`tab${i}`}
+					titleStyle={Styles.title}
+					component={HomeScreen}
+					title={`@${c.q}`}
+					tabTitle={`@${c.q}`}
+					iconName="search"
+					q={c.q}
+					icon={TabIcon}
+					passProps
+					/>
+			));
+		});
 		return (
 			<Router style={Styles.container}>
 				<Scene key="root">
@@ -42,6 +69,7 @@ class App extends Component {
 							iconName="home"
 							icon={TabIcon}
 							/>
+						{scenes}
 					</Scene>
 				</Scene>
 			</Router>

@@ -22,7 +22,7 @@ import type {Article} from '../../Types';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {
-
+  q: string
 }
 
 type State = {
@@ -36,13 +36,18 @@ const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
 class HomeScreen extends PureComponent {
 	props: Props
-	state: State = {
-		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
-		loading: true,
-		q: '',
-		page: 0
-	}
+	state: State
 	_articles: Array<Article>
+
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
+			loading: true,
+			q: props.q || '',
+			page: 0
+		};
+	}
 
 	componentDidMount() {
 		this.init();
