@@ -12,8 +12,8 @@ type Params = {
 
 class FeedClient {
 	api: any
-	host = 'https://ssconnect.elzup.com'
-	// host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
+	// host = 'https://ssconnect.elzup.com'
+	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
 
 	constructor() {
 		console.log('Gen AnncitAPI');

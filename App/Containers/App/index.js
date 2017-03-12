@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
+import _ from 'lodash';
 
 import HomeScreen from '../Home';
 import {Scene, Router} from 'react-native-router-flux';
@@ -31,17 +32,24 @@ class App extends Component {
 		const text = 1;
 		const columns = [
 			{
-				q: 'モバP'
+				q: 'モバP',
+				type: 'search'
 			},
 			{
-				q: '幼馴染'
+				q: '幼馴染',
+				type: 'loyalty'
 			},
 			{
-				q: 'ヴィーネ'
+				q: '杏',
+				type: 'loyalty'
+			},
+			{
+				q: 'ヴィーネ',
+				type: 'search'
 			}
 		];
 		const scenes = [];
-		columns.forEach((c, i) => {
+		_.chunk(columns, 3)[0].forEach((c, i) => {
 			scenes.push((
 				<Scene
 					key={`tab${i}`}
@@ -49,7 +57,7 @@ class App extends Component {
 					component={HomeScreen}
 					title={`@${c.q}`}
 					tabTitle={`@${c.q}`}
-					iconName="search"
+					iconName={c.type}
 					q={c.q}
 					icon={TabIcon}
 					passProps
@@ -64,9 +72,18 @@ class App extends Component {
 							initial key="homeScreen"
 							titleStyle={Styles.title}
 							component={HomeScreen}
-							title="新着"
+							title="ホーム"
 							tabTitle="Home"
 							iconName="home"
+							icon={TabIcon}
+							/>
+						<Scene
+							key="tagsScreen"
+							titleStyle={Styles.title}
+							component={HomeScreen}
+							title="タグリスト"
+							tabTitle="Tags"
+							iconName="local-offer"
 							icon={TabIcon}
 							/>
 						{scenes}
