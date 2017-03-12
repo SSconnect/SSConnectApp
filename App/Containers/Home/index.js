@@ -12,7 +12,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import {SearchBar} from 'react-native-elements';
+import {Icon, Grid, Col, Row, SearchBar} from 'react-native-elements';
+
+import {Actions, ActionConst} from 'react-native-router-flux';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
@@ -93,13 +95,14 @@ class HomeScreen extends PureComponent {
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<SearchBar
 					lightTheme
-					onChangeText={q => {
-						this.setState({q});
+					icon={{name: 'videogame-asset'}}
+					onSubmitEditing={e => {
+						Actions.homeScreen({
+							q: e.nativeEvent.text
+						});
 					}}
-					onSubmit={() => {}}
 					placeholder="作品名、キャラ名など..."
 					/>
-
 				<ListView
 					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
 					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
