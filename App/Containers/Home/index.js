@@ -94,7 +94,7 @@ class HomeScreen extends PureComponent {
 				<SearchBar
 					lightTheme
 					onChangeText={q => {
-						this.setState(q);
+						this.setState({q});
 					}}
 					onSubmit={() => {}}
 					placeholder="作品名、キャラ名など..."
