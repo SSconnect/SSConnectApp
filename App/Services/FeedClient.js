@@ -2,7 +2,7 @@
 
 import {create} from 'apisauce';
 import moment from 'moment';
-import type {Article, Blog} from '../Types';
+import type {Article, Story, Blog} from '../Types';
 
 type Params = {
   page?: number,
@@ -23,12 +23,11 @@ class FeedClient {
 		});
 	}
 
-	async getArticles(params: ?Params): Promise<Array<Article>> {
+	async getStories(params: ?Params): Promise<Array<Story>> {
 		const defaultProps: Params = {page: 1, q: ''};
 		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
 		console.log(reqParams);
-		const res = await this.api.get('/v1/articles', reqParams);
-
+		const res = await this.api.get('/v1/stories', reqParams);
 		console.log('res', res);
 		if (!res.ok) {
 			throw new Error('can\'t request');

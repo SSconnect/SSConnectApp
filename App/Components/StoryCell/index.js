@@ -9,41 +9,41 @@ import {Colors} from '../../Themes/';
 
 import realm from '../../Models/RealmModel';
 
-import type {Article} from '../../Types';
+import type {Story} from '../../Types';
 
 const Styles = {
 };
 
 type Props = {
-	article: Article
+	story: Story
 }
 
-function ArticleCell({article}: Props) {
-	console.log(article);
+function StoryCell({story}: Props) {
+	console.log(story);
 	moment.updateLocale('ja');
-	const timestamp = moment.utc(article.posted_at);
+	const timestamp = moment.utc(story.last_posted_at);
 	return (
 		<TouchableOpacity
 			onPress={() => {
 				realm.write(() => {
 					realm.create('Read', {
-						url: article.url
+						url: story.articles[0].url
 					});
 				});
-				Linking.openURL(article.url);
-				// article.read = true;
+				Linking.openURL(story.articles);
+				// story.read = true;
 			}}
 			>
 			<View style={{padding: 10}}>
 				<View style={{marginBottom: 5, flex: 2, flexDirection: 'row', justifyContent: 'space-between'}} >
-					<Text style={{color: Colors.disable}}>{article.blog.title}</Text>
+					<Text style={{color: Colors.disable}}>{story.articles[0].blog.title}</Text>
 					<Text>{timestamp.fromNow()}</Text>
 				</View>
-				<Text style={{fontSize: 20}}>{article.title}</Text>
-				<Text style={{marginTop: 5}}>{article.category_list.join(',')}</Text>
+				<Text style={{fontSize: 20}}>{story.title}</Text>
+				<Text style={{marginTop: 5}}>{story.tag_list.join(',')}</Text>
 			</View>
 		</TouchableOpacity>
 	);
 }
 
-export default ArticleCell;
+export default StoryCell;

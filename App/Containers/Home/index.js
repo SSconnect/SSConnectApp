@@ -15,10 +15,10 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import {SearchBar} from 'react-native-elements';
 
 import Indicator from '../../Components/Indicator';
-import ArticleCell from '../../Components/ArticleCell';
+import StoryCell from '../../Components/StoryCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article} from '../../Types';
+import type {Article, Story} from '../../Types';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {
@@ -37,7 +37,7 @@ const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 class HomeScreen extends PureComponent {
 	props: Props
 	state: State
-	_articles: Array<Article>
+	_stories: Array<Story>
 
 	constructor(props: Props) {
 		super(props);
@@ -58,16 +58,16 @@ class HomeScreen extends PureComponent {
 		await this.loadArticles();
 	}
 
-	renderRow(article: Article) {
+	renderRow(story: Story) {
 		return (
-			<ArticleCell
-				article={article}
+			<StoryCell
+				story={story}
 				/>
 		);
 	}
 
 	async resetList() {
-		this._articles = [];
+		this._stories = [];
 		this.setState({
 			page: 0,
 			dataSource: this.state.dataSource.cloneWithRows([])
@@ -77,19 +77,12 @@ class HomeScreen extends PureComponent {
 	async loadArticles() {
 		const page = this.state.page + 1;
 		this.setState({loading: true});
-		let articles = [];
-		let q = null;
-    // q が非同期で更新されていないか常にチェック
-		while (q != this.state.q) {
-			q = this.state.q;
-			articles = await feedClient.getArticles({page, q});
-			console.log('articles', articles);
-		}
+		const stories = await feedClient.getStories({page, q: this.state.q});
 
-		this._articles = this._articles.concat(articles);
+		this._stories = this._stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(this._articles),
+			dataSource: this.state.dataSource.cloneWithRows(this._stories),
 			loading: false,
 			page
 		});
@@ -100,7 +93,10 @@ class HomeScreen extends PureComponent {
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<SearchBar
 					lightTheme
-					onChangeText={this.onValueChange.bind(this)}
+					onChangeText={q => {
+						this.setState(q);
+					}}
+					onSubmit={() => {}}
 					placeholder="作品名、キャラ名など..."
 					/>
 
