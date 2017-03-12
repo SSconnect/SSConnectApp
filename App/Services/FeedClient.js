@@ -16,7 +16,6 @@ class FeedClient {
 	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
 
 	constructor() {
-		console.log('Gen AnncitAPI');
 		this.api = create({
 			baseURL: this.host,
 			timeout: 10000

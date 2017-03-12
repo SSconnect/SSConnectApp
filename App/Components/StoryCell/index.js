@@ -19,7 +19,6 @@ type Props = {
 }
 
 function StoryCell({story}: Props) {
-	console.log(story);
 	moment.updateLocale('ja');
 	const timestamp = moment.utc(story.last_posted_at);
 	return (

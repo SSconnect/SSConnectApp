@@ -118,7 +118,6 @@ class HomeScreen extends PureComponent {
 	}
 
 	async onValueChange(q: string) {
-		console.log(q);
 		await this.setState({q});
 		if (this.state.loading) {
 			return;
@@ -128,11 +127,9 @@ class HomeScreen extends PureComponent {
 	}
 
 	async loadMoreContentAsync() {
-		console.log('more?');
 		if (this.state.loading) {
 			return;
 		}
-		console.log('more');
 		this.loadArticles();
 	}
 
