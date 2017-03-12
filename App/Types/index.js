@@ -3,9 +3,7 @@
 export type Article = {
   id: number,
   posted_at: number,
-  title: string,
   url: string,
-  category_list: Array<string>,
   blog: Blog
 }
 
@@ -14,4 +12,18 @@ export type Blog = {
   title: string,
   url: string,
   rss: string
+}
+
+export type Story = {
+  id: number,
+  title: string,
+  last_posted_at: string,
+  tag_list: Array<string>,
+  articles: Array<Article>
+}
+
+export type Tag = {
+  id: number,
+  name: string,
+  count: number
 }
