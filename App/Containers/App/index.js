@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import _ from 'lodash';
 
 import HomeScreen from '../Home';
+import TagScreen from '../Tag';
 import {Scene, Router} from 'react-native-router-flux';
 
 import TabIcon from '../../Components/TabIcon';
@@ -80,7 +81,7 @@ class App extends Component {
 						<Scene
 							key="tagsScreen"
 							titleStyle={Styles.title}
-							component={HomeScreen}
+							component={TagScreen}
 							title="タグリスト"
 							tabTitle="Tags"
 							iconName="local-offer"

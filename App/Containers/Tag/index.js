@@ -30,24 +30,21 @@ type Props = {
 type State = {
   dataSource: any,
   q: string,
-  page: number,
   loading: boolean,
 }
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
-class HomeScreen extends PureComponent {
+class TagScreen extends PureComponent {
 	props: Props
 	state: State
-	_stories: Array<Story>
 
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
 			loading: true,
-			q: props.q || '',
-			page: 0
+			q: props.q || ''
 		};
 	}
 
@@ -56,8 +53,7 @@ class HomeScreen extends PureComponent {
 	}
 
 	async init() {
-		this.resetList();
-		await this.loadArticles();
+		await this.loadTags();
 	}
 
 	renderRow(story: Story) {
@@ -68,25 +64,14 @@ class HomeScreen extends PureComponent {
 		);
 	}
 
-	async resetList() {
-		this._stories = [];
-		this.setState({
-			page: 0,
-			dataSource: this.state.dataSource.cloneWithRows([])
-		});
-	}
-
-	async loadArticles() {
-		const page = this.state.page + 1;
+	async loadTags() {
 		this.setState({loading: true});
-		const stories = await feedClient.getStories({page, q: this.state.q});
+		const tags = await feedClient.getTags();
 
-		this._stories = this._stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(this._stories),
-			loading: false,
-			page
+			dataSource: this.state.dataSource.cloneWithRows(tags),
+			loading: false
 		});
 	}
 
@@ -104,8 +89,6 @@ class HomeScreen extends PureComponent {
 					placeholder="作品名、キャラ名など..."
 					/>
 				<ListView
-					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
-					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
 					renderRow={this.renderRow}
 					dataSource={this.state.dataSource}
 					canLoadMore
@@ -117,24 +100,8 @@ class HomeScreen extends PureComponent {
 		);
 	}
 
-	async onValueChange(q: string) {
-		await this.setState({q});
-		if (this.state.loading) {
-			return;
-		}
-		this.resetList();
-		await this.loadArticles();
-	}
-
-	async loadMoreContentAsync() {
-		if (this.state.loading) {
-			return;
-		}
-		this.loadArticles();
-	}
-
 	renderFooter() {
-		return (<Indicator loading={this.state.page == 0}/>);
+		return (<Indicator loading={this.state.dataSource.rowCount == 0}/>);
 	}
 
 }
@@ -152,4 +119,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default HomeScreen;
+export default TagScreen;
