@@ -2,7 +2,7 @@
 
 import {create} from 'apisauce';
 import moment from 'moment';
-import type {Article, Story, Blog} from '../Types';
+import type {Article, Story, Blog, Tag} from '../Types';
 
 type Params = {
   page?: number,
@@ -36,6 +36,16 @@ class FeedClient {
 
 	async getBlogs(): Promise<Array<Blog>> {
 		const res = await this.api.get('/v1/blogs');
+		console.log('res', res);
+
+		if (!res.ok) {
+			throw new Error('Response error');
+		}
+		return res.data;
+	}
+
+	async getTags(): Promise<Array<Tag>> {
+		const res = await this.api.get('/v1/tags');
 		console.log('res', res);
 
 		if (!res.ok) {
