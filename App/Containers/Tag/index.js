@@ -17,10 +17,10 @@ import {Icon, Grid, Col, Row, SearchBar} from 'react-native-elements';
 import {Actions, ActionConst} from 'react-native-router-flux';
 
 import Indicator from '../../Components/Indicator';
-import StoryCell from '../../Components/StoryCell';
+import TagCell from '../../Components/TagCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article, Story} from '../../Types';
+import type {Article, Story, Tag} from '../../Types';
 import {Colors, Scales} from '../../Themes/';
 
 type Props = {
@@ -56,10 +56,10 @@ class TagScreen extends PureComponent {
 		await this.loadTags();
 	}
 
-	renderRow(story: Story) {
+	renderRow(tag: Tag) {
 		return (
-			<StoryCell
-				story={story}
+			<TagCell
+				tag={tag}
 				/>
 		);
 	}
