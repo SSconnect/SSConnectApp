@@ -6,6 +6,7 @@ import type {Article, Story, Blog, Tag} from '../Types';
 
 type Params = {
   page?: number,
+  tag?: string,
   blog_id?: number,
   q?: string
 }
@@ -23,7 +24,7 @@ class FeedClient {
 	}
 
 	async getStories(params: ?Params): Promise<Array<Story>> {
-		const defaultProps: Params = {page: 1, q: ''};
+		const defaultProps: Params = {page: 1, q: '', tag: ''};
 		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
 		console.log(reqParams);
 		const res = await this.api.get('/v1/stories', reqParams);

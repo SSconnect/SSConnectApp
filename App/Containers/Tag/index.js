@@ -83,10 +83,11 @@ class TagScreen extends PureComponent {
 					icon={{name: 'videogame-asset'}}
 					onSubmitEditing={e => {
 						Actions.homeScreen({
-							q: e.nativeEvent.text
+							q: e.nativeEvent.text,
+							isTag: true
 						});
 					}}
-					placeholder="作品名、キャラ名など..."
+					placeholder="タグ検索"
 					/>
 				<ListView
 					renderRow={this.renderRow}

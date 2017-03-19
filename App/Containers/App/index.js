@@ -10,7 +10,7 @@ import {Scene, Router} from 'react-native-router-flux';
 
 import TabIcon from '../../Components/TabIcon';
 
-import {Colors} from '../../Themes';
+import {Colors, IconName} from '../../Themes';
 
 const Styles = StyleSheet.create({
 	container: {
@@ -34,19 +34,19 @@ class App extends Component {
 		const columns = [
 			{
 				q: 'モバP',
-				type: 'search'
+				type: IconName.search
 			},
 			{
 				q: '幼馴染',
-				type: 'loyalty'
+				type: IconName.favTag
 			},
 			{
 				q: '杏',
-				type: 'loyalty'
+				type: IconName.favTag
 			},
 			{
 				q: 'ヴィーネ',
-				type: 'search'
+				type: IconName.search
 			}
 		];
 		const scenes = [];
@@ -75,7 +75,7 @@ class App extends Component {
 							component={HomeScreen}
 							title="ホーム"
 							tabTitle="Home"
-							iconName="home"
+							iconName={IconName.home}
 							icon={TabIcon}
 							/>
 						<Scene
@@ -84,7 +84,7 @@ class App extends Component {
 							component={TagScreen}
 							title="タグリスト"
 							tabTitle="Tags"
-							iconName="local-offer"
+							iconName={IconName.tag}
 							icon={TabIcon}
 							/>
 						{scenes}

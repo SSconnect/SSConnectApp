@@ -21,9 +21,10 @@ import StoryCell from '../../Components/StoryCell';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article, Story} from '../../Types';
-import {Colors, Scales} from '../../Themes/';
+import {Colors, Scales, IconName} from '../../Themes/';
 
 type Props = {
+  isTag: boolean,
   q: string
 }
 
@@ -42,7 +43,7 @@ class HomeScreen extends PureComponent {
 	_stories: Array<Story>
 
 	constructor(props: Props) {
-		super(props);
+		super({isTag: false, ...props});
 		this.state = {
 			dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
 			loading: true,
@@ -52,6 +53,11 @@ class HomeScreen extends PureComponent {
 	}
 
 	componentDidMount() {
+		this.init();
+	}
+
+	componentWillReceiveProps(props: Props) {
+		console.log(props);
 		this.init();
 	}
 
@@ -79,7 +85,7 @@ class HomeScreen extends PureComponent {
 	async loadArticles() {
 		const page = this.state.page + 1;
 		this.setState({loading: true});
-		const stories = await feedClient.getStories({page, q: this.state.q});
+		const stories = await feedClient.getStories(this.props.isTag ? {page, tag: this.state.q} : {page, q: this.state.q});
 
 		this._stories = this._stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
@@ -95,13 +101,14 @@ class HomeScreen extends PureComponent {
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<SearchBar
 					lightTheme
-					icon={{name: 'videogame-asset'}}
+					icon={{name: this.props.isTag ? IconName.tag : IconName.search}}
 					onSubmitEditing={e => {
 						Actions.homeScreen({
-							q: e.nativeEvent.text
+							q: e.nativeEvent.text,
+							isTag: this.props.isTag
 						});
 					}}
-					placeholder="作品名、キャラ名など..."
+					placeholder={this.props.isTag ? 'タグ検索' : '作品名、キャラ名など...'}
 					/>
 				<ListView
 					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
