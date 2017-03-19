@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import HomeScreen from '../Home';
 import TagScreen from '../Tag';
-import {Scene, Router} from 'react-native-router-flux';
+import {Scene, Router, Actions, ActionConst} from 'react-native-router-flux';
 
 import TabIcon from '../../Components/TabIcon';
 

@@ -29,7 +29,6 @@ type Props = {
 
 type State = {
   dataSource: any,
-  q: string,
   loading: boolean,
 }
 
