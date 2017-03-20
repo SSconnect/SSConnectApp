@@ -81,7 +81,7 @@ class TagScreen extends PureComponent {
 					lightTheme
 					icon={{name: 'videogame-asset'}}
 					onSubmitEditing={e => {
-						Actions.homeScreen({
+						Actions.baseScreen({
 							q: e.nativeEvent.text,
 							isTag: true
 						});

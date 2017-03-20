@@ -36,7 +36,7 @@ type State = {
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
-class HomeScreen extends React.Component {
+class BaseScreen extends React.Component {
 	props: Props
 
 	state: State = {
@@ -105,7 +105,7 @@ class HomeScreen extends React.Component {
 					lightTheme
 					icon={{name: isTag ? IconName.tag : IconName.search}}
 					onSubmitEditing={e => {
-						Actions.homeScreen({
+						Actions.baseScreen({
 							q: e.nativeEvent.text,
 							isTag
 						});
@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-HomeScreen.defaultProps = {
+BaseScreen.defaultProps = {
 	isTag: false,
 	q: ''
 };
 
-export default HomeScreen;
+export default BaseScreen;

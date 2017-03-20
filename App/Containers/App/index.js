@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import _ from 'lodash';
 
-import HomeScreen from '../Home';
+import BaseScreen from '../Base';
 import TagScreen from '../Tag';
 import {Scene, Router, Actions, ActionConst} from 'react-native-router-flux';
 
@@ -34,19 +34,19 @@ class App extends Component {
 		const columns = [
 			{
 				q: 'モバP',
-				type: IconName.search
+				isTag: false
 			},
 			{
 				q: '幼馴染',
-				type: IconName.favTag
+				isTag: true
 			},
 			{
 				q: '杏',
-				type: IconName.favTag
+				isTag: true
 			},
 			{
 				q: 'ヴィーネ',
-				type: IconName.search
+				isTag: true
 			}
 		];
 		const scenes = [];
@@ -55,13 +55,13 @@ class App extends Component {
 				<Scene
 					key={`tab${i}`}
 					titleStyle={Styles.title}
-					component={HomeScreen}
+					component={BaseScreen}
 					title={`@${c.q}`}
 					tabTitle={`@${c.q}`}
-					iconName={c.type}
-					q={c.q}
+					iconName={c.isTag ? IconName.favTag : IconName.search}
 					icon={TabIcon}
 					passProps
+					{...c}
 					/>
 			));
 		});
@@ -72,7 +72,7 @@ class App extends Component {
 						<Scene
 							initial key="homeScreen"
 							titleStyle={Styles.title}
-							component={HomeScreen}
+							component={BaseScreen}
 							title="ホーム"
 							tabTitle="Home"
 							iconName={IconName.home}
@@ -89,6 +89,13 @@ class App extends Component {
 							/>
 						{scenes}
 					</Scene>
+					<Scene
+						key="baseScreen"
+						hideTab={false}
+						titleStyle={Styles.title}
+						component={BaseScreen}
+						title="結果"
+						/>
 				</Scene>
 			</Router>
 		);
