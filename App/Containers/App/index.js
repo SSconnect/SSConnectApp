@@ -7,6 +7,7 @@ import _ from 'lodash';
 import BaseScreen from '../Base';
 import TagScreen from '../Tag';
 import {Scene, Router, Actions, ActionConst} from 'react-native-router-flux';
+import {Icon} from 'react-native-elements';
 
 import TabIcon from '../../Components/TabIcon';
 
@@ -49,53 +50,57 @@ class App extends Component {
 				isTag: true
 			}
 		];
+
+		const tabAttrs = {
+			titleStyle: Styles.title,
+			icon: TabIcon,
+			passProps: true,
+			renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen}/>),
+			onRight: () => alert('Right button!')
+		};
 		const scenes = [];
 		_.chunk(columns, 3)[0].forEach((c, i) => {
 			scenes.push((
 				<Scene
 					key={`tab${i}`}
-					titleStyle={Styles.title}
 					component={BaseScreen}
 					title={`@${c.q}`}
 					tabTitle={`@${c.q}`}
 					iconName={c.isTag ? IconName.favTag : IconName.search}
-					icon={TabIcon}
-					passProps
 					{...c}
+					{...tabAttrs}
 					/>
 			));
 		});
 		return (
 			<Router style={Styles.container}>
 				<Scene key="root">
-					<Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
+					<Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle} >
 						<Scene
 							initial key="homeScreen"
-							titleStyle={Styles.title}
 							component={BaseScreen}
 							title="ホーム"
 							tabTitle="Home"
 							iconName={IconName.home}
-							icon={TabIcon}
+							{...tabAttrs}
 							/>
 						<Scene
 							key="tagsScreen"
-							titleStyle={Styles.title}
 							component={TagScreen}
 							title="タグリスト"
 							tabTitle="Tags"
 							iconName={IconName.tag}
-							icon={TabIcon}
+							{...tabAttrs}
 							/>
 						{scenes}
 					</Scene>
 					<Scene
 						key="baseScreen"
-						hideTab={false}
-						titleStyle={Styles.title}
 						component={BaseScreen}
 						title="結果"
+						titleStyle={Styles.title}
 						/>
+
 				</Scene>
 			</Router>
 		);
