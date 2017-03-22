@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -21,37 +21,43 @@ import StoryCell from '../../Components/StoryCell';
 
 import feedClient from '../../Services/FeedClient';
 import type {Article, Story} from '../../Types';
-import {Colors, Scales} from '../../Themes/';
+import {Colors, Scales, IconName} from '../../Themes/';
 
 type Props = {
+  isTag: boolean,
   q: string
 }
 
 type State = {
   dataSource: any,
-  q: string,
   page: number,
-  loading: boolean,
+  loading: boolean
 }
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
-class HomeScreen extends PureComponent {
+class BaseScreen extends React.Component {
 	props: Props
-	state: State
-	_stories: Array<Story>
+
+	state: State = {
+		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
+		loading: true,
+		page: 0
+	}
 
 	constructor(props: Props) {
 		super(props);
-		this.state = {
-			dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
-			loading: true,
-			q: props.q || '',
-			page: 0
-		};
 	}
 
+	_stories: Array<Story>
+
 	componentDidMount() {
+		console.log('d', this.props);
+		this.init();
+	}
+
+	componentWillReceiveProps(props: Props) {
+		console.log('w', props);
 		this.init();
 	}
 
@@ -79,7 +85,8 @@ class HomeScreen extends PureComponent {
 	async loadArticles() {
 		const page = this.state.page + 1;
 		this.setState({loading: true});
-		const stories = await feedClient.getStories({page, q: this.state.q});
+		const {isTag, q} = this.props;
+		const stories = await feedClient.getStories(isTag ? {page, tag: q} : {page, q});
 
 		this._stories = this._stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
@@ -91,17 +98,19 @@ class HomeScreen extends PureComponent {
 	}
 
 	render() {
+		const {isTag} = this.props;
 		return (
 			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
 				<SearchBar
 					lightTheme
-					icon={{name: 'videogame-asset'}}
+					icon={{name: isTag ? IconName.tag : IconName.search}}
 					onSubmitEditing={e => {
-						Actions.homeScreen({
-							q: e.nativeEvent.text
+						Actions.baseScreen({
+							q: e.nativeEvent.text,
+							isTag
 						});
 					}}
-					placeholder="作品名、キャラ名など..."
+					placeholder={isTag ? 'タグ検索' : '作品名、キャラ名など...'}
 					/>
 				<ListView
 					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
@@ -115,15 +124,6 @@ class HomeScreen extends PureComponent {
 					/>
 			</View>
 		);
-	}
-
-	async onValueChange(q: string) {
-		await this.setState({q});
-		if (this.state.loading) {
-			return;
-		}
-		this.resetList();
-		await this.loadArticles();
 	}
 
 	async loadMoreContentAsync() {
@@ -152,4 +152,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default HomeScreen;
+BaseScreen.defaultProps = {
+	isTag: false,
+	q: ''
+};
+
+export default BaseScreen;

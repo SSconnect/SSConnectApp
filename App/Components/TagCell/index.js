@@ -25,7 +25,10 @@ function TagCell({tag}: Props) {
 	return (
 		<TouchableOpacity
 			onPress={() => {
-				Actions.homeScreen({q: tag.name});
+				Actions.baseScreen({
+					q: tag.name,
+					isTag: true
+				});
 			}}
 			>
 			<View style={{padding: 10, paddingVertical: 20, flex: 2, flexDirection: 'row'}}>
