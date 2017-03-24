@@ -45,6 +45,11 @@ class BaseScreen extends React.Component {
 		page: 0
 	}
 
+    static defaultProps = {
+        isTag: false,
+        q: ''
+    };
+
 	constructor(props: Props) {
 		super(props);
 	}
@@ -151,10 +156,5 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around'
 	}
 });
-
-BaseScreen.defaultProps = {
-	isTag: false,
-	q: ''
-};
 
 export default BaseScreen;
