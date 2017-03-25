@@ -5,11 +5,11 @@ import Realm from 'realm';
 const ReadSchema = {
 	name: 'Read',
 	properties: {
-		url: 'string'
-	}
+		url: 'string',
+	},
 };
 
 export default new Realm({
 	schema: [ReadSchema],
-	version: 2
+	version: 2,
 });

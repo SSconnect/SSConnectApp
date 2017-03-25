@@ -45,6 +45,8 @@ class BaseScreen extends React.Component {
 		page: 0
 	}
 
+    _stories: Array<Story>
+
     static defaultProps = {
         isTag: false,
         q: ''
@@ -53,8 +55,6 @@ class BaseScreen extends React.Component {
 	constructor(props: Props) {
 		super(props);
 	}
-
-	_stories: Array<Story>
 
 	componentDidMount() {
 		console.log('d', this.props);

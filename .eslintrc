@@ -1,4 +1,22 @@
 {
-  "extends": ["xo", "xo-react", "plugin:flowtype/recommended"],
-  "plugins": ["react", "import", "flowtype"]
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": [
+    "react",
+    "import",
+    "flowtype"
+  ],
+  "rules": {
+    "comma-dangle": [
+      2,
+      "always-multiline"
+    ],
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "no-tabs": 0
+  }
 }

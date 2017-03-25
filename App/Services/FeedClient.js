@@ -1,8 +1,7 @@
 // @flow
 
-import {create} from 'apisauce';
-import moment from 'moment';
-import type {Article, Story, Blog, Tag} from '../Types';
+import { create } from 'apisauce';
+import type { Story, Blog, Tag } from '../Types';
 
 type Params = {
   page?: number,
@@ -19,13 +18,13 @@ class FeedClient {
 	constructor() {
 		this.api = create({
 			baseURL: this.host,
-			timeout: 10000
+			timeout: 10000,
 		});
 	}
 
 	async getStories(params: ?Params): Promise<Array<Story>> {
-		const defaultProps: Params = {page: 1, q: '', tag: ''};
-		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
+		const defaultProps: Params = { page: 1, q: '', tag: '' };
+		const reqParams: Params = params ? { ...defaultProps, ...params } : defaultProps;
 		console.log(reqParams);
 		const res = await this.api.get('/v1/stories', reqParams);
 		console.log('res', res);

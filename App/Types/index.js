@@ -1,17 +1,17 @@
 // @flow
 
-export type Article = {
-  id: number,
-  posted_at: number,
-  url: string,
-  blog: Blog
-}
-
 export type Blog = {
   id: number,
   title: string,
   url: string,
   rss: string
+}
+
+export type Article = {
+    id: number,
+    posted_at: number,
+    url: string,
+    blog: Blog
 }
 
 export type Story = {
