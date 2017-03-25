@@ -8,8 +8,8 @@
     "packager:reset": "./node_modules/react-native/packager/packager.sh --reset-cache",
     "ios": "react-native run-ios --project-path ./ios",
     "flow": "node_modules/.bin/flow",
-    "lint": "eslint App/**/*.js",
-    "lint:fix": "eslint App/**/*.js --fix",
+    "lint": "eslint App",
+    "lint:fix": "eslint App --fix",
     "test": "jest"
   },
   "dependencies": {

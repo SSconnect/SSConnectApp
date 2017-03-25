@@ -9,19 +9,19 @@ import {
   ScrollView,
   ListView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import {Icon, Grid, Col, Row, SearchBar} from 'react-native-elements';
+import { Icon, Grid, Col, Row, SearchBar } from 'react-native-elements';
 
-import {Actions, ActionConst} from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
 
 import feedClient from '../../Services/FeedClient';
-import type {Article, Story} from '../../Types';
-import {Colors, Scales, IconName} from '../../Themes/';
+import type { Article, Story } from '../../Types';
+import { Colors, Scales, IconName } from '../../Themes/';
 
 type Props = {
   isTag: boolean,
@@ -40,17 +40,17 @@ class BaseScreen extends React.Component {
 	props: Props
 
 	state: State = {
-		dataSource: new ListView.DataSource({rowHasChanged}).cloneWithRows([]),
+		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
 		loading: true,
-		page: 0
+		page: 0,
 	}
 
-    _stories: Array<Story>
+	_stories: Array<Story>
 
-    static defaultProps = {
-        isTag: false,
-        q: ''
-    };
+	static defaultProps = {
+		isTag: false,
+		q: '',
+	};
 
 	constructor(props: Props) {
 		super(props);
@@ -73,9 +73,9 @@ class BaseScreen extends React.Component {
 
 	renderRow(story: Story) {
 		return (
-			<StoryCell
-				story={story}
-				/>
+  <StoryCell
+    story={story}
+  />
 		);
 	}
 
@@ -83,51 +83,51 @@ class BaseScreen extends React.Component {
 		this._stories = [];
 		this.setState({
 			page: 0,
-			dataSource: this.state.dataSource.cloneWithRows([])
+			dataSource: this.state.dataSource.cloneWithRows([]),
 		});
 	}
 
 	async loadArticles() {
 		const page = this.state.page + 1;
-		this.setState({loading: true});
-		const {isTag, q} = this.props;
-		const stories = await feedClient.getStories(isTag ? {page, tag: q} : {page, q});
+		this.setState({ loading: true });
+		const { isTag, q } = this.props;
+		const stories = await feedClient.getStories(isTag ? { page, tag: q } : { page, q });
 
 		this._stories = this._stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(this._stories),
 			loading: false,
-			page
+			page,
 		});
 	}
 
 	render() {
-		const {isTag} = this.props;
+		const { isTag } = this.props;
 		return (
-			<View style={{marginTop: Scales.navBarHeight, marginBottom: 50}}>
-				<SearchBar
-					lightTheme
-					icon={{name: isTag ? IconName.tag : IconName.search}}
-					onSubmitEditing={e => {
-						Actions.baseScreen({
-							q: e.nativeEvent.text,
-							isTag
-						});
-					}}
-					placeholder={isTag ? 'タグ検索' : '作品名、キャラ名など...'}
-					/>
-				<ListView
-					renderScrollComponent={props => <InfiniteScrollView {...props}/>}
-					onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
-					renderRow={this.renderRow}
-					dataSource={this.state.dataSource}
-					canLoadMore
-					enableEmptySections
-					distanceToLoadMore={100}
-					renderFooter={this.renderFooter.bind(this)}
-					/>
-			</View>
+  <View style={{ marginTop: Scales.navBarHeight, marginBottom: 50 }}>
+    <SearchBar
+      lightTheme
+      icon={{ name: isTag ? IconName.tag : IconName.search }}
+      onSubmitEditing={(e) => {
+	Actions.baseScreen({
+		q: e.nativeEvent.text,
+		isTag,
+	});
+}}
+      placeholder={isTag ? 'タグ検索' : '作品名、キャラ名など...'}
+    />
+    <ListView
+      renderScrollComponent={props => <InfiniteScrollView {...props} />}
+      onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
+      renderRow={this.renderRow}
+      dataSource={this.state.dataSource}
+      canLoadMore
+      enableEmptySections
+      distanceToLoadMore={100}
+      renderFooter={this.renderFooter.bind(this)}
+    />
+  </View>
 		);
 	}
 
@@ -139,22 +139,22 @@ class BaseScreen extends React.Component {
 	}
 
 	renderFooter() {
-		return (<Indicator loading={this.state.page == 0}/>);
+		return (<Indicator loading={this.state.page == 0} />);
 	}
 
 }
 
 const styles = StyleSheet.create({
 	readed: {
-		color: 'gray'
+		color: 'gray',
 	},
 	picker: {
 	},
 	pickerBox: {
 		height: 100,
 		overflow: 'hidden',
-		justifyContent: 'space-around'
-	}
+		justifyContent: 'space-around',
+	},
 });
 
 export default BaseScreen;

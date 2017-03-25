@@ -1,32 +1,32 @@
 // @flow
 
-import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import _ from 'lodash';
 
 import BaseScreen from '../Base';
 import TagScreen from '../Tag';
-import {Scene, Router, Actions, ActionConst} from 'react-native-router-flux';
-import {Icon} from 'react-native-elements';
+import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
+import { Icon } from 'react-native-elements';
 
 import TabIcon from '../../Components/TabIcon';
 
-import {Colors, IconName} from '../../Themes';
+import { Colors, IconName } from '../../Themes';
 
 const Styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Colors.white
+		backgroundColor: Colors.white,
 	},
 	main: {
-		marginTop: 300
+		marginTop: 300,
 	},
 	navBar: {
-		backgroundColor: Colors.white
+		backgroundColor: Colors.white,
 	},
 	tabBarStyle: {
-		backgroundColor: Colors.white
-	}
+		backgroundColor: Colors.white,
+	},
 });
 
 class App extends Component {
@@ -35,74 +35,74 @@ class App extends Component {
 		const columns = [
 			{
 				q: 'モバP',
-				isTag: false
+				isTag: false,
 			},
 			{
 				q: '幼馴染',
-				isTag: true
+				isTag: true,
 			},
 			{
 				q: '杏',
-				isTag: true
+				isTag: true,
 			},
 			{
 				q: 'ヴィーネ',
-				isTag: true
-			}
+				isTag: true,
+			},
 		];
 
 		const tabAttrs = {
 			titleStyle: Styles.title,
 			icon: TabIcon,
 			passProps: true,
-			renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen}/>),
-			onRight: () => alert('Right button!')
+			renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen} />),
+			onRight: () => alert('Right button!'),
 		};
 		const scenes = [];
 		_.chunk(columns, 3)[0].forEach((c, i) => {
 			scenes.push((
-				<Scene
-					key={`tab${i}`}
-					component={BaseScreen}
-					title={`@${c.q}`}
-					tabTitle={`@${c.q}`}
-					iconName={c.isTag ? IconName.favTag : IconName.search}
-					{...c}
-					{...tabAttrs}
-					/>
+  <Scene
+    key={`tab${i}`}
+    component={BaseScreen}
+    title={`@${c.q}`}
+    tabTitle={`@${c.q}`}
+    iconName={c.isTag ? IconName.favTag : IconName.search}
+    {...c}
+    {...tabAttrs}
+  />
 			));
 		});
 		return (
-			<Router style={Styles.container}>
-				<Scene key="root">
-					<Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle} >
-						<Scene
-							initial key="homeScreen"
-							component={BaseScreen}
-							title="ホーム"
-							tabTitle="Home"
-							iconName={IconName.home}
-							{...tabAttrs}
-							/>
-						<Scene
-							key="tagsScreen"
-							component={TagScreen}
-							title="タグリスト"
-							tabTitle="Tags"
-							iconName={IconName.tag}
-							{...tabAttrs}
-							/>
-						{scenes}
-					</Scene>
-					<Scene
-						key="baseScreen"
-						component={BaseScreen}
-						title="結果"
-						titleStyle={Styles.title}
-						/>
+  <Router style={Styles.container}>
+    <Scene key="root">
+      <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle} >
+        <Scene
+          initial key="homeScreen"
+          component={BaseScreen}
+          title="ホーム"
+          tabTitle="Home"
+          iconName={IconName.home}
+          {...tabAttrs}
+        />
+        <Scene
+          key="tagsScreen"
+          component={TagScreen}
+          title="タグリスト"
+          tabTitle="Tags"
+          iconName={IconName.tag}
+          {...tabAttrs}
+        />
+        {scenes}
+      </Scene>
+      <Scene
+        key="baseScreen"
+        component={BaseScreen}
+        title="結果"
+        titleStyle={Styles.title}
+      />
 
-				</Scene>
-			</Router>
+    </Scene>
+  </Router>
 		);
 	}
 }
