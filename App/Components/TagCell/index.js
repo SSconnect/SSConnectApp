@@ -13,8 +13,6 @@ import realm from '../../Models/RealmModel';
 
 import type { Tag } from '../../Types';
 
-const Styles = {};
-
 type Props = {
     tag: Tag
 }

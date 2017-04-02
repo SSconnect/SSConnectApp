@@ -4,19 +4,11 @@ import Spinner from 'react-native-spinkit';
 
 import { Colors } from '../../Themes/';
 
-const Styles = {
-	indicator: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: 8,
-	},
-};
-
 type Props = {
 	loading: boolean
 }
 
-function Indicator({ loading = ture }: Props) {
+function Indicator({ loading = true }: Props) {
 	if (!loading) {
 		return null;
 	}

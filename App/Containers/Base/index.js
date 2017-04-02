@@ -2,50 +2,35 @@
 
 import React from 'react';
 import {
-  View,
-  Text,
-  Picker,
-  Linking,
-  ScrollView,
-  ListView,
-  StyleSheet,
-  TouchableOpacity,
+    View,
+    ListView,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import { Icon, Grid, Col, Row, SearchBar } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
 
 import feedClient from '../../Services/FeedClient';
 import type { Article, Story } from '../../Types';
-import { Colors, Scales, IconName } from '../../Themes/';
+import { Scales, IconName } from '../../Themes/';
 
 type Props = {
-  isTag: boolean,
-  q: string
+    isTag: boolean,
+	q: string
 }
 
 type State = {
-  dataSource: any,
-  page: number,
-  loading: boolean
+    dataSource: any,
+    page: number,
+    loading: boolean
 }
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
-class BaseScreen extends React.Component {
-	props: Props
-
-	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
-		loading: true,
-		page: 0,
-	}
-
-	_stories: Array<Story>
+class BaseScreen extends React.PureComponent {
 
 	static defaultProps = {
 		isTag: false,
@@ -54,33 +39,35 @@ class BaseScreen extends React.Component {
 
 	constructor(props: Props) {
 		super(props);
+		this.loadMoreContentAsync = this.loadMoreContentAsync.bind(this);
+		this.renderFooter = this.renderFooter.bind(this);
+	}
+
+	state: State = {
+		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
+		loading: true,
+		page: 0,
 	}
 
 	componentDidMount() {
-		console.log('d', this.props);
 		this.init();
 	}
 
-	componentWillReceiveProps(props: Props) {
-		console.log('w', props);
+	componentWillReceiveProps() {
 		this.init();
 	}
+
+	props: Props
+
+	stories: Array<Story>
 
 	async init() {
 		this.resetList();
 		await this.loadArticles();
 	}
 
-	renderRow(story: Story) {
-		return (
-  <StoryCell
-    story={story}
-  />
-		);
-	}
-
 	async resetList() {
-		this._stories = [];
+		this.stories = [];
 		this.setState({
 			page: 0,
 			dataSource: this.state.dataSource.cloneWithRows([]),
@@ -93,13 +80,24 @@ class BaseScreen extends React.Component {
 		const { isTag, q } = this.props;
 		const stories = await feedClient.getStories(isTag ? { page, tag: q } : { page, q });
 
-		this._stories = this._stories.concat(stories);
-		// await new Promise(resolve => setTimeout(resolve, 1000));
+		this.stories = this.stories.concat(stories);
+        // await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(this._stories),
+			dataSource: this.state.dataSource.cloneWithRows(this.stories),
 			loading: false,
 			page,
 		});
+	}
+
+	async loadMoreContentAsync() {
+		if (this.state.loading) {
+			return;
+		}
+		this.loadArticles();
+	}
+
+	renderFooter() {
+		return (<Indicator loading={this.state.page === 0} />);
 	}
 
 	render() {
@@ -119,42 +117,19 @@ class BaseScreen extends React.Component {
     />
     <ListView
       renderScrollComponent={props => <InfiniteScrollView {...props} />}
-      onLoadMoreAsync={this.loadMoreContentAsync.bind(this)}
-      renderRow={this.renderRow}
+      onLoadMoreAsync={this.loadMoreContentAsync}
+      renderRow={story => (<StoryCell story={story} />)}
       dataSource={this.state.dataSource}
       canLoadMore
       enableEmptySections
       distanceToLoadMore={100}
-      renderFooter={this.renderFooter.bind(this)}
+      renderFooter={this.renderFooter}
     />
   </View>
 		);
 	}
 
-	async loadMoreContentAsync() {
-		if (this.state.loading) {
-			return;
-		}
-		this.loadArticles();
-	}
-
-	renderFooter() {
-		return (<Indicator loading={this.state.page == 0} />);
-	}
 
 }
-
-const styles = StyleSheet.create({
-	readed: {
-		color: 'gray',
-	},
-	picker: {
-	},
-	pickerBox: {
-		height: 100,
-		overflow: 'hidden',
-		justifyContent: 'space-around',
-	},
-});
 
 export default BaseScreen;

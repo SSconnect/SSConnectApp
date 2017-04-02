@@ -5,9 +5,14 @@
   ],
   "plugins": [
     "react",
+    "react-native",
     "import",
     "flowtype"
   ],
+  "globals": {
+    "__DEV__": true,
+    "alert": true
+  },
   "rules": {
     "comma-dangle": [
       2,
@@ -17,6 +22,7 @@
       "error",
       "tab"
     ],
+    "react/jsx-filename-extension": 0,
     "no-tabs": 0
   }
 }

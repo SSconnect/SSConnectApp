@@ -1,13 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Icon } from 'react-native-elements';
 import _ from 'lodash';
 
 import BaseScreen from '../Base';
 import TagScreen from '../Tag';
-import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
-import { Icon } from 'react-native-elements';
 
 import TabIcon from '../../Components/TabIcon';
 
@@ -29,40 +29,38 @@ const Styles = StyleSheet.create({
 	},
 });
 
-class App extends Component {
-	render() {
-		const text = 1;
-		const columns = [
-			{
-				q: 'モバP',
-				isTag: false,
-			},
-			{
-				q: '幼馴染',
-				isTag: true,
-			},
-			{
-				q: '杏',
-				isTag: true,
-			},
-			{
-				q: 'ヴィーネ',
-				isTag: true,
-			},
-		];
+const App = () => {
+	const columns = [
+		{
+			q: 'モバP',
+			isTag: false,
+		},
+		{
+			q: '幼馴染',
+			isTag: true,
+		},
+		{
+			q: '杏',
+			isTag: true,
+		},
+		{
+			q: 'ヴィーネ',
+			isTag: true,
+		},
+	];
 
-		const tabAttrs = {
-			titleStyle: Styles.title,
-			icon: TabIcon,
-			passProps: true,
-			renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen} />),
-			onRight: () => alert('Right button!'),
-		};
-		const scenes = [];
-		_.chunk(columns, 3)[0].forEach((c, i) => {
-			scenes.push((
+	const tabAttrs = {
+		titleStyle: Styles.title,
+		icon: TabIcon,
+		passProps: true,
+		renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen} />),
+		onRight: () => alert('Right button!'),
+	};
+	const scenes = [];
+	_.chunk(columns, 3)[0].forEach((c, i) => {
+		scenes.push((
   <Scene
-    key={`tab${i}`}
+    key={`tab${c.q}`}
     component={BaseScreen}
     title={`@${c.q}`}
     tabTitle={`@${c.q}`}
@@ -70,12 +68,12 @@ class App extends Component {
     {...c}
     {...tabAttrs}
   />
-			));
-		});
-		return (
+        ));
+	});
+	return (
   <Router style={Styles.container}>
     <Scene key="root">
-      <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle} >
+      <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
         <Scene
           initial key="homeScreen"
           component={BaseScreen}
@@ -103,8 +101,7 @@ class App extends Component {
 
     </Scene>
   </Router>
-		);
-	}
-}
+	);
+};
 
 export default App;
