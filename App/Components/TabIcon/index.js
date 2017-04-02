@@ -1,18 +1,15 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Colors } from '../../Themes';
 
 type Props = {
-    iconName: string,
-    selected: boolean,
-    tabTitle: string
-}
+  iconName: string,
+  selected: boolean,
+  tabTitle: string,
+};
 
 const TabIcon = ({ iconName, selected, tabTitle }: Props) => (
   <View>

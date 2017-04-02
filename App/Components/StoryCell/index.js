@@ -11,8 +11,8 @@ import realm from '../../Models/RealmModel';
 import type { Story } from '../../Types';
 
 type Props = {
-	story: Story
-}
+  story: Story,
+};
 
 function StoryCell({ story }: Props) {
 	moment.updateLocale('ja');
@@ -25,11 +25,18 @@ function StoryCell({ story }: Props) {
 		realm.create('Read', { url });
 	});
 	Linking.openURL(url);
-				// story.read = true;
+        // story.read = true;
 }}
-		>
+  >
     <View style={{ padding: 10 }}>
-      <View style={{ marginBottom: 5, flex: 2, flexDirection: 'row', justifyContent: 'space-between' }} >
+      <View
+        style={{
+	marginBottom: 5,
+	flex: 2,
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+}}
+      >
         <Text style={{ color: Colors.disable }}>{story.articles[0].blog.title}</Text>
         <Text>{timestamp.fromNow()}</Text>
       </View>

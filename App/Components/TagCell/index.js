@@ -14,8 +14,8 @@ import realm from '../../Models/RealmModel';
 import type { Tag } from '../../Types';
 
 type Props = {
-    tag: Tag
-}
+  tag: Tag,
+};
 
 function TagCell({ tag }: Props) {
 	moment.updateLocale('ja');

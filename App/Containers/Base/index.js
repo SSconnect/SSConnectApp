@@ -1,10 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import {
-    View,
-    ListView,
-} from 'react-native';
+import { View, ListView } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import { SearchBar } from 'react-native-elements';
 
@@ -18,20 +15,19 @@ import type { Article, Story } from '../../Types';
 import { Scales, IconName } from '../../Themes/';
 
 type Props = {
-    isTag: boolean,
-	q: string
-}
+  isTag: boolean,
+  q: string,
+};
 
 type State = {
-    dataSource: any,
-    page: number,
-    loading: boolean
-}
+  dataSource: any,
+  page: number,
+  loading: boolean,
+};
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
 class BaseScreen extends React.PureComponent {
-
 	static defaultProps = {
 		isTag: false,
 		q: '',
@@ -47,7 +43,7 @@ class BaseScreen extends React.PureComponent {
 		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
 		loading: true,
 		page: 0,
-	}
+	};
 
 	componentDidMount() {
 		this.init();
@@ -57,9 +53,9 @@ class BaseScreen extends React.PureComponent {
 		this.init();
 	}
 
-	props: Props
+	props: Props;
 
-	stories: Array<Story>
+	stories: Array<Story>;
 
 	async init() {
 		this.resetList();
@@ -81,7 +77,7 @@ class BaseScreen extends React.PureComponent {
 		const stories = await feedClient.getStories(isTag ? { page, tag: q } : { page, q });
 
 		this.stories = this.stories.concat(stories);
-        // await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(this.stories),
 			loading: false,
@@ -97,7 +93,7 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderFooter() {
-		return (<Indicator loading={this.state.page === 0} />);
+		return <Indicator loading={this.state.page === 0} />;
 	}
 
 	render() {
@@ -118,7 +114,7 @@ class BaseScreen extends React.PureComponent {
     <ListView
       renderScrollComponent={props => <InfiniteScrollView {...props} />}
       onLoadMoreAsync={this.loadMoreContentAsync}
-      renderRow={story => (<StoryCell story={story} />)}
+      renderRow={story => <StoryCell story={story} />}
       dataSource={this.state.dataSource}
       canLoadMore
       enableEmptySections
@@ -128,8 +124,6 @@ class BaseScreen extends React.PureComponent {
   </View>
 		);
 	}
-
-
 }
 
 export default BaseScreen;

@@ -24,19 +24,19 @@ import type { Article, Story, Tag } from '../../Types';
 import { Colors, Scales } from '../../Themes/';
 
 type Props = {
-  q: string
-}
+  q: string,
+};
 
 type State = {
   dataSource: any,
   loading: boolean,
-}
+};
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
 class TagScreen extends PureComponent {
-	props: Props
-	state: State
+	props: Props;
+	state: State;
 
 	constructor(props: Props) {
 		super(props);
@@ -56,18 +56,14 @@ class TagScreen extends PureComponent {
 	}
 
 	renderRow(tag: Tag) {
-		return (
-  <TagCell
-    tag={tag}
-  />
-		);
+		return <TagCell tag={tag} />;
 	}
 
 	async loadTags() {
 		this.setState({ loading: true });
 		const tags = await feedClient.getTags();
 
-		// await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(tags),
 			loading: false,
@@ -101,17 +97,15 @@ class TagScreen extends PureComponent {
 	}
 
 	renderFooter() {
-		return (<Indicator loading={this.state.dataSource.rowCount == 0} />);
+		return <Indicator loading={this.state.dataSource.rowCount == 0} />;
 	}
-
 }
 
 const styles = StyleSheet.create({
 	readed: {
 		color: 'gray',
 	},
-	picker: {
-	},
+	picker: {},
 	pickerBox: {
 		height: 100,
 		overflow: 'hidden',

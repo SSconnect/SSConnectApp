@@ -53,12 +53,12 @@ const App = () => {
 		titleStyle: Styles.title,
 		icon: TabIcon,
 		passProps: true,
-		renderRightButton: () => (<Icon name="settings" onPress={Actions.homeScreen} />),
+		renderRightButton: () => <Icon name="settings" onPress={Actions.homeScreen} />,
 		onRight: () => alert('Right button!'),
 	};
 	const scenes = [];
 	_.chunk(columns, 3)[0].forEach((c, i) => {
-		scenes.push((
+		scenes.push(
   <Scene
     key={`tab${c.q}`}
     component={BaseScreen}
@@ -67,15 +67,16 @@ const App = () => {
     iconName={c.isTag ? IconName.favTag : IconName.search}
     {...c}
     {...tabAttrs}
-  />
-        ));
+  />,
+    );
 	});
 	return (
   <Router style={Styles.container}>
     <Scene key="root">
       <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
         <Scene
-          initial key="homeScreen"
+          initial
+          key="homeScreen"
           component={BaseScreen}
           title="ホーム"
           tabTitle="Home"
@@ -92,12 +93,7 @@ const App = () => {
         />
         {scenes}
       </Scene>
-      <Scene
-        key="baseScreen"
-        component={BaseScreen}
-        title="結果"
-        titleStyle={Styles.title}
-      />
+      <Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
 
     </Scene>
   </Router>

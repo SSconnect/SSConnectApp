@@ -7,13 +7,13 @@ type Params = {
   page?: number,
   tag?: string,
   blog_id?: number,
-  q?: string
-}
+  q?: string,
+};
 
 class FeedClient {
-	api: any
-	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
-	host = 'https://ssconnect.elzup.com'
+	api: any;
+	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com';
+	host = 'https://ssconnect.elzup.com';
 
 	constructor() {
 		this.api = create({
@@ -29,7 +29,7 @@ class FeedClient {
 		const res = await this.api.get('/v1/stories', reqParams);
 		console.log('res', res);
 		if (!res.ok) {
-			throw new Error('can\'t request');
+			throw new Error("can't request");
 		}
 		return res.data;
 	}
