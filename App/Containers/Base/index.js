@@ -28,6 +28,13 @@ type State = {
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
 class BaseScreen extends React.PureComponent {
+	props: Props;
+	state: State = {
+		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
+		loading: true,
+		page: 0,
+	};
+
 	static defaultProps = {
 		isTag: false,
 		q: '',
@@ -36,14 +43,7 @@ class BaseScreen extends React.PureComponent {
 	constructor(props: Props) {
 		super(props);
 		this.loadMoreContentAsync = this.loadMoreContentAsync.bind(this);
-		this.renderFooter = this.renderFooter.bind(this);
 	}
-
-	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
-		loading: true,
-		page: 0,
-	};
 
 	componentDidMount() {
 		this.init();
@@ -52,8 +52,6 @@ class BaseScreen extends React.PureComponent {
 	componentWillReceiveProps() {
 		this.init();
 	}
-
-	props: Props;
 
 	stories: Array<Story>;
 
@@ -92,10 +90,6 @@ class BaseScreen extends React.PureComponent {
 		this.loadArticles();
 	}
 
-	renderFooter() {
-		return <Indicator loading={this.state.page === 0} />;
-	}
-
 	render() {
 		const { isTag } = this.props;
 		return (
@@ -119,7 +113,7 @@ class BaseScreen extends React.PureComponent {
       canLoadMore
       enableEmptySections
       distanceToLoadMore={100}
-      renderFooter={this.renderFooter}
+      renderFooter={() => <Indicator loading={this.state.page === 0} />}
     />
   </View>
 		);

@@ -22,6 +22,7 @@
       "error",
       "tab"
     ],
+    "react/sort-comp": 0,
     "react/jsx-filename-extension": 0,
     "no-tabs": 0
   }
