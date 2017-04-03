@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import BaseScreen from '../Base';
 import TagScreen from '../Tag';
+import NavigationDrawer from '../NavigationDrawer';
 
 import TabIcon from '../../Components/TabIcon';
 
@@ -57,7 +58,7 @@ const App = () => {
 		onRight: () => alert('Right button!'),
 	};
 	const scenes = [];
-	_.chunk(columns, 3)[0].forEach((c, i) => {
+	_.chunk(columns, 3)[0].forEach((c) => {
 		scenes.push(
   <Scene
     key={`tab${c.q}`}
@@ -71,30 +72,31 @@ const App = () => {
     );
 	});
 	return (
-  <Router style={Styles.container}>
-    <Scene key="root">
-      <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
-        <Scene
-          initial
-          key="homeScreen"
-          component={BaseScreen}
-          title="ホーム"
-          tabTitle="Home"
-          iconName={IconName.home}
-          {...tabAttrs}
-        />
-        <Scene
-          key="tagsScreen"
-          component={TagScreen}
-          title="タグリスト"
-          tabTitle="Tags"
-          iconName={IconName.tag}
-          {...tabAttrs}
-        />
-        {scenes}
+  <Router>
+    <Scene key="drawer" component={NavigationDrawer} open={false}>
+      <Scene key="root" style={Styles.container}>
+        <Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
+          <Scene
+            initial
+            key="homeScreen"
+            component={BaseScreen}
+            title="ホーム"
+            tabTitle="Home"
+            iconName={IconName.home}
+            {...tabAttrs}
+          />
+          <Scene
+            key="tagsScreen"
+            component={TagScreen}
+            title="タグリスト"
+            tabTitle="Tags"
+            iconName={IconName.tag}
+            {...tabAttrs}
+          />
+          {scenes}
+        </Scene>
+        <Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
       </Scene>
-      <Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
-
     </Scene>
   </Router>
 	);
