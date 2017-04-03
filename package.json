@@ -8,39 +8,56 @@
     "packager:reset": "./node_modules/react-native/packager/packager.sh --reset-cache",
     "ios": "react-native run-ios --project-path ./ios",
     "flow": "node_modules/.bin/flow",
+    "lint": "eslint App",
+    "lint:fix": "eslint App --fix",
+    "precommit": "lint-staged",
     "test": "jest"
   },
   "dependencies": {
-    "apisauce": "^0.10.0",
-    "babel-eslint": "^7.1.1",
+    "apisauce": "^0.11.0",
     "global": "^4.3.1",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
+    "moment": "^2.18.1",
+    "prettier": "^0.22.0",
     "react": "~15.4.0",
-    "react-native": "^0.42.0",
-    "react-native-elements": "^0.9.6",
+    "react-native": "^0.42.3",
+    "react-native-drawer": "^2.3.0",
+    "react-native-elements": "^0.10.2",
     "react-native-infinite-scroll-view": "^0.4.2",
     "react-native-router-flux": "^3.37.0",
     "react-native-spinkit": "^1.0.2",
     "react-native-vector-icons": "^4.0.0",
-    "realm": "^1.0.2"
+    "realm": "^1.1.1"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.1",
     "babel-jest": "^19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "eslint": "^3.15.0",
-    "eslint-config-xo": "^0.17.0",
-    "eslint-config-xo-react": "^0.10.0",
-    "eslint-plugin-flowtype": "^2.30.0",
+    "babel-preset-react-native": "^1.9.1",
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-flowtype": "^2.30.4",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
-    "flow-bin": "^0.41.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react-native": "^2.3.1",
+    "flow-bin": "^0.42.0",
+    "husky": "^0.13.3",
     "jest": "^19.0.2",
     "json-loader": "^0.5.4",
+    "lint-staged": "^3.4.0",
+    "prettier-eslint": "^4.4.0",
+    "prettier-eslint-cli": "^3.2.0",
     "react-test-renderer": "~15.4.0"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier-eslint --write",
+      "git add"
+    ]
   }
 }

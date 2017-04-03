@@ -1,4 +1,29 @@
 {
-  "extends": ["xo", "xo-react", "plugin:flowtype/recommended"],
-  "plugins": ["react", "import", "flowtype"]
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": [
+    "react",
+    "react-native",
+    "import",
+    "flowtype"
+  ],
+  "globals": {
+    "__DEV__": true,
+    "alert": true
+  },
+  "rules": {
+    "comma-dangle": [
+      2,
+      "always-multiline"
+    ],
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "react/sort-comp": 0,
+    "react/jsx-filename-extension": 0,
+    "no-tabs": 0
+  }
 }

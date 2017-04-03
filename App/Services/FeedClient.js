@@ -1,36 +1,35 @@
 // @flow
 
-import {create} from 'apisauce';
-import moment from 'moment';
-import type {Article, Story, Blog, Tag} from '../Types';
+import { create } from 'apisauce';
+import type { Story, Blog, Tag } from '../Types';
 
 type Params = {
   page?: number,
   tag?: string,
   blog_id?: number,
-  q?: string
-}
+  q?: string,
+};
 
 class FeedClient {
-	api: any
-	// host = 'https://ssconnect.elzup.com'
-	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com'
+	api: any;
+	host = __DEV__ ? 'http://localhost:3000' : 'https://ssconnect.elzup.com';
+	host = 'https://ssconnect.elzup.com';
 
 	constructor() {
 		this.api = create({
 			baseURL: this.host,
-			timeout: 10000
+			timeout: 10000,
 		});
 	}
 
 	async getStories(params: ?Params): Promise<Array<Story>> {
-		const defaultProps: Params = {page: 1, q: '', tag: ''};
-		const reqParams: Params = params ? {...defaultProps, ...params} : defaultProps;
+		const defaultProps: Params = { page: 1, q: '', tag: '' };
+		const reqParams: Params = params ? { ...defaultProps, ...params } : defaultProps;
 		console.log(reqParams);
 		const res = await this.api.get('/v1/stories', reqParams);
 		console.log('res', res);
 		if (!res.ok) {
-			throw new Error('can\'t request');
+			throw new Error("can't request");
 		}
 		return res.data;
 	}

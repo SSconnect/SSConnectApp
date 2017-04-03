@@ -1,8 +1,8 @@
 /* @flow */
 
-import {Dimensions, Platform} from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 // Used via Metrics.baseMargin
 const scales = {
@@ -19,26 +19,26 @@ const scales = {
 	footerRowHeight: 50,
 	footerRow: {
 		height: 50,
-		paddingVertical: 5
+		paddingVertical: 5,
 	},
 	screenWidth: width < height ? width : height,
 	screenHeight: width < height ? height : width,
-	navBarHeight: (Platform.OS === 'ios') ? 64 : 54,
-	statusBarHeight: (Platform.OS === 'ios') ? 20 : 20,
+	navBarHeight: Platform.OS === 'ios' ? 64 : 54,
+	statusBarHeight: Platform.OS === 'ios' ? 20 : 20,
 	buttonRadius: 4,
 	icons: {
 		tiny: 15,
 		small: 20,
 		medium: 30,
 		large: 45,
-		xl: 60
+		xl: 60,
 	},
 	images: {
 		small: 20,
 		medium: 40,
 		large: 60,
-		logo: 300
-	}
+		logo: 300,
+	},
 };
 
 export default scales;
