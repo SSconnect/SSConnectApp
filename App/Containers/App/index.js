@@ -31,22 +31,23 @@ const Styles = StyleSheet.create({
 });
 
 const App = () => {
+	const Types = { search: 0, tag: 1, blog: 2 };
 	const columns = [
 		{
-			q: 'モバP',
-			isTag: false,
+			value: 'モバP',
+			type: Types.search,
 		},
 		{
-			q: '幼馴染',
-			isTag: true,
+			value: '幼馴染',
+			type: Types.tag,
 		},
 		{
-			q: '杏',
-			isTag: true,
+			value: '杏',
+			type: Types.search,
 		},
 		{
-			q: 'ヴィーネ',
-			isTag: true,
+			value: 'ヴィーネ',
+			type: Types.tag,
 		},
 	];
 
@@ -61,12 +62,13 @@ const App = () => {
 	_.chunk(columns, 3)[0].forEach((c) => {
 		scenes.push(
   <Scene
-    key={`tab${c.q}`}
+    key={`tab${c.value}`}
     component={BaseScreen}
-    title={`@${c.q}`}
-    tabTitle={`@${c.q}`}
-    iconName={c.isTag ? IconName.favTag : IconName.search}
-    {...c}
+    title={`@${c.value}`}
+    tabTitle={`@${c.value}`}
+    iconName={c.type === Types.tag ? IconName.favTag : IconName.search}
+    q={c.value}
+    isTag={c.type === Types.tag}
     {...tabAttrs}
   />,
     );
