@@ -5,26 +5,6 @@ import { Icon } from 'react-native-elements';
 import { Scales, IconName } from '../../Themes';
 
 const Types = { search: 0, tag: 1, blog: 2 };
-const columns = [
-	{
-		value: 'モバP',
-		type: Types.search,
-	},
-	{
-		value: '幼馴染',
-		type: Types.tag,
-	},
-	{
-		value: '杏',
-		type: Types.search,
-	},
-	{
-		value: 'ヴィーネ',
-		type: Types.tag,
-	},
-];
-
-const order = columns;
 
 function RowComponent({ sortHandlers, data }: Props) {
 	return (
@@ -45,14 +25,19 @@ function RowComponent({ sortHandlers, data }: Props) {
 	);
 }
 
-class SideMenu extends React.PureComponent {
+type Props = {
+  tabs: Array<object>,
+};
+
+class TabList extends React.PureComponent {
+	Props: props;
 	render() {
+		console.log(this.props);
 		return (
   <SortableListView
-    style={{ flex: 1, paddingTop: Scales.statusBarHeight }}
-    data={columns}
+    data={this.props.tabs}
     onRowMoved={(e) => {
-	order.splice(e.to, 0, order.splice(e.from, 1)[0]);
+	this.props.tabs.splice(e.to, 0, this.props.tabs.splice(e.from, 1)[0]);
 	this.forceUpdate();
 }}
     renderRow={row => <RowComponent data={row} />}
@@ -61,4 +46,32 @@ class SideMenu extends React.PureComponent {
 	}
 }
 
+class SideMenu extends React.PureComponent {
+	render() {
+		const tabs = [
+			{
+				value: 'モバP',
+				type: Types.search,
+			},
+			{
+				value: '幼馴染',
+				type: Types.tag,
+			},
+			{
+				value: '杏',
+				type: Types.search,
+			},
+			{
+				value: 'ヴィーネ',
+				type: Types.tag,
+			},
+		];
+
+		return (
+  <View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>
+    <TabList tabs={tabs} />
+  </View>
+		);
+	}
+}
 export default SideMenu;
