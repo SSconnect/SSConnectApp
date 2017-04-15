@@ -3,12 +3,14 @@
 import React from 'react';
 import { View, ListView } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Icon } from 'react-native-elements';
 
 import { Actions } from 'react-native-router-flux';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
+// import RegistIcon from '../../Components/RegistIcon';
+import realm from '../../Models/RealmModel';
 
 import feedClient from '../../Services/FeedClient';
 import type { Article, Story } from '../../Types';
@@ -40,6 +42,20 @@ class BaseScreen extends React.PureComponent {
 		isTag: false,
 		q: '',
 	};
+
+	static renderRightButton({ isTag, q }) {
+		return (
+			<Icon
+				name="add"
+				onPress={() => {
+					alert(`タグ「${q}」を登録しました`);
+					realm.write(() => {
+						// realm.create('TabProfile', { type: isTag ? 'tag' : 'search', q });
+					});
+				}}
+			/>
+		);
+	}
 
 	constructor(props: Props) {
 		super(props);

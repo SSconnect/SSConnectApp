@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View, ListView } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Icon } from 'react-native-elements';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -12,6 +12,7 @@ import TagCell from '../../Components/TagCell';
 import feedClient from '../../Services/FeedClient';
 import type { Article, Tag } from '../../Types';
 import { Scales } from '../../Themes/';
+import realm from '../../Models/RealmModel';
 
 type Props = {
 	q: string,
@@ -68,9 +69,21 @@ class TagScreen extends PureComponent {
 					lightTheme
 					icon={{ name: 'videogame-asset' }}
 					onSubmitEditing={(e) => {
+						const q = e.nativeEvent.text;
 						Actions.baseScreen({
-							q: e.nativeEvent.text,
+							q,
 							isTag: true,
+							renderRightButton: () => (
+								<Icon
+									name="add"
+									onPress={() => {
+										alert('Right button!');
+										realm.write(() => {
+											realm.create('TabProfile', { type: 'tag', q });
+										});
+									}}
+								/>
+							),
 						});
 					}}
 					placeholder="タグ検索"

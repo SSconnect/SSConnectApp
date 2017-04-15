@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, TouchableOpacity, Text, Linking } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { Icon } from 'react-native-elements';

@@ -10,7 +10,6 @@ import TagScreen from '../Tag';
 import NavigationDrawer from '../NavigationDrawer';
 
 import TabIcon from '../../Components/TabIcon';
-import RegistIcon from '../../Components/RegistIcon';
 
 import { Colors, IconName } from '../../Themes';
 
@@ -55,7 +54,6 @@ const App = () => {
 		titleStyle: Styles.title,
 		icon: TabIcon,
 		passProps: true,
-		onRight: () => alert('Right button!'),
 	};
 	const scenes = [];
 	_.chunk(columns, 3)[0].forEach((c) => {
@@ -68,7 +66,6 @@ const App = () => {
 				iconName={c.type === Types.tag ? IconName.favTag : IconName.search}
 				q={c.value}
 				isTag={c.type === Types.tag}
-				renderRightButton={() => <RegistIcon profile={c} />}
 				{...tabAttrs}
 			/>,
 		);
