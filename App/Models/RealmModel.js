@@ -9,7 +9,15 @@ const ReadSchema = {
 	},
 };
 
+const TabProfileSchema = {
+	name: 'TabProfile',
+	properties: {
+		value: 'string',
+		type: 'string',
+	},
+};
+
 export default new Realm({
-	schema: [ReadSchema],
-	version: 2,
+	schema: [ReadSchema, TabProfileSchema],
+	version: 3,
 });

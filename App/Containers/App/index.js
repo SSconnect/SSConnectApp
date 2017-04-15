@@ -55,7 +55,6 @@ const App = () => {
 		titleStyle: Styles.title,
 		icon: TabIcon,
 		passProps: true,
-		renderRightButton: () => <Icon name="settings" onPress={Actions.homeScreen} />,
 		onRight: () => alert('Right button!'),
 	};
 	const scenes = [];
@@ -69,6 +68,7 @@ const App = () => {
     iconName={c.type === Types.tag ? IconName.favTag : IconName.search}
     q={c.value}
     isTag={c.type === Types.tag}
+    renderRightButton={() => <Icon name="add" onPress={() => {}} />}
     {...tabAttrs}
   />,
     );

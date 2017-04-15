@@ -27,3 +27,8 @@ export type Tag = {
   name: string,
   count: number,
 };
+
+export type TabProfile = {
+  value: string,
+  type: 'search' | 'tag',
+};
