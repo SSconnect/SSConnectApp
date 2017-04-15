@@ -1,34 +1,34 @@
 // @flow
 
 export type Blog = {
-  id: number,
-  title: string,
-  url: string,
-  rss: string,
+	id: number,
+	title: string,
+	url: string,
+	rss: string,
 };
 
 export type Article = {
-  id: number,
-  posted_at: number,
-  url: string,
-  blog: Blog,
+	id: number,
+	posted_at: number,
+	url: string,
+	blog: Blog,
 };
 
 export type Story = {
-  id: number,
-  title: string,
-  first_posted_at: string,
-  tag_list: Array<string>,
-  articles: Array<Article>,
+	id: number,
+	title: string,
+	first_posted_at: string,
+	tag_list: Array<string>,
+	articles: Array<Article>,
 };
 
 export type Tag = {
-  id: number,
-  name: string,
-  count: number,
+	id: number,
+	name: string,
+	count: number,
 };
 
 export type TabProfile = {
-  value: string,
-  type: 'search' | 'tag',
+	value: string,
+	type: 'search' | 'tag',
 };

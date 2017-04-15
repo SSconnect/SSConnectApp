@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 const iconName = {
 	tag: 'local-offer',

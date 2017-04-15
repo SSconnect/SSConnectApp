@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import Realm from 'realm';
 
