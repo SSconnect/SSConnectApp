@@ -30,7 +30,7 @@ type Props = {
 };
 
 class TabList extends React.PureComponent {
-	Props: props;
+	props: Props;
 	render() {
 		console.log(this.props);
 		return (

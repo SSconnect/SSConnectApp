@@ -17,7 +17,7 @@ export type Article = {
 export type Story = {
   id: number,
   title: string,
-  last_posted_at: string,
+  first_posted_at: string,
   tag_list: Array<string>,
   articles: Array<Article>,
 };

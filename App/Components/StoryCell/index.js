@@ -16,7 +16,7 @@ type Props = {
 
 function StoryCell({ story }: Props) {
 	moment.updateLocale('ja');
-	const timestamp = moment.utc(story.last_posted_at);
+	const timestamp = moment.utc(story.first_posted_at);
 	return (
   <TouchableOpacity
     onPress={() => {
