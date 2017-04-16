@@ -73,17 +73,6 @@ class TagScreen extends PureComponent {
 						Actions.baseScreen({
 							q,
 							isTag: true,
-							renderRightButton: () => (
-								<Icon
-									name="add"
-									onPress={() => {
-										alert('Right button!');
-										realm.write(() => {
-											realm.create('TabProfile', { type: 'tag', q });
-										});
-									}}
-								/>
-							),
 						});
 					}}
 					placeholder="タグ検索"

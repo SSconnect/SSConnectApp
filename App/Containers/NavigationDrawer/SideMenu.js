@@ -37,6 +37,7 @@ class TabList extends React.PureComponent {
 			<SortableListView
 				data={this.props.tabs}
 				onRowMoved={(e) => {
+					console.log('e', e);
 					this.props.tabs.splice(e.to, 0, this.props.tabs.splice(e.from, 1)[0]);
 					this.forceUpdate();
 				}}
@@ -47,7 +48,7 @@ class TabList extends React.PureComponent {
 }
 
 function SideMenu() {
-	const tabProfiles = realm.objects('TabProfile');
+	const tabProfiles = realm.getTabProfiles();
 
 	return (
 		<View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>

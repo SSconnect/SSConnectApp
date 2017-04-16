@@ -28,6 +28,10 @@ export type Tag = {
 	count: number,
 };
 
+export type Read = {
+	url: string,
+};
+
 export type TabProfile = {
 	value: string,
 	type: 'search' | 'tag',

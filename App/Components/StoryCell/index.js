@@ -19,9 +19,7 @@ function StoryCell({ story }: Props) {
 		<TouchableOpacity
 			onPress={() => {
 				const url = story.articles[0].url;
-				realm.write(() => {
-					realm.create('Read', { url });
-				});
+				realm.addRead({ url });
 				Linking.openURL(url);
 				// story.read = true;
 			}}

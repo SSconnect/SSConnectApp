@@ -30,7 +30,7 @@ const Styles = StyleSheet.create({
 });
 
 const App = () => {
-	const tabProfiles = realm.objects('TabProfile');
+	const tabProfiles = realm.getTabProfiles();
 
 	const tabAttrs = {
 		titleStyle: Styles.title,
