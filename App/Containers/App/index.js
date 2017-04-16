@@ -8,10 +8,10 @@ import _ from 'lodash';
 import BaseScreen from '../Base';
 import TagScreen from '../Tag';
 import NavigationDrawer from '../NavigationDrawer';
-
 import TabIcon from '../../Components/TabIcon';
 
 import { Colors, IconName } from '../../Themes';
+import realm from '../../Models/RealmModel';
 
 const Styles = StyleSheet.create({
 	container: {
@@ -30,25 +30,7 @@ const Styles = StyleSheet.create({
 });
 
 const App = () => {
-	const Types = { search: 0, tag: 1, blog: 2 };
-	const columns = [
-		{
-			value: 'モバP',
-			type: Types.search,
-		},
-		{
-			value: '幼馴染',
-			type: Types.tag,
-		},
-		{
-			value: '杏',
-			type: Types.search,
-		},
-		{
-			value: 'ヴィーネ',
-			type: Types.tag,
-		},
-	];
+	const tabProfiles = realm.objects('TabProfile');
 
 	const tabAttrs = {
 		titleStyle: Styles.title,
@@ -56,16 +38,16 @@ const App = () => {
 		passProps: true,
 	};
 	const scenes = [];
-	_.chunk(columns, 3)[0].forEach((c) => {
+	_.chunk(tabProfiles, 3)[0].forEach((c) => {
 		scenes.push(
 			<Scene
 				key={`tab${c.value}`}
 				component={BaseScreen}
 				title={`@${c.value}`}
 				tabTitle={`@${c.value}`}
-				iconName={c.type === Types.tag ? IconName.favTag : IconName.search}
+				iconName={c.type === 'tag' ? IconName.favTag : IconName.search}
 				q={c.value}
-				isTag={c.type === Types.tag}
+				isTag={c.type === 'tag'}
 				{...tabAttrs}
 			/>,
 		);

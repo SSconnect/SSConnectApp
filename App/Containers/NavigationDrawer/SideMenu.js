@@ -2,9 +2,10 @@ import React from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
 import { Icon } from 'react-native-elements';
-import { Scales, IconName } from '../../Themes';
 
-const Types = { search: 0, tag: 1, blog: 2 };
+import { Scales, IconName } from '../../Themes';
+import realm from '../../Models/RealmModel';
+import type { TabProfile } from '../../Types';
 
 function RowComponent({ sortHandlers, data }: any) {
 	return (
@@ -16,7 +17,7 @@ function RowComponent({ sortHandlers, data }: any) {
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={data.type === Types.tag ? IconName.favTag : IconName.search} />
+					<Icon size={25} name={data.type === 'tag' ? IconName.favTag : IconName.search} />
 					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.value}</Text>
 				</View>
 				<Icon name={IconName.threeBar} />
@@ -26,7 +27,7 @@ function RowComponent({ sortHandlers, data }: any) {
 }
 
 type Props = {
-	tabs: Array<object>,
+	tabs: Array<TabProfile>,
 };
 
 class TabList extends React.PureComponent {
@@ -46,28 +47,11 @@ class TabList extends React.PureComponent {
 }
 
 function SideMenu() {
-	const tabs = [
-		{
-			value: 'モバP',
-			type: Types.search,
-		},
-		{
-			value: '幼馴染',
-			type: Types.tag,
-		},
-		{
-			value: '杏',
-			type: Types.search,
-		},
-		{
-			value: 'ヴィーネ',
-			type: Types.tag,
-		},
-	];
+	const tabProfiles = realm.objects('TabProfile');
 
 	return (
 		<View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>
-			<TabList tabs={tabs} />
+			<TabList tabs={tabProfiles} />
 		</View>
 	);
 }
