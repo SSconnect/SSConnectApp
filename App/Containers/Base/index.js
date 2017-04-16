@@ -48,9 +48,10 @@ class BaseScreen extends React.PureComponent {
 			<Icon
 				name="add"
 				onPress={() => {
-					alert(`タグ「${q}」を登録しました`);
+					const typeStr = isTag ? 'タグ' : '検索';
+					alert(`${typeStr}「${q}」を登録しました`);
 					realm.write(() => {
-						// realm.create('TabProfile', { type: isTag ? 'tag' : 'search', q });
+						realm.create('TabProfile', { type: isTag ? 'tag' : 'search', value: q });
 					});
 				}}
 			/>
