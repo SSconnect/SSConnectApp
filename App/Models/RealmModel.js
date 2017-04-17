@@ -60,7 +60,7 @@ class RealmManager {
 		const res = this.realm
 			.objects('TabProfile')
 			.filtered('value = $0 AND type = $1', profile.value, profile.type);
-		return res.count > 0;
+		return res.length > 0;
 	}
 }
 
