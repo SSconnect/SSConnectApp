@@ -19,6 +19,7 @@ import { Scales, IconName } from '../../Themes/';
 type Props = {
 	isTag: boolean,
 	q: string,
+	isHome: boolean,
 };
 
 type State = {
@@ -43,14 +44,18 @@ class BaseScreen extends React.PureComponent {
 		q: '',
 	};
 
-	static renderRightButton({ isTag, q }) {
+	static renderRightButton({ isTag, q, isHome }: Props) {
+		const tabProfile = { type: isTag ? 'tag' : 'search', value: q };
+		if (isHome || realm.existsTabProfile(tabProfile)) {
+			return null;
+		}
 		return (
 			<Icon
 				name="add"
 				onPress={() => {
 					const typeStr = isTag ? 'タグ' : '検索';
 					alert(`${typeStr}「${q}」を登録しました`);
-					realm.addTabProfile({ type: isTag ? 'tag' : 'search', value: q });
+					realm.addTabProfile(tabProfile);
 				}}
 			/>
 		);

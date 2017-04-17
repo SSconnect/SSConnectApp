@@ -63,6 +63,7 @@ const App = () => {
 							component={BaseScreen}
 							title="ホーム"
 							tabTitle="Home"
+							isHome
 							iconName={IconName.home}
 							{...tabAttrs}
 						/>

@@ -39,15 +39,28 @@ class RealmManager {
 	}
 
 	addRead(read: Read) {
+		if (realm.objects('Read').filtered('url = $0', read.url).count === 0) {
+			throw new Error('Duplicate Insert');
+		}
 		this.realm.write(() => {
 			this.realm.create('Read', read);
 		});
 	}
 
 	addTabProfile(profile: TabProfile) {
+		if (this.existsTabProfile(profile)) {
+			throw new Error('Duplicate Insert');
+		}
 		this.realm.write(() => {
 			this.realm.create('TabProfile', profile);
 		});
+	}
+
+	existsTabProfile(profile: TabProfile): boolean {
+		const res = this.realm
+			.objects('TabProfile')
+			.filtered('value = $0 AND type = $1', profile.value, profile.type);
+		return res.count > 0;
 	}
 }
 
