@@ -20,6 +20,7 @@ function TagCell({ tag }: Props) {
 			onPress={() => {
 				Actions.baseScreen({
 					profile: { type: 'tag', value: tag.name },
+					title: `タグ: ${tag.name}`,
 				});
 			}}
 		>

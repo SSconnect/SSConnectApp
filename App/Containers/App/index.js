@@ -43,8 +43,8 @@ const App = () => {
 			<Scene
 				key={`tab${profile.value}`}
 				component={BaseScreen}
-				title={`@${profile.value}`}
-				tabTitle={`@${profile.value}`}
+				title={(profile.type === 'tag' ? '@' : '') + profile.value}
+				tabTitle={profile.value}
 				iconName={profile.type === 'tag' ? IconName.favTag : IconName.search}
 				profile={profile}
 				{...tabAttrs}
