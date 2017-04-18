@@ -1,22 +1,14 @@
-import { LOAD_REPOS, LOAD_REPOS_SUCCESS, LOAD_REPOS_ERROR } from './constants';
+import { LOAD_PROFILES, LOAD_PROFILES_END } from './constants';
 
-export function loadRepos() {
+export function loadProfiles() {
 	return {
-		type: LOAD_REPOS,
+		type: LOAD_PROFILES,
 	};
 }
 
-export function reposLoaded(repos, username) {
+export function loadProfilesEnd(profiles) {
 	return {
-		type: LOAD_REPOS_SUCCESS,
-		repos,
-		username,
-	};
-}
-
-export function repoLoadingError(error) {
-	return {
-		type: LOAD_REPOS_ERROR,
-		error,
+		type: LOAD_PROFILES_END,
+		profiles,
 	};
 }

@@ -3,9 +3,8 @@
 import React, { Component } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { loadProfiles } from '../App/actions';
 
-import StartupActions from '../Redux/StartupRedux';
-import ReduxPersist from '../Config/ReduxPersist';
 import NavigationRouter from '../../Navigation/NavigationRouter';
 
 // Styles
@@ -16,13 +15,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
-		backgroundColor: Colors.background,
 	},
 	welcome: {
 		fontSize: 20,
 		textAlign: 'center',
-		fontFamily: Fonts.type.base,
-		margin: Metrics.baseMargin,
+		// fontFamily: Fonts.type.base,
+		// margin: Metrics.baseMargin,
 	},
 	myImage: {
 		width: 200,
@@ -34,9 +32,9 @@ const styles = StyleSheet.create({
 class RootContainer extends Component {
 	componentDidMount() {
 		// if redux persist is not active fire startup action
-		if (!ReduxPersist.active) {
-			this.props.startup();
-		}
+		// if (!ReduxPersist.active) {
+		this.props.startup();
+		// }
 	}
 
 	render() {
@@ -51,7 +49,7 @@ class RootContainer extends Component {
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = dispatch => ({
-	startup: () => dispatch(StartupActions.startup()),
+	startup: () => dispatch(loadProfiles()),
 });
 
 export default connect(null, mapDispatchToProps)(RootContainer);
