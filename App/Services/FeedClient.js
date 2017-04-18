@@ -4,10 +4,10 @@ import { create } from 'apisauce';
 import type { Story, Blog, Tag } from '../Types';
 
 type Params = {
-  page?: number,
-  tag?: string,
-  blog_id?: number,
-  q?: string,
+	page?: number,
+	tag?: string,
+	blog_id?: number,
+	q?: string,
 };
 
 class FeedClient {
