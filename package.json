@@ -19,9 +19,10 @@
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "prettier": "^1.1.0",
-    "react": "^16.0.0-alpha.6",
-    "react-native": "^0.43.3",
+    "prettier": "1.1.0",
+    "react": "16.0.0-alpha.3",
+    "react-native": "^0.43.2",
+    "react-navigation": "git+https://github.com/react-community/react-navigation.git#7edd9a7",
     "react-native-drawer": "^2.3.0",
     "react-native-elements": "^0.11.0",
     "react-native-infinite-scroll-view": "^0.4.2",
@@ -35,7 +36,9 @@
     "redux-logger": "^3.0.1",
     "redux-persist": "^4.6.0",
     "redux-saga": "^0.14.6",
-    "reselect": "^3.0.0"
+    "reduxsauce": "^0.5.0",
+    "reselect": "^3.0.0",
+    "seamless-immutable": "^7.1.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.2",
