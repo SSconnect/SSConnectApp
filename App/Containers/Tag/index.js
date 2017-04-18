@@ -69,10 +69,8 @@ class TagScreen extends PureComponent {
 					lightTheme
 					icon={{ name: 'videogame-asset' }}
 					onSubmitEditing={(e) => {
-						const q = e.nativeEvent.text;
 						Actions.baseScreen({
-							q,
-							isTag: true,
+							profile: { type: 'tag', value: e.nativeEvent.text },
 						});
 					}}
 					placeholder="タグ検索"

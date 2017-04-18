@@ -38,16 +38,15 @@ const App = () => {
 		passProps: true,
 	};
 	const scenes = [];
-	_.chunk(tabProfiles, 3)[0].forEach((c) => {
+	_.chunk(tabProfiles, 3)[0].forEach((profile) => {
 		scenes.push(
 			<Scene
-				key={`tab${c.value}`}
+				key={`tab${profile.value}`}
 				component={BaseScreen}
-				title={`@${c.value}`}
-				tabTitle={`@${c.value}`}
-				iconName={c.type === 'tag' ? IconName.favTag : IconName.search}
-				q={c.value}
-				isTag={c.type === 'tag'}
+				title={`@${profile.value}`}
+				tabTitle={`@${profile.value}`}
+				iconName={profile.type === 'tag' ? IconName.favTag : IconName.search}
+				profile={profile}
 				{...tabAttrs}
 			/>,
 		);
