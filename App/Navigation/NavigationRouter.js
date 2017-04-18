@@ -38,6 +38,20 @@ const NavigationRouter = () => {
 		passProps: true,
 	};
 	const scenes = [];
+	// _.chunk(tabProfiles, 3)[0].forEach((profile) => {
+	// 	scenes.push(
+	// 		<Scene
+	// 			key={`tab${profile.value}`}
+	// 			component={BaseScreen}
+	// 			title={(profile.type === 'tag' ? '@' : '') + profile.value}
+	// 			tabTitle={profile.value}
+	// 			iconName={profile.type === 'tag' ? IconName.favTag : IconName.search}
+	// 			profile={profile}
+	// 			{...tabAttrs}
+	// 		/>,
+	// 	);
+	// });
+
 	return (
 		<Router>
 			<Scene key="drawer" component={NavigationDrawer} open={false}>

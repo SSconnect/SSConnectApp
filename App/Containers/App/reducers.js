@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
 
 import { LOAD_PROFILES, LOAD_PROFILES_END } from './constants';
@@ -21,4 +22,6 @@ function appReducers(state = initialState, action) {
 	}
 }
 
-export default appReducers;
+export default combineReducers({
+	appReducers,
+});

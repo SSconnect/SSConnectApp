@@ -39,6 +39,7 @@
     "react/jsx-space-before-closing": 0,
     "react/no-string-refs": 0,
     "react/prefer-stateless-function": 0,
+    "generator-star-spacing" :0,
     "no-tabs": 0
   }
 }
