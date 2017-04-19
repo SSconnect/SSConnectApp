@@ -2,12 +2,11 @@ import { fork, put, takeLatest } from 'redux-saga/effects';
 
 import { LOAD_PROFILES } from './constants';
 import { loadProfilesEnd } from './actions';
-import { makeSelectTabProfiles } from './selectors';
-import type { TabProfile } from '../../../Types';
+import type { TabProfile } from '../../Types';
 import realm from '../../Models/RealmModel';
 
 export function* getTabProfiles() {
-	const profiles: array<TabProfile> = yield realm.getTabProfiles();
+	const profiles: Array<TabProfile> = yield realm.getTabProfiles();
 	yield put(loadProfilesEnd(profiles));
 }
 

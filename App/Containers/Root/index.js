@@ -3,9 +3,14 @@
 import React, { Component } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import { loadProfiles } from '../App/actions';
+import { makeSelectTabProfiles } from '../App/selectors';
 
 import NavigationRouter from '../../Navigation/NavigationRouter';
+
+import type { TabProfile } from '../../Types';
 
 // Styles
 const styles = StyleSheet.create({
@@ -30,6 +35,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+	profiles: Array<TabProfile>,
 	startup: Function,
 };
 
@@ -43,18 +49,26 @@ class RootContainer extends Component {
 		// }
 	}
 
+	componentWillReceiveProps() {
+		this.forceUpdate();
+	}
+
 	render() {
 		return (
 			<View style={styles.applicationView}>
 				<StatusBar barStyle="light-content" />
-				<NavigationRouter />
+				<NavigationRouter profiles={this.props.profiles} />
 			</View>
 		);
 	}
 }
 
+const mapStateToProps = createStructuredSelector({
+	profiles: makeSelectTabProfiles(),
+});
+
 const mapDispatchToProps = dispatch => ({
 	startup: () => dispatch(loadProfiles()),
 });
 
-export default connect(null, mapDispatchToProps)(RootContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

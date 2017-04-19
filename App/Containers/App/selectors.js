@@ -5,12 +5,11 @@ import { TabProfile } from '../../Types';
 
 const selectGlobal = state => fromJS(state).get('app');
 
-const makeSelectLoading = () =>
-	createSelector(selectGlobal, globalState => globalState.get('loading'));
+const makeSelectLoading = () => createSelector(selectGlobal, state => state.get('loading'));
 
-const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
+const makeSelectError = () => createSelector(selectGlobal, state => state.get('error'));
 
 const makeSelectTabProfiles = (): array<TabProfile> =>
-	createSelector(selectGlobal, globalState => globalState.get('tabProfiles'));
+	createSelector(selectGlobal, state => state.get('tabProfiles'));
 
 export { selectGlobal, makeSelectLoading, makeSelectError, makeSelectTabProfiles };
