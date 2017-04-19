@@ -23,5 +23,5 @@ function appReducers(state = initialState, action) {
 }
 
 export default combineReducers({
-	appReducers,
+	app: appReducers,
 });

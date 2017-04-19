@@ -4,13 +4,13 @@ import { LOAD_PROFILES } from './constants';
 import { loadProfilesEnd } from './actions';
 import type { TabProfile } from '../../../Types';
 
-export async function getTabProfiles() {
+export function* getTabProfiles() {
 	const profiles: array<TabProfile> = [{ value: 'P', type: 'search' }];
-	await put(loadProfilesEnd(profiles));
+	yield put(loadProfilesEnd(profiles));
 }
 
-export async function appData() {
-	await takeLatest(LOAD_PROFILES, getTabProfiles);
+export function* appData() {
+	yield takeLatest(LOAD_PROFILES, getTabProfiles);
 
 	// yield take(LOCATION_CHNGES)
 }

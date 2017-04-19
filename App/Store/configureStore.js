@@ -4,7 +4,7 @@ import { createLogger } from 'redux-logger';
 import reducer from '../Containers/App/reducers';
 
 const loggerMiddleware = createLogger({
-	stateTransformer: state => state.toJS(),
+	stateTransformer: state => state,
 });
 
 const sagaMiddleware = createSagaMiddleware();

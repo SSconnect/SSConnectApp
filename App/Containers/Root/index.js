@@ -29,7 +29,13 @@ const styles = StyleSheet.create({
 	},
 });
 
+type Props = {
+	startup: Function,
+};
+
 class RootContainer extends Component {
+	props: Props;
+
 	componentDidMount() {
 		// if redux persist is not active fire startup action
 		// if (!ReduxPersist.active) {

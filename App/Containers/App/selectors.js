@@ -3,10 +3,7 @@ import { fromJS } from 'immutable';
 
 import { TabProfile } from '../../Types';
 
-const selectGlobal = (state) => {
-	debugger;
-	return state.get('global');
-};
+const selectGlobal = state => fromJS(state).get('app');
 
 const makeSelectLoading = () =>
 	createSelector(selectGlobal, globalState => globalState.get('loading'));
