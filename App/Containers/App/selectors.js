@@ -12,4 +12,13 @@ const makeSelectError = () => createSelector(selectGlobal, state => state.get('e
 const makeSelectTabProfiles = (): array<TabProfile> =>
 	createSelector(selectGlobal, state => state.get('profiles'));
 
-export { selectGlobal, makeSelectLoading, makeSelectError, makeSelectTabProfiles };
+const makeExistsTabProfiles = (profile: TabProfile): boolean =>
+	createSelector(selectGlobal, state => state.get('profiles').includes(profile));
+
+export {
+	selectGlobal,
+	makeSelectLoading,
+	makeSelectError,
+	makeSelectTabProfiles,
+	makeExistsTabProfiles,
+};

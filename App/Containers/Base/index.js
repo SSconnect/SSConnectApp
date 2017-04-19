@@ -10,7 +10,6 @@ import { createStructuredSelector } from 'reselect';
 import { Actions } from 'react-native-router-flux';
 
 import { addProfile } from '../App/actions';
-// import { makeSelectTabProfiles } from '../App/selectors';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
@@ -24,7 +23,7 @@ import { Scales, IconName } from '../../Themes/';
 type Props = {
 	profile: TabProfile,
 	isHome: boolean,
-	onAddProfile: TabProfile => {},
+	onAddProfile: Function,
 };
 
 type State = {
@@ -62,10 +61,8 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillReceiveProps() {
+		this.forceUpdate();
 		this.init();
-		const { profile } = this.props;
-		const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
-		alert(`${typeStr}「${profile.value}」を登録しました`);
 	}
 
 	stories: Array<Story>;
@@ -88,12 +85,7 @@ class BaseScreen extends React.PureComponent {
 		this.setState({ loading: true });
 		const { profile } = this.props;
 		const stories = await feedClient.getStories(
-			profile.type === 'tag'
-				? { page, tag: profile.value }
-				: {
-					page,
-					q: profile.value,
-				},
+			profile.type === 'tag' ? { page, tag: profile.value } : { page, q: profile.value },
 		);
 
 		this.stories = this.stories.concat(stories);
@@ -122,6 +114,8 @@ class BaseScreen extends React.PureComponent {
 				name="add"
 				onPress={() => {
 					onAddProfile(profile);
+					const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
+					alert(`${typeStr}「${profile.value}」を登録しました`);
 				}}
 			/>
 		);
