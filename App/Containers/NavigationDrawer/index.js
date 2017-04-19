@@ -1,6 +1,9 @@
 import React from 'react';
 import Drawer from 'react-native-drawer';
 import { Actions, DefaultRenderer } from 'react-native-router-flux';
+import { Icon } from 'react-native-elements';
+
+import { IconName } from '../../Themes';
 
 import SideMenu from './SideMenu';
 
@@ -26,6 +29,7 @@ class NavigationDrawer extends React.Component {
 				openDrawerOffset={0.2}
 				panCloseMask={0.2}
 				negotiatePan
+				renderMenuButton={<Icon name={IconName.search} />}
 				tweenHandler={ratio => ({
 					main: { opacity: Math.max(0.54, 1 - ratio) },
 				})}
