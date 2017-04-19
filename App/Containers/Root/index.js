@@ -56,7 +56,7 @@ class RootContainer extends Component {
 	render() {
 		return (
 			<View style={styles.applicationView}>
-				<StatusBar barStyle="light-content" />
+				<StatusBar barStyle="default" />
 				<NavigationRouter profiles={this.props.profiles} />
 			</View>
 		);
