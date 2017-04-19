@@ -12,7 +12,6 @@ import TagCell from '../../Components/TagCell';
 import feedClient from '../../Services/FeedClient';
 import type { Article, Tag } from '../../Types';
 import { Scales } from '../../Themes/';
-import realm from '../../Models/RealmModel';
 
 type Props = {
 	q: string,

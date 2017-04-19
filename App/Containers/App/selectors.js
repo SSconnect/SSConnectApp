@@ -10,6 +10,6 @@ const makeSelectLoading = () => createSelector(selectGlobal, state => state.get(
 const makeSelectError = () => createSelector(selectGlobal, state => state.get('error'));
 
 const makeSelectTabProfiles = (): array<TabProfile> =>
-	createSelector(selectGlobal, state => state.get('tabProfiles'));
+	createSelector(selectGlobal, state => state.get('profiles'));
 
 export { selectGlobal, makeSelectLoading, makeSelectError, makeSelectTabProfiles };

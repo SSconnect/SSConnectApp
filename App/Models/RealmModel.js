@@ -38,7 +38,7 @@ class RealmManager {
 		return this.realm.objects('Reads');
 	}
 
-	addRead(read: Read) {
+	addRead({ read }: { read: Read }) {
 		if (realm.objects('Read').filtered('url = $0', read.url).count === 0) {
 			throw new Error('Duplicate Insert');
 		}
@@ -47,13 +47,14 @@ class RealmManager {
 		});
 	}
 
-	addTabProfile(profile: TabProfile) {
+	addTabProfile({ profile }: { profile: TabProfile }) {
 		if (this.existsTabProfile(profile)) {
 			throw new Error('Duplicate Insert');
 		}
 		this.realm.write(() => {
 			this.realm.create('TabProfile', profile);
 		});
+		return this.getTabProfiles();
 	}
 
 	existsTabProfile(profile: TabProfile): boolean {

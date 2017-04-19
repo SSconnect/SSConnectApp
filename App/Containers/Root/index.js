@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -39,7 +39,7 @@ type Props = {
 	startup: Function,
 };
 
-class RootContainer extends Component {
+class RootContainer extends React.Component {
 	props: Props;
 
 	componentDidMount() {
