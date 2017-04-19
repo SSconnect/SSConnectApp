@@ -1,13 +1,19 @@
 import { createSelector } from 'reselect';
+import { fromJS } from 'immutable';
 
-const selectGlobal = state => state.get('global');
+import { TabProfile } from '../../Types';
+
+const selectGlobal = (state) => {
+	debugger;
+	return state.get('global');
+};
 
 const makeSelectLoading = () =>
 	createSelector(selectGlobal, globalState => globalState.get('loading'));
 
 const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
 
-const makeSelectTabProfiles = () =>
+const makeSelectTabProfiles = (): array<TabProfile> =>
 	createSelector(selectGlobal, globalState => globalState.get('tabProfiles'));
 
 export { selectGlobal, makeSelectLoading, makeSelectError, makeSelectTabProfiles };

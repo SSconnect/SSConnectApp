@@ -2,9 +2,10 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import reducer from '../Containers/App/reducers';
-import sagas from '../Containers/App/sagas';
 
-const loggerMiddleware = createLogger();
+const loggerMiddleware = createLogger({
+	stateTransformer: state => state.toJS(),
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,6 +13,6 @@ const createStoreWithMiddleware = applyMiddleware(sagaMiddleware, loggerMiddlewa
 
 export default (initialState) => {
 	const store = createStoreWithMiddleware(reducer, initialState);
-	sagaMiddleware.run(sagas);
+	store.runSaga = sagaMiddleware.run;
 	return store;
 };
