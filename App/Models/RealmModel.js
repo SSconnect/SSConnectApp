@@ -63,10 +63,17 @@ class RealmManager {
 	}
 
 	deleteTabProfile({ profile }: { profile: TabProfile }) {
+		const res = this.selectTabProfile(profile);
 		this.realm.write(() => {
-			this.realm.delete(profile);
+			this.realm.delete(res);
 		});
 		return this.getTabProfiles();
+	}
+
+	selectTabProfile(profile: TabProfile) {
+		return this.realm
+			.objects('TabProfile')
+			.filtered('value = $0 AND type = $1', profile.value, profile.type);
 	}
 
 	moveTabProfile(from: number, to: number) {
@@ -82,10 +89,7 @@ class RealmManager {
 	}
 
 	existsTabProfile(profile: TabProfile): boolean {
-		const res = this.realm
-			.objects('TabProfile')
-			.filtered('value = $0 AND type = $1', profile.value, profile.type);
-		return res.length > 0;
+		return this.selectTabProfile(profile).length > 0;
 	}
 }
 
