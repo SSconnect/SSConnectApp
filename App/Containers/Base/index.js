@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, ListView, ScrollView } from 'react-native';
+import { View, Text, ListView, ScrollView } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -134,6 +134,13 @@ class BaseScreen extends React.PureComponent {
 		);
 	}
 
+	renderNoHit() {
+		if (this.state.loading || this.state.dataSource.getRowCount() > 0) {
+			return null;
+		}
+		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
+	}
+
 	render() {
 		const { profile, reads, isHome } = this.props;
 		const isTag = profile.type === 'tag';
@@ -168,6 +175,7 @@ class BaseScreen extends React.PureComponent {
 					onRefresh={() => this.init()}
 					refreshDescription=""
 				/>
+				{this.renderNoHit()}
 			</ScrollView>
 		);
 	}
