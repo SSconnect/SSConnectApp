@@ -35,7 +35,7 @@ class SideMenu extends React.Component {
 			return null;
 		}
 		return (
-			<Text>
+			<Text style={{ padding: 10 }}>
 				検索キーワードや作品タグをブックマークしましょう！
 			</Text>
 		);
