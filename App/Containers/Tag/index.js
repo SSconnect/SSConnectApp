@@ -38,7 +38,6 @@ class TagScreen extends React.PureComponent {
 			loading: true,
 			q: props.q || '',
 		};
-		this.renderFooter = this.renderFooter.bind(this);
 		this.renderRow = this.renderRow.bind(this);
 	}
 
@@ -79,15 +78,11 @@ class TagScreen extends React.PureComponent {
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
+					renderFooter={() => <Indicator />}
 					distanceToLoadMore={100}
-					renderFooter={this.renderFooter}
 				/>
 			</View>
 		);
-	}
-
-	renderFooter() {
-		return <Indicator loading={this.state.dataSource.rowCount === 0} />;
 	}
 
 	/* eslint class-methods-use-this:0 */

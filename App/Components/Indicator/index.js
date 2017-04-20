@@ -10,15 +10,19 @@ type Props = {
 	loading: boolean,
 };
 
-function Indicator({ loading = true }: Props) {
-	if (!loading) {
-		return null;
+class Indicator extends React.PureComponent {
+	props: Props;
+	static defaultProps: Props = {
+		loading: true,
+	};
+
+	render() {
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+				<Spinner size={60} type="9CubeGrid" color={Colors.black} />
+			</View>
+		);
 	}
-	return (
-		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-			<Spinner size={60} type="9CubeGrid" color={Colors.black} />
-		</View>
-	);
 }
 
 export default Indicator;
