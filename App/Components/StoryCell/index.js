@@ -12,22 +12,32 @@ import type { Story } from '../../Types';
 
 type Props = {
 	story: Story,
-	onAddRead: Story => {},
+	onAddRead: Function,
+	readed: boolean,
+};
+
+type State = {
+	readed: boolean,
 };
 
 class StoryCell extends React.PureComponent {
 	props: Props;
+	state: State = {
+		readed: this.props.readed,
+	};
 
 	render() {
 		const { story, onAddRead } = this.props;
 
 		moment.updateLocale('ja');
 		const timestamp = moment.utc(story.first_posted_at);
+		const color = this.state.readed ? Colors.disable : Colors.black;
 		return (
 			<TouchableOpacity
 				onPress={() => {
 					onAddRead(story);
 					const url = story.articles[0].url;
+					this.setState({ readed: true });
 					Linking.openURL(url);
 				}}
 			>
@@ -41,10 +51,10 @@ class StoryCell extends React.PureComponent {
 						}}
 					>
 						<Text style={{ color: Colors.disable }}>{story.articles[0].blog.title}</Text>
-						<Text>{timestamp.fromNow()}</Text>
+						<Text style={{ color }}>{timestamp.fromNow()}</Text>
 					</View>
-					<Text style={{ fontSize: 20 }}>{story.title}</Text>
-					<Text style={{ marginTop: 5 }}>{story.tag_list.join(',')}</Text>
+					<Text style={{ fontSize: 20, color }}>{story.title}</Text>
+					<Text style={{ marginTop: 5, color }}>{story.tag_list.join(',')}</Text>
 				</View>
 			</TouchableOpacity>
 		);

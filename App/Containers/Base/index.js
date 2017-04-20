@@ -5,6 +5,7 @@ import { View, ListView, Linking } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import _ from 'lodash';
 
 import { Actions } from 'react-native-router-flux';
 
@@ -33,12 +34,10 @@ type State = {
 	loading: boolean,
 };
 
-const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
-
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
+		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		loading: true,
 		page: 0,
 	};
@@ -52,6 +51,11 @@ class BaseScreen extends React.PureComponent {
 		},
 	};
 
+	rowHasChanged(r1: Story, r2: Story) {
+		const readedIds = _.map(this.props.reads, e => e.story_id);
+		return r1.id !== r2.id && readedIds.includes(r1.id) !== readedIds.includes(r2.id);
+	}
+
 	constructor(props: Props) {
 		super(props);
 		this.loadMoreContentAsync = this.loadMoreContentAsync.bind(this);
@@ -61,7 +65,9 @@ class BaseScreen extends React.PureComponent {
 		this.init();
 	}
 
-	componentWillReceiveProps() {}
+	componentWillReceiveProps() {
+		this.forceUpdate();
+	}
 
 	stories: Array<Story>;
 
@@ -120,8 +126,9 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { profile, onAddRead } = this.props;
+		const { profile, reads } = this.props;
 		const isTag = profile.type === 'tag';
+		const readedIds = _.map(reads, e => e.story_id);
 		return (
 			<View style={{ marginTop: Scales.navBarHeight, marginBottom: 50 }}>
 				<SearchBar
@@ -142,7 +149,7 @@ class BaseScreen extends React.PureComponent {
 				{this.renderSubscribeButton()}
 				<ListView
 					onLoadMoreAsync={this.loadMoreContentAsync}
-					renderRow={story => <StoryCell story={story} />}
+					renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
