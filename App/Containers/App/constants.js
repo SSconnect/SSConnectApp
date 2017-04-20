@@ -2,6 +2,8 @@ export const LOAD_PROFILES = 'ssconnect/App/LOAD_PROFILES';
 export const LOAD_PROFILES_END = 'ssconnect/App/LOAD_PROFILES_END';
 export const ADD_PROFILE = 'ssconnect/App/ADD_PROFILE';
 export const ADD_PROFILE_END = 'ssconnect/App/ADD_PROFILE_END';
+export const DELETE_PROFILE = 'ssconnect/App/DELETE_PROFILE';
+export const DELETE_PROFILE_END = 'ssconnect/App/DELETE_PROFILE_END';
 export const MOVE_PROFILE = 'ssconnect/App/MOVE_PROFILE';
 export const MOVE_PROFILE_END = 'ssconnect/App/MOVE_PROFILE_END';
 

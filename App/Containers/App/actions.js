@@ -3,6 +3,8 @@ import {
 	LOAD_PROFILES_END,
 	ADD_PROFILE,
 	ADD_PROFILE_END,
+	DELETE_PROFILE,
+	DELETE_PROFILE_END,
 	LOAD_READS,
 	LOAD_READS_END,
 	ADD_READ,
@@ -34,6 +36,20 @@ export function addProfile(profile) {
 export function addProfileEnd(profiles) {
 	return {
 		type: ADD_PROFILE_END,
+		profiles,
+	};
+}
+
+export function deleteProfile(profile) {
+	return {
+		type: DELETE_PROFILE,
+		profile,
+	};
+}
+
+export function deleteProfileEnd(profiles) {
+	return {
+		type: DELETE_PROFILE_END,
 		profiles,
 	};
 }

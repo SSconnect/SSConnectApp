@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { moveProfile } from '../../Containers/App/actions';
+import { moveProfile, deleteProfile } from '../../Containers/App/actions';
 
 import { Colors, IconName } from '../../Themes';
 import type { TabProfile } from '../../Types';
@@ -56,6 +56,7 @@ function RowComponent({ sortHandlers, data, isEdit, onDelete }: any) {
 type Props = {
 	tabs: Array<TabProfile>,
 	onMoveProfile: (from, to) => {},
+	onDeleteProfile: Function,
 	isEdit: boolean,
 };
 
@@ -63,7 +64,7 @@ class TabList extends React.PureComponent {
 	props: Props;
 
 	render() {
-		const { tabs, isEdit, onMoveProfile } = this.props;
+		const { tabs, isEdit, onMoveProfile, onDeleteProfile } = this.props;
 		return (
 			<SortableListView
 				data={tabs}
@@ -71,7 +72,15 @@ class TabList extends React.PureComponent {
 					onMoveProfile(e.from, e.to);
 				}}
 				disableSorting={!isEdit}
-				renderRow={row => <RowComponent data={row} isEdit={isEdit} onDelete={() => {}} />}
+				renderRow={row => (
+					<RowComponent
+						data={row}
+						isEdit={isEdit}
+						onDelete={() => {
+							onDeleteProfile(row);
+						}}
+					/>
+				)}
 			/>
 		);
 	}
@@ -81,6 +90,7 @@ const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
 	onMoveProfile: (from, to) => dispatch(moveProfile(from, to)),
+	onDeleteProfile: profile => dispatch(deleteProfile(profile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabList);
