@@ -5,6 +5,7 @@ const iconName = {
 	search: 'search',
 	favTag: 'loyalty',
 	home: 'home',
+	add: 'add',
 	threeBar: 'menu',
 };
 

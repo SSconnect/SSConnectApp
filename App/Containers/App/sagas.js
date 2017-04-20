@@ -1,9 +1,15 @@
 import { fork, put, takeLatest } from 'redux-saga/effects';
 
-import { LOAD_PROFILES, ADD_PROFILE, MOVE_PROFILE } from './constants';
+import { LOAD_PROFILES, ADD_PROFILE, MOVE_PROFILE, LOAD_READS, ADD_READ } from './constants';
 
-import { loadProfilesEnd, addProfileEnd, moveProfileEnd } from './actions';
-import type { TabProfile } from '../../Types';
+import {
+	loadProfilesEnd,
+	addProfileEnd,
+	moveProfileEnd,
+	loadReadsEnd,
+	addReadEnd,
+} from './actions';
+import type { TabProfile, Read } from '../../Types';
 import realm from '../../Models/RealmModel';
 
 export function* addTabProfile(profile: TabProfile) {
@@ -21,10 +27,23 @@ export function* moveTabProfile({ from, to }: { from: number, to: number }) {
 	yield put(moveProfileEnd(profiles));
 }
 
+export function* addRead(story: Stroy) {
+	realm.addRead(story);
+	yield put(addReadEnd(realm.getReads()));
+}
+
+export function* getReads() {
+	const reads = realm.getReads();
+	yield put(loadReadsEnd(reads));
+}
+
 export function* appData() {
 	yield takeLatest(LOAD_PROFILES, getTabProfiles);
 	yield takeLatest(ADD_PROFILE, addTabProfile);
 	yield takeLatest(MOVE_PROFILE, moveTabProfile);
+
+	yield takeLatest(LOAD_READS, getReads);
+	yield takeLatest(ADD_READ, addRead);
 }
 
 export default function* root() {

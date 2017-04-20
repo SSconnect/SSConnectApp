@@ -1,13 +1,14 @@
 // @flow
 
 import Realm from 'realm';
-import type { Read, TabProfile } from '../Types';
 import _ from 'lodash';
+
+import type { Story, TabProfile } from '../Types';
 
 const ReadSchema = {
 	name: 'Read',
 	properties: {
-		url: 'string',
+		story_id: 'int',
 	},
 };
 
@@ -21,7 +22,10 @@ const TabProfileSchema = {
 
 const realm = new Realm({
 	schema: [ReadSchema, TabProfileSchema],
-	version: 3,
+	version: 6,
+	migration: (oldRealm, newRealm) => {
+		newRealm.deleteAll();
+	},
 });
 
 class RealmManager {
@@ -36,15 +40,15 @@ class RealmManager {
 	}
 
 	getReads() {
-		return this.realm.objects('Reads');
+		return this.realm.objects('Read');
 	}
 
-	addRead({ read }: { read: Read }) {
-		if (realm.objects('Read').filtered('url = $0', read.url).count === 0) {
-			throw new Error('Duplicate Insert');
+	addRead({ story }: { story: Story }) {
+		if (realm.objects('Read').filtered('story_id = $0', story.id).count === 0) {
+			return;
 		}
 		this.realm.write(() => {
-			this.realm.create('Read', read);
+			this.realm.create('Read', { story_id: story.id });
 		});
 	}
 
