@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { View, ListView, Linking } from 'react-native';
-import { SearchBar, Icon } from 'react-native-elements';
+import { View, ListView } from 'react-native';
+import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import _ from 'lodash';
@@ -18,7 +18,7 @@ import StoryCell from '../../Components/StoryCell';
 import realm from '../../Models/RealmModel';
 
 import feedClient from '../../Services/FeedClient';
-import type { Article, Story, TabProfile, Read } from '../../Types';
+import type { Story, TabProfile, Read } from '../../Types';
 import { Scales, IconName } from '../../Themes/';
 
 type Props = {
@@ -114,14 +114,19 @@ class BaseScreen extends React.PureComponent {
 			return null;
 		}
 		return (
-			<Icon
-				name="add"
-				onPress={() => {
-					onAddProfile(profile);
-					const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
-					alert(`${typeStr}「${profile.value}」を登録しました`);
-				}}
-			/>
+			<View style={{ margin: 5 }}>
+				<Button
+					raised
+					backgroundColor="black"
+					title="ブックマーク"
+					icon={{ name: IconName.add }}
+					onPress={() => {
+						onAddProfile(profile);
+						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
+						alert(`${typeStr}「${profile.value}」を登録しました`);
+					}}
+				/>
+			</View>
 		);
 	}
 
