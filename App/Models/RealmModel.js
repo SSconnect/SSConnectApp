@@ -70,7 +70,7 @@ class RealmManager {
 		return this.getTabProfiles();
 	}
 
-	selectTabProfile({ profile }: { profile: TabProfile }) {
+	selectTabProfile(profile: TabProfile) {
 		return this.realm
 			.objects('TabProfile')
 			.filtered('value = $0 AND type = $1', profile.value, profile.type);
