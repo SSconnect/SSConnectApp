@@ -32,6 +32,7 @@ type State = {
 	dataSource: any,
 	page: number,
 	loading: boolean,
+	addDisable: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
@@ -40,6 +41,7 @@ class BaseScreen extends React.PureComponent {
 		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		loading: true,
 		page: 0,
+		addDisable: false,
 	};
 	loadMoreContentAsync: Function;
 
@@ -120,8 +122,10 @@ class BaseScreen extends React.PureComponent {
 					backgroundColor="black"
 					title="ブックマーク"
 					icon={{ name: IconName.add }}
+					disabled={this.state.addDisable}
 					onPress={() => {
 						onAddProfile(profile);
+						this.setState({ addDisable: true });
 						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
 						alert(`${typeStr}「${profile.value}」を登録しました`);
 					}}
