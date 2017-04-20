@@ -9,7 +9,8 @@ import { createStructuredSelector } from 'reselect';
 
 import { Actions } from 'react-native-router-flux';
 
-import { addProfile } from '../App/actions';
+import { addProfile, addRead } from '../App/actions';
+import { makeSelectReads } from '../App/selectors';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
@@ -17,13 +18,14 @@ import StoryCell from '../../Components/StoryCell';
 import realm from '../../Models/RealmModel';
 
 import feedClient from '../../Services/FeedClient';
-import type { Article, Story, TabProfile } from '../../Types';
+import type { Article, Story, TabProfile, Read } from '../../Types';
 import { Scales, IconName } from '../../Themes/';
 
 type Props = {
 	profile: TabProfile,
 	isHome: boolean,
 	onAddProfile: Function,
+	reads: Array<Read>,
 };
 
 type State = {
@@ -144,7 +146,7 @@ class BaseScreen extends React.PureComponent {
 				{this.renderSubscribeButton()}
 				<ListView
 					onLoadMoreAsync={this.loadMoreContentAsync}
-					renderRow={story => <StoryCell story={story} />}
+					renderRow={story => <StoryCell story={story} onPress={() => {}} />}
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
@@ -156,12 +158,15 @@ class BaseScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+	reads: makeSelectReads(),
+});
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			onAddProfile: profile => addProfile(profile),
+			onAddRead: story => addRead(story),
 		},
 		dispatch,
 	);

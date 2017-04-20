@@ -1,29 +1,22 @@
 // @flow
 
 import React from 'react';
-import { View, TouchableOpacity, Text, Linking } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import moment from 'moment';
 
-import realm from '../../Models/RealmModel';
 import { Colors } from '../../Themes/';
 import type { Story } from '../../Types';
 
 type Props = {
 	story: Story,
+	onPress: Function,
 };
 
-function StoryCell({ story }: Props) {
+function StoryCell({ story, onPress }: Props) {
 	moment.updateLocale('ja');
 	const timestamp = moment.utc(story.first_posted_at);
 	return (
-		<TouchableOpacity
-			onPress={() => {
-				const url = story.articles[0].url;
-				realm.addRead({ url });
-				Linking.openURL(url);
-				// story.read = true;
-			}}
-		>
+		<TouchableOpacity onPress={onPress}>
 			<View style={{ padding: 10 }}>
 				<View
 					style={{

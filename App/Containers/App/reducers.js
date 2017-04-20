@@ -8,6 +8,10 @@ import {
 	ADD_PROFILE_END,
 	MOVE_PROFILE,
 	MOVE_PROFILE_END,
+	LOAD_READS,
+	LOAD_READS_END,
+	ADD_READ,
+	ADD_READ_END,
 } from './constants';
 
 // The initial state of the App
@@ -32,6 +36,15 @@ function appReducers(state = initialState, action) {
 			return state.set('loading', true).set('error', false);
 		case MOVE_PROFILE_END:
 			return state.set('profiles', action.profiles).set('loading', false);
+
+		case LOAD_READS:
+			return state.set('loading', true).set('error', false).set('reads', false);
+		case LOAD_READS_END:
+			return state.set('reads', action.reads).set('loading', false);
+		case ADD_READ:
+			return state.set('loading', true).set('error', false);
+		case ADD_READ_END:
+			return state.set('reads', action.reads).set('loading', false);
 		default:
 			return state;
 	}

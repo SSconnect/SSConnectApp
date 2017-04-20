@@ -5,9 +5,10 @@ import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { loadProfiles } from '../App/actions';
+import { loadProfiles, loadReads } from '../App/actions';
 import { makeSelectTabProfiles } from '../App/selectors';
 
+import realm from '../../Models/RealmModel';
 import NavigationRouter from '../../Navigation/NavigationRouter';
 
 import type { TabProfile } from '../../Types';
@@ -36,16 +37,19 @@ const styles = StyleSheet.create({
 
 type Props = {
 	profiles: Array<TabProfile>,
-	startup: Function,
+	loadProfiles: Function,
+	loadReads: Function,
 };
 
 class RootContainer extends React.Component {
 	props: Props;
 
 	componentDidMount() {
+		realm.getReads();
 		// if redux persist is not active fire startup action
 		// if (!ReduxPersist.active) {
-		this.props.startup();
+		this.props.loadProfiles();
+		this.props.loadReads();
 		// }
 	}
 
@@ -68,7 +72,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-	startup: () => dispatch(loadProfiles()),
+	loadProfiles: () => dispatch(loadProfiles()),
+	loadReads: () => dispatch(loadReads()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

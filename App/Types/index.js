@@ -29,7 +29,7 @@ export type Tag = {
 };
 
 export type Read = {
-	url: string,
+	story_id: number,
 };
 
 export type TabProfile = {
