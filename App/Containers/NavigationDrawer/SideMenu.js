@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 
 import { makeSelectTabProfiles } from '../App/selectors';
 
 import TabList from '../../Components/TabList';
-import { Scales } from '../../Themes';
+import { Scales, IconName } from '../../Themes';
 import type { TabProfile } from '../../Types';
 
 type Props = {
@@ -22,9 +22,16 @@ class SideMenu extends React.Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>
+			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
 				{this.renderEmpty()}
 				<TabList tabs={this.props.tabProps} />
+				<Button
+					title="開発者・リクエスト"
+					icon={{ name: IconName.send }}
+					onPress={() => {
+						Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
+					}}
+				/>
 			</View>
 		);
 	}
