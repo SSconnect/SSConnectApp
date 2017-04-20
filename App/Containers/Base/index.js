@@ -162,10 +162,11 @@ class BaseScreen extends React.PureComponent {
 					onLoadMoreAsync={this.loadMoreContentAsync}
 					renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
 					dataSource={this.state.dataSource}
-					canLoadMore
 					enableEmptySections
 					distanceToLoadMore={100}
 					renderFooter={() => <Indicator loading={this.state.page === 0} />}
+					onRefresh={() => this.init()}
+					refreshDescription=""
 				/>
 			</ScrollView>
 		);

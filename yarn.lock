@@ -2705,7 +2705,7 @@ is-primitive@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-primitive/-/is-primitive-2.0.0.tgz#207bab91638499c07b2adf240a41a87210034575"
 
-is-promise@^2.1.0:
+is-promise@^2.0.0, is-promise@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-2.1.0.tgz#79a2a9ece7f096e80f36d2b2f3bc16c1ff4bf3fa"
 
@@ -4188,6 +4188,12 @@ react-native-infinite-scroll-view@^0.4.2:
   dependencies:
     react-clone-referenced-element "^1.0.1"
     react-native-scrollable-mixin "^1.0.0"
+
+react-native-refreshable-listview@next:
+  version "2.0.0-beta4"
+  resolved "https://registry.yarnpkg.com/react-native-refreshable-listview/-/react-native-refreshable-listview-2.0.0-beta4.tgz#61cc0b7d15e116c6053937dff1c385bfc10eb3ec"
+  dependencies:
+    is-promise "^2.0.0"
 
 react-native-router-flux@^3.37.0:
   version "3.38.0"
