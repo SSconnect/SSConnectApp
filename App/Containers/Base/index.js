@@ -1,11 +1,11 @@
 // @flow
 
-import React, { View, ListView, ScrollView } from 'react-native';
+import React from 'react';
+import { View, ListView, ScrollView } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import _ from 'lodash';
-import { ControlledRfreshableListView } from 'react-native-refreshable-listview';
 
 import { Actions } from 'react-native-router-flux';
 

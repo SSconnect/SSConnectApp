@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, ListView } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 
@@ -24,7 +24,7 @@ type State = {
 
 const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
 
-class TagScreen extends PureComponent {
+class TagScreen extends React.PureComponent {
 	props: Props;
 	state: State;
 
