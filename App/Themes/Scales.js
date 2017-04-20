@@ -15,8 +15,7 @@ const scales = {
 	halfSmallMargin: 2.5,
 	horizontalLineHeight: 1,
 	searchBarHeight: 30,
-	footerHeight: 120,
-	footerRowHeight: 50,
+	footerHeight: 50,
 	footerRow: {
 		height: 50,
 		paddingVertical: 5,

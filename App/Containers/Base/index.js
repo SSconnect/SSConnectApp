@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, ListView } from 'react-native';
+import { View, ListView, ScrollView } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -32,6 +32,7 @@ type State = {
 	dataSource: any,
 	page: number,
 	loading: boolean,
+	addDisable: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
@@ -40,6 +41,7 @@ class BaseScreen extends React.PureComponent {
 		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		loading: true,
 		page: 0,
+		addDisable: false,
 	};
 	loadMoreContentAsync: Function;
 
@@ -120,8 +122,10 @@ class BaseScreen extends React.PureComponent {
 					backgroundColor="black"
 					title="ブックマーク"
 					icon={{ name: IconName.add }}
+					disabled={this.state.addDisable}
 					onPress={() => {
 						onAddProfile(profile);
+						this.setState({ addDisable: true });
 						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
 						alert(`${typeStr}「${profile.value}」を登録しました`);
 					}}
@@ -131,11 +135,13 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { profile, reads } = this.props;
+		const { profile, reads, isHome } = this.props;
 		const isTag = profile.type === 'tag';
 		const readedIds = _.map(reads, e => e.story_id);
 		return (
-			<View style={{ marginTop: Scales.navBarHeight, marginBottom: 50 }}>
+			<ScrollView
+				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
+			>
 				<SearchBar
 					lightTheme
 					icon={{ name: isTag ? IconName.tag : IconName.search }}
@@ -161,7 +167,7 @@ class BaseScreen extends React.PureComponent {
 					distanceToLoadMore={100}
 					renderFooter={() => <Indicator loading={this.state.page === 0} />}
 				/>
-			</View>
+			</ScrollView>
 		);
 	}
 }
