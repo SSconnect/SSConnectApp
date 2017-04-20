@@ -3,7 +3,7 @@
 import Realm from 'realm';
 import _ from 'lodash';
 
-import type { Read, TabProfile } from '../Types';
+import type { Story, TabProfile } from '../Types';
 
 const ReadSchema = {
 	name: 'Read',
@@ -43,12 +43,12 @@ class RealmManager {
 		return this.realm.objects('Read');
 	}
 
-	addRead({ read }: { read: Read }) {
-		if (realm.objects('Read').filtered('story_id = $0', read.story_id).count === 0) {
+	addRead({ story }: { story: Story }) {
+		if (realm.objects('Read').filtered('story_id = $0', story.id).count === 0) {
 			return;
 		}
 		this.realm.write(() => {
-			this.realm.create('Read', read);
+			this.realm.create('Read', { story_id: story.id });
 		});
 	}
 

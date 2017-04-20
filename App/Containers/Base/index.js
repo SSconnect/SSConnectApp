@@ -1,15 +1,14 @@
 // @flow
 
 import React from 'react';
-import { View, ListView } from 'react-native';
+import { View, ListView, Linking } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { Actions } from 'react-native-router-flux';
 
-import { addProfile, addRead } from '../App/actions';
+import { addProfile } from '../App/actions';
 import { makeSelectReads } from '../App/selectors';
 
 import Indicator from '../../Components/Indicator';
@@ -62,10 +61,7 @@ class BaseScreen extends React.PureComponent {
 		this.init();
 	}
 
-	componentWillReceiveProps() {
-		this.forceUpdate();
-		this.init();
-	}
+	componentWillReceiveProps() {}
 
 	stories: Array<Story>;
 
@@ -124,7 +120,7 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { profile } = this.props;
+		const { profile, onAddRead } = this.props;
 		const isTag = profile.type === 'tag';
 		return (
 			<View style={{ marginTop: Scales.navBarHeight, marginBottom: 50 }}>
@@ -146,7 +142,7 @@ class BaseScreen extends React.PureComponent {
 				{this.renderSubscribeButton()}
 				<ListView
 					onLoadMoreAsync={this.loadMoreContentAsync}
-					renderRow={story => <StoryCell story={story} onPress={() => {}} />}
+					renderRow={story => <StoryCell story={story} />}
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
@@ -162,13 +158,8 @@ const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
 });
 
-const mapDispatchToProps = dispatch =>
-	bindActionCreators(
-		{
-			onAddProfile: profile => addProfile(profile),
-			onAddRead: story => addRead(story),
-		},
-		dispatch,
-	);
+const mapDispatchToProps = dispatch => ({
+	onAddProfile: profile => dispatch(addProfile(profile)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);

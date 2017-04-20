@@ -66,10 +66,10 @@ export function loadReadsEnd(reads) {
 	};
 }
 
-export function addRead(read) {
+export function addRead(story) {
 	return {
 		type: ADD_READ,
-		read,
+		story,
 	};
 }
 

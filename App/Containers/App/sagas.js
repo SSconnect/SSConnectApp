@@ -27,8 +27,8 @@ export function* moveTabProfile({ from, to }: { from: number, to: number }) {
 	yield put(moveProfileEnd(profiles));
 }
 
-export function* addRead(read: Read) {
-	realm.addRead(read);
+export function* addRead(story: Stroy) {
+	realm.addRead(story);
 	yield put(addReadEnd(realm.getReads()));
 }
 
