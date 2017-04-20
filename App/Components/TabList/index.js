@@ -7,17 +7,29 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { moveProfile } from '../../Containers/App/actions';
+import { moveProfile, deleteProfile } from '../../Containers/App/actions';
 
-import { IconName } from '../../Themes';
+import { Colors, IconName } from '../../Themes';
 import type { TabProfile } from '../../Types';
 
-function RowComponent({ sortHandlers, data }: any) {
+function RowComponent({ sortHandlers, data, isEdit, onDelete }: any) {
+	const moveIcon = () => {
+		if (!isEdit) {
+			return null;
+		}
+		return <Icon name={IconName.threeBar} />;
+	};
+	const deleteIcon = () => {
+		if (!isEdit) {
+			return null;
+		}
+		return <Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />;
+	};
 	return (
 		<TouchableOpacity
 			underlayColor={'#eee'}
 			delayLongPress={200}
-			style={{ padding: 5, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
+			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
 			onPress={() => {
 				Actions.refresh({ key: 'drawer', open: false });
 				setTimeout(() =>
@@ -30,11 +42,12 @@ function RowComponent({ sortHandlers, data }: any) {
 			{...sortHandlers}
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+				{moveIcon()}
 				<View style={{ flex: 1, flexDirection: 'row' }}>
 					<Icon size={25} name={data.type === 'tag' ? IconName.favTag : IconName.search} />
 					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.value}</Text>
 				</View>
-				<Icon name={IconName.threeBar} />
+				{deleteIcon()}
 			</View>
 		</TouchableOpacity>
 	);
@@ -42,20 +55,32 @@ function RowComponent({ sortHandlers, data }: any) {
 
 type Props = {
 	tabs: Array<TabProfile>,
-	moveProfile: (from, to) => {},
+	onMoveProfile: (from, to) => {},
+	onDeleteProfile: Function,
+	isEdit: boolean,
 };
 
 class TabList extends React.PureComponent {
 	props: Props;
 
 	render() {
+		const { tabs, isEdit, onMoveProfile, onDeleteProfile } = this.props;
 		return (
 			<SortableListView
-				data={this.props.tabs}
+				data={tabs}
 				onRowMoved={(e) => {
-					this.props.moveProfile(e.from, e.to);
+					onMoveProfile(e.from, e.to);
 				}}
-				renderRow={row => <RowComponent data={row} />}
+				disableSorting={!isEdit}
+				renderRow={row => (
+					<RowComponent
+						data={row}
+						isEdit={isEdit}
+						onDelete={() => {
+							onDeleteProfile(row);
+						}}
+					/>
+				)}
 			/>
 		);
 	}
@@ -64,7 +89,8 @@ class TabList extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
-	moveProfile: (from, to) => dispatch(moveProfile(from, to)),
+	onMoveProfile: (from, to) => dispatch(moveProfile(from, to)),
+	onDeleteProfile: profile => dispatch(deleteProfile(profile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabList);

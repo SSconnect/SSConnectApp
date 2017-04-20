@@ -6,6 +6,8 @@ import {
 	LOAD_PROFILES_END,
 	ADD_PROFILE,
 	ADD_PROFILE_END,
+	DELETE_PROFILE,
+	DELETE_PROFILE_END,
 	MOVE_PROFILE,
 	MOVE_PROFILE_END,
 	LOAD_READS,
@@ -31,6 +33,10 @@ function appReducers(state = initialState, action) {
 		case ADD_PROFILE:
 			return state.set('loading', true).set('error', false);
 		case ADD_PROFILE_END:
+			return state.set('profiles', action.profiles).set('loading', false);
+		case DELETE_PROFILE:
+			return state.set('loading', true).set('error', false);
+		case DELETE_PROFILE_END:
 			return state.set('profiles', action.profiles).set('loading', false);
 		case MOVE_PROFILE:
 			return state.set('loading', true).set('error', false);

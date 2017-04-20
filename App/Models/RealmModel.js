@@ -62,6 +62,13 @@ class RealmManager {
 		return this.getTabProfiles();
 	}
 
+	deleteTabProfile({ profile }: { profile: TabProfile }) {
+		this.realm.write(() => {
+			this.realm.delete(profile);
+		});
+		return this.getTabProfiles();
+	}
+
 	moveTabProfile(from: number, to: number) {
 		const profiles = [];
 		const oldProfiles = this.getTabProfiles();
