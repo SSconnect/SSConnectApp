@@ -32,7 +32,7 @@ class SideMenu extends React.Component {
 				<View style={{ padding: 10, alignItems: 'center' }}>
 					<Icon
 						name={IconName.config}
-						size={10}
+						size={20}
 						raised={!this.state.isEdit}
 						reverse={this.state.isEdit}
 						onPress={() => {
@@ -51,7 +51,7 @@ class SideMenu extends React.Component {
 		}
 		return (
 			<Text>
-				ブックマークボタンから登録すると個々からすぐに開けます！
+				検索キーワードや作品タグをブックマークしましょう！
 			</Text>
 		);
 	}

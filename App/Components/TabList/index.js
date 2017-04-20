@@ -29,7 +29,7 @@ function RowComponent({ sortHandlers, data, isEdit, onDelete }: any) {
 		<TouchableOpacity
 			underlayColor={'#eee'}
 			delayLongPress={200}
-			style={{ padding: 5, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
+			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
 			onPress={() => {
 				Actions.refresh({ key: 'drawer', open: false });
 				setTimeout(() =>
@@ -70,6 +70,7 @@ class TabList extends React.PureComponent {
 				onRowMoved={(e) => {
 					onMoveProfile(e.from, e.to);
 				}}
+				disableSorting={!isEdit}
 				renderRow={row => <RowComponent data={row} isEdit={isEdit} onDelete={() => {}} />}
 			/>
 		);
