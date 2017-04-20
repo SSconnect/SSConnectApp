@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
 import { Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -13,10 +14,19 @@ import type { TabProfile } from '../../Types';
 
 function RowComponent({ sortHandlers, data }: any) {
 	return (
-		<TouchableHighlight
+		<TouchableOpacity
 			underlayColor={'#eee'}
 			delayLongPress={200}
 			style={{ padding: 5, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
+			onPress={() => {
+				Actions.refresh({ key: 'drawer', open: false });
+				setTimeout(() =>
+					Actions.baseScreen({
+						profile: data,
+						title: `${data.type === 'tag' ? 'タグ' : '検索'}: ${data.value}`,
+					}),
+				);
+			}}
 			{...sortHandlers}
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -26,7 +36,7 @@ function RowComponent({ sortHandlers, data }: any) {
 				</View>
 				<Icon name={IconName.threeBar} />
 			</View>
-		</TouchableHighlight>
+		</TouchableOpacity>
 	);
 }
 
