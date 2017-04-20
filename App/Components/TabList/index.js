@@ -12,19 +12,7 @@ import { moveProfile, deleteProfile } from '../../Containers/App/actions';
 import { Colors, IconName } from '../../Themes';
 import type { TabProfile } from '../../Types';
 
-function RowComponent({ sortHandlers, data, isEdit, onDelete }: any) {
-	const moveIcon = () => {
-		if (!isEdit) {
-			return null;
-		}
-		return <Icon name={IconName.threeBar} />;
-	};
-	const deleteIcon = () => {
-		if (!isEdit) {
-			return null;
-		}
-		return <Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />;
-	};
+function RowComponent({ sortHandlers, data, onDelete }: any) {
 	return (
 		<TouchableOpacity
 			underlayColor={'#eee'}
@@ -42,12 +30,12 @@ function RowComponent({ sortHandlers, data, isEdit, onDelete }: any) {
 			{...sortHandlers}
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-				{moveIcon()}
+				<Icon name={IconName.threeBar} />
 				<View style={{ flex: 1, flexDirection: 'row' }}>
 					<Icon size={25} name={data.type === 'tag' ? IconName.favTag : IconName.search} />
 					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.value}</Text>
 				</View>
-				{deleteIcon()}
+				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
 			</View>
 		</TouchableOpacity>
 	);
@@ -57,25 +45,26 @@ type Props = {
 	tabs: Array<TabProfile>,
 	onMoveProfile: (from, to) => {},
 	onDeleteProfile: Function,
-	isEdit: boolean,
 };
 
 class TabList extends React.PureComponent {
 	props: Props;
 
+	componentWillReceiveProps() {
+		this.forceUpdate();
+	}
+
 	render() {
-		const { tabs, isEdit, onMoveProfile, onDeleteProfile } = this.props;
+		const { tabs, onMoveProfile, onDeleteProfile } = this.props;
 		return (
 			<SortableListView
 				data={tabs}
 				onRowMoved={(e) => {
 					onMoveProfile(e.from, e.to);
 				}}
-				disableSorting={!isEdit}
 				renderRow={row => (
 					<RowComponent
 						data={row}
-						isEdit={isEdit}
 						onDelete={() => {
 							onDeleteProfile(row);
 						}}

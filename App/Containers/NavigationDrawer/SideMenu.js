@@ -7,39 +7,24 @@ import { Icon } from 'react-native-elements';
 import { makeSelectTabProfiles } from '../App/selectors';
 
 import TabList from '../../Components/TabList';
-import { Scales, IconName } from '../../Themes';
+import { Scales } from '../../Themes';
 import type { TabProfile } from '../../Types';
 
 type Props = {
 	tabProps: array<TabProfile>,
 };
 
-type State = {
-	isEdit: boolean,
-};
+type State = {};
 
 class SideMenu extends React.Component {
 	props: Props;
-	state: State = {
-		isEdit: false,
-	};
+	state: State = {};
 
 	render() {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>
 				{this.renderEmpty()}
-				<TabList tabs={this.props.tabProps} {...this.state} />
-				<View style={{ padding: 10, alignItems: 'center' }}>
-					<Icon
-						name={IconName.config}
-						size={20}
-						raised={!this.state.isEdit}
-						reverse={this.state.isEdit}
-						onPress={() => {
-							this.setState({ isEdit: !this.state.isEdit });
-						}}
-					/>
-				</View>
+				<TabList tabs={this.props.tabProps} />
 			</View>
 		);
 	}
