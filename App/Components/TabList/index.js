@@ -3,6 +3,11 @@ import { View, TouchableHighlight, Text } from 'react-native';
 import SortableListView from 'react-native-sortable-listview';
 import { Icon } from 'react-native-elements';
 
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { moveProfile } from '../../Containers/App/actions';
+
 import { IconName } from '../../Themes';
 import type { TabProfile } from '../../Types';
 
@@ -27,9 +32,10 @@ function RowComponent({ sortHandlers, data }: any) {
 
 type Props = {
 	tabs: Array<TabProfile>,
+	moveProfile: (from, to) => {},
 };
 
-export default class TabList extends React.PureComponent {
+class TabList extends React.PureComponent {
 	props: Props;
 
 	render() {
@@ -37,12 +43,18 @@ export default class TabList extends React.PureComponent {
 			<SortableListView
 				data={this.props.tabs}
 				onRowMoved={(e) => {
-					console.log('e', e);
-					this.props.tabs.splice(e.to, 0, this.props.tabs.splice(e.from, 1)[0]);
-					this.forceUpdate();
+					this.props.moveProfile(e.from, e.to);
 				}}
 				renderRow={row => <RowComponent data={row} />}
 			/>
 		);
 	}
 }
+
+const mapStateToProps = createStructuredSelector({});
+
+const mapDispatchToProps = dispatch => ({
+	moveProfile: (from, to) => dispatch(moveProfile(from, to)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabList);

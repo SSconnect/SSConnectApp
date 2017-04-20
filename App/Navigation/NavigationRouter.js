@@ -48,7 +48,7 @@ class NavigationRouter extends React.PureComponent {
 		};
 		const scenes = [];
 
-		if (this.props.profiles !== false) {
+		if (this.props.profiles !== false && this.props.profiles.length !== 0) {
 			_.chunk(this.props.profiles, 3)[0].forEach((profile) => {
 				scenes.push(
 					<Scene

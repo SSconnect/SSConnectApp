@@ -1,7 +1,14 @@
 import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
 
-import { LOAD_PROFILES, LOAD_PROFILES_END, ADD_PROFILE, ADD_PROFILE_END } from './constants';
+import {
+	LOAD_PROFILES,
+	LOAD_PROFILES_END,
+	ADD_PROFILE,
+	ADD_PROFILE_END,
+	MOVE_PROFILE,
+	MOVE_PROFILE_END,
+} from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
@@ -18,8 +25,12 @@ function appReducers(state = initialState, action) {
 		case LOAD_PROFILES_END:
 			return state.set('profiles', action.profiles).set('loading', false);
 		case ADD_PROFILE:
-			return state.set('loading', true).set('error', false).set('profiles', false);
+			return state.set('loading', true).set('error', false);
 		case ADD_PROFILE_END:
+			return state.set('profiles', action.profiles).set('loading', false);
+		case MOVE_PROFILE:
+			return state.set('loading', true).set('error', false);
+		case MOVE_PROFILE_END:
 			return state.set('profiles', action.profiles).set('loading', false);
 		default:
 			return state;

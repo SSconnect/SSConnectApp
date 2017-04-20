@@ -2,6 +2,7 @@
 
 import Realm from 'realm';
 import type { Read, TabProfile } from '../Types';
+import _ from 'lodash';
 
 const ReadSchema = {
 	name: 'Read',
@@ -55,6 +56,18 @@ class RealmManager {
 			this.realm.create('TabProfile', profile);
 		});
 		return this.getTabProfiles();
+	}
+
+	moveTabProfile(from: number, to: number) {
+		const profiles = [];
+		const oldProfiles = this.getTabProfiles();
+		_.each(oldProfiles, v => profiles.push({ ...v }));
+		profiles.splice(to, 0, profiles.splice(from, 1)[0]);
+		this.realm.write(() => {
+			this.realm.delete(oldProfiles);
+			_.each(profiles, v => this.realm.create('TabProfile', v));
+		});
+		return profiles;
 	}
 
 	existsTabProfile(profile: TabProfile): boolean {
