@@ -20,10 +20,26 @@
     ],
     "indent": [
       "error",
+      "tab",
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "react/jsx-indent": [
+      2,
+      "tab"
+    ],
+    "react/jsx-indent-props": [
+      2,
       "tab"
     ],
     "react/sort-comp": 0,
     "react/jsx-filename-extension": 0,
+    "react/jsx-tag-spacing": 0,
+    "react/jsx-space-before-closing": 0,
+    "react/no-string-refs": 0,
+    "react/prefer-stateless-function": 0,
+    "generator-star-spacing" :0,
     "no-tabs": 0
   }
 }

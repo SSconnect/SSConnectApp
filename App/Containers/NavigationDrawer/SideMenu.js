@@ -1,13 +1,33 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-const SideMenu = () => (
-  <View>
+import { makeSelectTabProfiles } from '../App/selectors';
 
-    <Text>
-      Side menu
-    </Text>
-  </View>
-);
+import TabList from '../../Components/TabList';
+import { Scales } from '../../Themes';
+import type { TabProfile } from '../../Types';
 
-export default SideMenu;
+type Props = {
+	tabProps: array<TabProfile>,
+};
+
+class SideMenu extends React.Component {
+	props: Props;
+	render() {
+		return (
+			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight }}>
+				<TabList tabs={this.props.tabProps} />
+			</View>
+		);
+	}
+}
+
+const mapStateToProps = createStructuredSelector({
+	tabProps: makeSelectTabProfiles(),
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
