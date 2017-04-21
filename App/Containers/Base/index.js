@@ -9,8 +9,10 @@ import _ from 'lodash';
 
 import { Actions } from 'react-native-router-flux';
 
+import config from '../../Configs';
+
 import { addProfile } from '../App/actions';
-import { makeSelectReads } from '../App/selectors';
+import { makeSelectReads, makeSelectTabProfilesCount } from '../App/selectors';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
@@ -26,6 +28,7 @@ type Props = {
 	isHome: boolean,
 	onAddProfile: Function,
 	reads: Array<Read>,
+	profilesCount: number,
 };
 
 type State = {
@@ -124,6 +127,10 @@ class BaseScreen extends React.PureComponent {
 					icon={{ name: IconName.add }}
 					disabled={this.state.addDisable}
 					onPress={() => {
+						if (this.props.profilesCount >= config.LIMITS.PROFILE_MAX.FREE) {
+							alert('タグは 3つまでしか登録できません。(Free プラン)');
+							return;
+						}
 						onAddProfile(profile);
 						this.setState({ addDisable: true });
 						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
@@ -183,6 +190,7 @@ class BaseScreen extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
+	profilesCount: makeSelectTabProfilesCount(),
 });
 
 const mapDispatchToProps = dispatch => ({

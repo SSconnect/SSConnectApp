@@ -15,6 +15,9 @@ const makeSelectTabProfiles = (): array<TabProfile> =>
 const makeExistsTabProfiles = (profile: TabProfile): boolean =>
 	createSelector(selectGlobal, state => state.get('profiles').includes(profile));
 
+const makeSelectTabProfilesCount = (): array<Read> =>
+	createSelector(selectGlobal, state => state.get('profiles').length);
+
 const makeSelectReads = (): array<Read> =>
 	createSelector(selectGlobal, state => state.get('reads'));
 
@@ -23,6 +26,7 @@ export {
 	makeSelectLoading,
 	makeSelectError,
 	makeSelectTabProfiles,
+	makeSelectTabProfilesCount,
 	makeSelectReads,
 	makeExistsTabProfiles,
 };
