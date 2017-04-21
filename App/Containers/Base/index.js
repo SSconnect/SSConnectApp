@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, ListView, ScrollView } from 'react-native';
+import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -9,8 +9,10 @@ import _ from 'lodash';
 
 import { Actions } from 'react-native-router-flux';
 
+import config from '../../Configs';
+
 import { addProfile } from '../App/actions';
-import { makeSelectReads } from '../App/selectors';
+import { makeSelectReads, makeSelectTabProfilesCount } from '../App/selectors';
 
 import Indicator from '../../Components/Indicator';
 import StoryCell from '../../Components/StoryCell';
@@ -26,6 +28,7 @@ type Props = {
 	isHome: boolean,
 	onAddProfile: Function,
 	reads: Array<Read>,
+	profilesCount: number,
 };
 
 type State = {
@@ -124,10 +127,14 @@ class BaseScreen extends React.PureComponent {
 					icon={{ name: IconName.add }}
 					disabled={this.state.addDisable}
 					onPress={() => {
+						if (this.props.profilesCount >= config.LIMITS.PROFILE_MAX.FREE) {
+							Alert.alert('失敗', 'タグは 3つまでしか登録できません。(Free プラン)');
+							return;
+						}
 						onAddProfile(profile);
 						this.setState({ addDisable: true });
 						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
-						alert(`${typeStr}「${profile.value}」を登録しました`);
+						Alert.alert('完了', `${typeStr}「${profile.value}」を登録しました`);
 					}}
 				/>
 			</View>
@@ -171,10 +178,10 @@ class BaseScreen extends React.PureComponent {
 					dataSource={this.state.dataSource}
 					enableEmptySections
 					distanceToLoadMore={100}
-					renderFooter={() => <Indicator loading={this.state.page === 0} />}
 					onRefresh={() => this.init()}
 					refreshDescription=""
 				/>
+				<Indicator loading={this.state.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
 		);
@@ -183,6 +190,7 @@ class BaseScreen extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
+	profilesCount: makeSelectTabProfilesCount(),
 });
 
 const mapDispatchToProps = dispatch => ({
