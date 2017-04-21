@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, ListView, ScrollView } from 'react-native';
+import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -128,13 +128,13 @@ class BaseScreen extends React.PureComponent {
 					disabled={this.state.addDisable}
 					onPress={() => {
 						if (this.props.profilesCount >= config.LIMITS.PROFILE_MAX.FREE) {
-							alert('タグは 3つまでしか登録できません。(Free プラン)');
+							Alert.alert('失敗', 'タグは 3つまでしか登録できません。(Free プラン)');
 							return;
 						}
 						onAddProfile(profile);
 						this.setState({ addDisable: true });
 						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
-						alert(`${typeStr}「${profile.value}」を登録しました`);
+						Alert.alert('完了', `${typeStr}「${profile.value}」を登録しました`);
 					}}
 				/>
 			</View>
@@ -178,10 +178,10 @@ class BaseScreen extends React.PureComponent {
 					dataSource={this.state.dataSource}
 					enableEmptySections
 					distanceToLoadMore={100}
-					renderFooter={() => <Indicator loading={this.state.page === 0} />}
 					onRefresh={() => this.init()}
 					refreshDescription=""
 				/>
+				<Indicator loading={this.state.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
 		);
