@@ -23,17 +23,17 @@ const TabProfileSchema = {
 const ProfileSchema = {
 	name: 'Profile',
 	properties: {
-		blog_id: 'int',
-		q: 'string',
-		tag: 'string',
-		priority: 'string',
+		blog_id: { type: 'int', optional: true },
+		q: { type: 'string', optional: true },
+		tag: { type: 'string', optional: true },
 	},
 };
 
 const realm = new Realm({
 	schema: [ReadSchema, TabProfileSchema, ProfileSchema],
-	version: 7,
+	schemaVersion: 8,
 	migration: (oldRealm, newRealm) => {
+		console.log(oldRealm.schemaVersion, newRealm.schemaVersion);
 		if (oldRealm.schemaVersion <= 5) {
 			newRealm.deleteAll();
 		}
@@ -46,6 +46,10 @@ const realm = new Realm({
 					newRealm.create('Profile', { tag: profile.value });
 				}
 			});
+		}
+		if (oldRealm.schemaVersion <= 7) {
+			oldRealm.deleteAll();
+			newRealm.deleteAll();
 		}
 	},
 });

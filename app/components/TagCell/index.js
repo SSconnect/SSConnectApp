@@ -19,7 +19,7 @@ function TagCell({ tag }: Props) {
 		<TouchableOpacity
 			onPress={() => {
 				Actions.baseScreen({
-					profile: { type: 'tag', value: tag.name },
+					profile: { tag: tag.name },
 					title: `タグ: ${tag.name}`,
 				});
 			}}

@@ -39,7 +39,7 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 				<Icon name={IconName.threeBar} />
 				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={icoName} />
+					<Icon size={25} name={iconName} />
 					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.q || data.tag}</Text>
 				</View>
 				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
