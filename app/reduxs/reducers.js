@@ -28,47 +28,46 @@ const initialState = fromJS({
 	error: false,
 	reads: false,
 	profiles: false,
-	loadingStory: false,
 	stories: {},
 });
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
 		case LOAD_PROFILES:
-			return state.set('loading', true).set('error', false).set('profiles', false);
+			return state.set('error', false).set('profiles', false);
 		case LOAD_PROFILES_END:
-			return state.set('profiles', action.profiles).set('loading', false);
+			return state.set('profiles', action.profiles);
 		case ADD_PROFILE:
-			return state.set('loading', true).set('error', false);
+			return state.set('error', false);
 		case ADD_PROFILE_END:
-			return state.set('profiles', action.profiles).set('loading', false);
+			return state.set('profiles', action.profiles);
 		case DELETE_PROFILE:
-			return state.set('loading', true).set('error', false);
+			return state.set('error', false);
 		case DELETE_PROFILE_END:
-			return state.set('profiles', action.profiles).set('loading', false);
+			return state.set('profiles', action.profiles);
 		case MOVE_PROFILE:
-			return state.set('loading', true).set('error', false);
+			return state.set('error', false);
 		case MOVE_PROFILE_END:
-			return state.set('profiles', action.profiles).set('loading', false);
+			return state.set('profiles', action.profiles);
 
 		case LOAD_READS:
-			return state.set('loading', true).set('error', false).set('reads', false);
+			return state.set('error', false).set('reads', false);
 		case LOAD_READS_END:
-			return state.set('reads', action.reads).set('loading', false);
+			return state.set('reads', action.reads);
 		case ADD_READ:
-			return state.set('loading', true).set('error', false);
+			return state.set('error', false);
 		case ADD_READ_END:
-			return state.set('reads', action.reads).set('loading', false);
+			return state.set('reads', action.reads);
 
 		case LOAD_STORIES:
 			return state
-				.set('loadingStory', true)
+				.set('loading', true)
 				.set('error', false)
 				.setIn(['stories', profileSerialKey(action.profile), action.page], false);
 		case LOAD_STORIES_END:
 			return state
 				.set('reads', action.reads)
-				.set('loadingStory', false)
+				.set('loading', false)
 				.setIn(['stories', profileSerialKey(action.profile), action.page], action.stories);
 		default:
 			return state;

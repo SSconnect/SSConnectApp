@@ -23,7 +23,10 @@ const makeSelectReads = (): array<Read> =>
 	createSelector(selectGlobal, state => state.get('reads'));
 
 const makeSelectStories = (profile, page): array<Story> =>
-	createSelector(selectGlobal, state => state.getIn(['stories', profileSerialKey(profile), page]));
+	createSelector(selectGlobal, (state) => {
+		const stories = state.getIn(['stories', profileSerialKey(profile), page]);
+		return stories.length > 0 ? stories : [];
+	});
 
 export {
 	selectGlobal,

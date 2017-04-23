@@ -7,7 +7,6 @@ import { Button, Slider } from 'react-native-elements';
 import { createStructuredSelector } from 'reselect';
 
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import _ from 'lodash';
 
 import config from '../../configs';
@@ -16,6 +15,7 @@ import { addProfile, loadStories } from '../../reduxs/actions';
 import {
 	makeSelectReads,
 	makeSelectProfilesCount,
+	makeSelectLoading,
 	makeSelectStories,
 } from '../../reduxs/selectors';
 
@@ -35,29 +35,27 @@ type Props = {
 	onLoadStories: Function,
 	reads: Array<Read>,
 	profilesCount: number,
+	loading: boolean,
 	stories: (profile: Profile, page: number) => Array<Story>,
 };
 
 type State = {
 	dataSource: any,
 	page: number,
-	loading: boolean,
 	addDisable: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows(
-			this.props.stories,
-		),
-		loading: true,
+		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		page: 1,
 		addDisable: false,
 	};
 
 	static defaultProps = {
 		profile: {},
+		loading: true,
 		isHome: false,
 		onAddProfile: (tab) => {
 			console.log(tab);
@@ -111,14 +109,14 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderNoHit() {
-		if (this.state.loading || this.state.dataSource.getRowCount() > 0) {
+		if (this.props.loading || this.state.dataSource.getRowCount() > 0) {
 			return null;
 		}
 		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
 	}
 
 	renderPager() {
-		if (this.state.loading) {
+		if (this.props.loading) {
 			return null;
 		}
 		return (
@@ -197,7 +195,7 @@ class BaseScreen extends React.PureComponent {
 					refreshDescription=""
 				/>
 				{this.renderPager()}
-				<Indicator loading={this.state.loading} />
+				<Indicator loading={this.props.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
 		);
@@ -208,6 +206,7 @@ const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
 	stories: (state, props) => makeSelectStories(props.profile, 1),
 	profilesCount: makeSelectProfilesCount(),
+	loading: makeSelectLoading(),
 });
 
 const mapDispatchToProps = dispatch => ({
