@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { loadProfiles, loadReads } from '../../reduxs/actions';
-import { makeSelectTabProfiles } from '../../reduxs/selectors';
+import { makeSelectProfiles } from '../../reduxs/selectors';
 
 import realm from '../../models/RealmModel';
 import NavigationRouter from '../../routers/NavigationRouter';
 
-import type { TabProfile } from '../../types';
+import type { Profile } from '../../types';
 
 // Styles
 const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-	profiles: Array<TabProfile>,
+	profiles: Array<Profile>,
 	loadProfiles: Function,
 	loadReads: Function,
 };
@@ -68,7 +68,7 @@ class RootContainer extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-	profiles: makeSelectTabProfiles(),
+	profiles: makeSelectProfiles(),
 });
 
 const mapDispatchToProps = dispatch => ({

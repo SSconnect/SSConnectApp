@@ -6,13 +6,13 @@ import { Button } from 'react-native-elements';
 
 import TabList from './TabList';
 
-import { makeSelectTabProfiles } from '../../reduxs/selectors';
+import { makeSelectProfiles } from '../../reduxs/selectors';
 
 import { Scales, IconName } from '../../themes';
-import type { TabProfile } from '../../types';
+import type { Profile } from '../../types';
 
 type Props = {
-	tabProps: array<TabProfile>,
+	profiles: array<Profile>,
 };
 
 type State = {};
@@ -25,7 +25,7 @@ class SideMenu extends React.Component {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
 				{this.renderEmpty()}
-				<TabList tabs={this.props.tabProps} />
+				<TabList profiles={this.props.profiles} />
 				<Button
 					title="開発者・リクエスト"
 					icon={{ name: IconName.send }}
@@ -38,8 +38,8 @@ class SideMenu extends React.Component {
 	}
 
 	renderEmpty() {
-		const { tabProps } = this.props;
-		if (tabProps.length > 0) {
+		const { profiles } = this.props;
+		if (profiles.length > 0) {
 			return null;
 		}
 		return (
@@ -51,7 +51,7 @@ class SideMenu extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-	tabProps: makeSelectTabProfiles(),
+	profiles: makeSelectProfiles(),
 });
 
 const mapDispatchToProps = dispatch => ({});
