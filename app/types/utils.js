@@ -1,10 +1,12 @@
 // @flow
 
-// HACK:
 import type { Profile } from '.';
 
-export function profileSerialKey(profile: Profile): string {
-	const key = [profile.blog_id || '', profile.tag || '', profile.q || ''].join('ABCDEFG');
-	debugger;
-	return key;
-}
+export const a = 1;
+
+export const profileSerialKey = (profile: Profile): string => {
+	if (!profile) {
+		return 'HOME';
+	}
+	return [profile.blog_id || '', profile.tag || '', profile.q || ''].join('AAA'); // TODO: fix
+};

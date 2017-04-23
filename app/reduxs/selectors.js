@@ -1,29 +1,29 @@
+// @flow
+
 import { createSelector } from 'reselect';
 import { fromJS } from 'immutable';
 import { profileSerialKey } from '../types/utils';
 
-import type { Profile, Read, Story } from '../types/index';
+const selectGlobal = (state: Object) => fromJS(state).get('app');
+const selectStories = state => selectGlobal(state).get('stories');
+const selectProfiles = state => selectGlobal(state).get('profiles') || [];
 
-const selectGlobal = state => fromJS(state).get('app');
+const makeSelectLoading = createSelector(selectGlobal, state => state.get('loading'));
 
-const makeSelectLoading = () => createSelector(selectGlobal, state => state.get('loading'));
+const makeSelectError = createSelector(selectGlobal, state => state.get('error'));
 
-const makeSelectError = () => createSelector(selectGlobal, state => state.get('error'));
+const makeSelectProfiles = createSelector(selectProfiles, state => state);
 
-const makeSelectProfiles = (): array<Profile> =>
-	createSelector(selectGlobal, state => state.get('profiles'));
+const makeExistsProfiles = createSelector(selectProfiles, state => state.includes(''));
 
-const makeExistsProfiles = (profile: Profile): boolean =>
-	createSelector(selectGlobal, state => state.get('profiles').includes(profile));
+const makeSelectProfilesCount = createSelector(selectProfiles, state => state.length);
 
-const makeSelectProfilesCount = (): array<Read> =>
-	createSelector(selectGlobal, state => state.get('profiles').length);
+const makeSelectReads = createSelector(selectGlobal, state => state.get('reads'));
 
-const makeSelectReads = (): array<Read> =>
-	createSelector(selectGlobal, state => state.get('reads'));
+const selectProfileStories = (state, props) =>
+	selectStories(state).getIn([profileSerialKey(props.profile), props.page]) || [];
 
-const makeSelectStories = (profile, page): array<Story> =>
-	createSelector(selectGlobal, state => state.getIn(['stories', profileSerialKey(profile), page]));
+const makeSelectStories = createSelector(selectProfileStories, state => state);
 
 export {
 	selectGlobal,

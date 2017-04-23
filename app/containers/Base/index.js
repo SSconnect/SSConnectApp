@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { Button, Slider } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import { createStructuredSelector } from 'reselect';
 
@@ -36,12 +37,13 @@ type Props = {
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
+	page: number,
 	stories: Array<Story>,
 };
 
 type State = {
 	dataSource: any,
-	page: number,
+	prevPage: number,
 	addDisable: boolean,
 };
 
@@ -49,12 +51,13 @@ class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
 		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
-		page: 1,
 		addDisable: false,
+		prevPage: this.props.page,
 	};
 
 	static defaultProps = {
 		profile: {},
+		page: 1,
 		loading: true,
 		isHome: false,
 		onAddProfile: (tab) => {
@@ -68,12 +71,17 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile, this.state.page);
+		this.props.onLoadStories(this.props.profile, this.props.page);
 	}
 
 	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
+		if (this.props.page !== newProps.page) {
+			this.props.onLoadStories(newProps.profile, newProps.page);
+		}
+		debugger;
 		this.setState({
+			prevPage: newProps.page,
 			dataSource: this.state.dataSource.cloneWithRowsAndSections(newProps.stories),
 		});
 	}
@@ -145,20 +153,21 @@ class BaseScreen extends React.PureComponent {
 						paddingTop: 12,
 					}}
 				>
-					{this.state.page}
+					{this.state.prevPage}
 				</Text>
 				<Slider
-					value={this.state.page}
+					value={this.state.prevPage}
 					style={{ flex: 4 }}
 					step={1}
 					thumbTintColor="#333"
 					maximumValue={100}
 					minimumValue={1}
 					onValueChange={(value) => {
-						this.setState({ page: value });
+						this.setState({ prevPage: value });
 					}}
 					onSlidingComplete={(value) => {
-						console.log(value);
+						Actions.refresh({ page: value });
+						// this.props.onLoadStories(this.props.profile, this.props.page);
 					}}
 				/>
 				<Button
@@ -182,7 +191,6 @@ class BaseScreen extends React.PureComponent {
 	render() {
 		const { profile, reads, isHome } = this.props;
 		const readedIds = _.map(reads, e => e.story_id);
-		debugger;
 		return (
 			<ScrollView
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
@@ -206,11 +214,11 @@ class BaseScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = createStructuredSelector({
-	reads: makeSelectReads(),
-	stories: (state, props) => makeSelectStories(props.profile, 1),
-	profilesCount: makeSelectProfilesCount(),
-	loading: makeSelectLoading(),
+const mapStateToProps = (state, props) => ({
+	reads: makeSelectReads(state, props),
+	stories: makeSelectStories(state, props),
+	profilesCount: makeSelectProfilesCount(state, props),
+	loading: makeSelectLoading(state, props),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -2,7 +2,6 @@
 
 import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
-import type { Profile } from '../types';
 import { profileSerialKey } from '../types/utils';
 
 import {
@@ -66,7 +65,6 @@ function appReducers(state = initialState, action) {
 				.setIn(['stories', profileSerialKey(action.profile), action.page], false);
 		case LOAD_STORIES_END:
 			return state
-				.set('reads', action.reads)
 				.set('loading', false)
 				.setIn(['stories', profileSerialKey(action.profile), action.page], action.stories);
 		default:
