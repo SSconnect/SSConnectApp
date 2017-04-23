@@ -27,12 +27,18 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
 			onPress={() => {
 				Actions.refresh({ key: 'drawer', open: false });
-				setTimeout(() =>
+				setTimeout(() => {
+					let title = '';
+					if (data.tag && data.q) {
+						title = `${data.tag}|${data.q}`;
+					} else {
+						title = data.tag || data.q;
+					}
 					Actions.baseScreen({
 						profile: data,
-						title: `${data.tag ? 'タグ' : '検索'}: ${data.q || data.tag}`,
-					}),
-				);
+						title,
+					});
+				});
 			}}
 			{...sortHandlers}
 		>

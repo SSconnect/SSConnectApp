@@ -130,7 +130,13 @@ class BaseScreen extends React.PureComponent {
 						}
 						onAddProfile(profile);
 						this.setState({ addDisable: true });
-						Alert.alert('完了', `「${profile.q || ''}${profile.tag || ''}」を登録しました`);
+						if (profile.q && profile.tag) {
+							Alert.alert('完了', `「${profile.tag}|${profile.q}」を登録しました`);
+						} else if (profile.tag) {
+							Alert.alert('完了', `タグ「${profile.tag || ''}」を登録しました`);
+						} else {
+							Alert.alert('完了', `「${profile.q}」を登録しました`);
+						}
 					}}
 				/>
 			</View>
