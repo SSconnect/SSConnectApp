@@ -5,8 +5,6 @@ import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { Button, Slider } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
-import { createStructuredSelector } from 'reselect';
-
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -79,10 +77,9 @@ class BaseScreen extends React.PureComponent {
 		if (this.props.page !== newProps.page) {
 			this.props.onLoadStories(newProps.profile, newProps.page);
 		}
-		debugger;
 		this.setState({
 			prevPage: newProps.page,
-			dataSource: this.state.dataSource.cloneWithRowsAndSections(newProps.stories),
+			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
 		});
 	}
 

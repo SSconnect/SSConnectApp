@@ -27,7 +27,7 @@ const initialState = fromJS({
 	error: false,
 	reads: false,
 	profiles: false,
-	stories: {},
+	stories: false,
 });
 
 function appReducers(state = initialState, action) {
@@ -59,14 +59,9 @@ function appReducers(state = initialState, action) {
 			return state.set('reads', action.reads);
 
 		case LOAD_STORIES:
-			return state
-				.set('loading', true)
-				.set('error', false)
-				.setIn(['stories', profileSerialKey(action.profile), action.page], false);
+			return state.set('loading', true).set('error', false).set('stories', false);
 		case LOAD_STORIES_END:
-			return state
-				.set('loading', false)
-				.setIn(['stories', profileSerialKey(action.profile), action.page], action.stories);
+			return state.set('loading', false).set('stories', action.stories);
 		default:
 			return state;
 	}
