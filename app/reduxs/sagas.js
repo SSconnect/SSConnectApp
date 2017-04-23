@@ -1,4 +1,5 @@
 import { fork, put, takeLatest } from 'redux-saga/effects';
+import feedClient from '../services/FeedClient';
 
 import {
 	LOAD_PROFILES,
@@ -7,6 +8,7 @@ import {
 	MOVE_PROFILE,
 	LOAD_READS,
 	ADD_READ,
+	LOAD_STORIES,
 } from './constants';
 
 import {
@@ -16,6 +18,7 @@ import {
 	moveProfileEnd,
 	loadReadsEnd,
 	addReadEnd,
+	loadStoriesEnd,
 } from './actions';
 
 import type { Profile, Read } from '../types/index';
@@ -51,6 +54,11 @@ export function* getReads() {
 	yield put(loadReadsEnd(reads));
 }
 
+export function* getStories(page: int, profile: Profile) {
+	const stories = feedClient.getStories({ page, ...profile });
+	yield put(loadStoriesEnd(page, profile, stories));
+}
+
 export function* appData() {
 	yield takeLatest(LOAD_PROFILES, getProfiles);
 	yield takeLatest(ADD_PROFILE, addProfile);
@@ -59,6 +67,7 @@ export function* appData() {
 
 	yield takeLatest(LOAD_READS, getReads);
 	yield takeLatest(ADD_READ, addRead);
+	yield takeLatest(LOAD_STORIES, getStories);
 }
 
 export default function* root() {
