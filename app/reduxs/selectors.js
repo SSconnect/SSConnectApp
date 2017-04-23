@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect';
 import { fromJS } from 'immutable';
+import { profileSerialKey } from '../types/utils';
 
-import type { Profile, Read } from '../types/index';
+import type { Profile, Read, Story } from '../types/index';
 
 const selectGlobal = state => fromJS(state).get('app');
-
-const profileKey = (profile: Profile) =>
-	[profile.blog_id || '', profile.tag || '', profile.q || ''].join('___');
 
 const makeSelectLoading = () => createSelector(selectGlobal, state => state.get('loading'));
 
@@ -24,8 +22,9 @@ const makeSelectProfilesCount = (): array<Read> =>
 const makeSelectReads = (): array<Read> =>
 	createSelector(selectGlobal, state => state.get('reads'));
 
-const makeSelectStories = (profile, page): array<Read> =>
-	createSelector(selectGlobal, state => state.getIn(['stories', profileKey(profile), page]));
+const makeSelectStories = (profile, page): array<Story> => createSelector(selectGlobal, state =>
+		state.getIn(['stories', profileSerialKey(profile), page]),
+	);
 
 export {
 	selectGlobal,

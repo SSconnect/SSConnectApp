@@ -3,21 +3,27 @@
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { Button, Slider } from 'react-native-elements';
-import { connect } from 'react-redux';
+
 import { createStructuredSelector } from 'reselect';
+
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import _ from 'lodash';
 
 import config from '../../configs';
 
-import { addProfile } from '../../reduxs/actions';
-import { makeSelectReads, makeSelectProfilesCount } from '../../reduxs/selectors';
+import { addProfile, loadStories } from '../../reduxs/actions';
+import {
+	makeSelectReads,
+	makeSelectProfilesCount,
+	makeSelectStories,
+} from '../../reduxs/selectors';
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
 
 import realm from '../../models/RealmModel';
 
-import feedClient from '../../services/FeedClient';
 import type { Story, Profile, Read } from '../../types';
 import { Scales, IconName } from '../../themes/';
 import SearchBar from '../../components/StorySearchBar';
@@ -26,8 +32,10 @@ type Props = {
 	profile: Profile,
 	isHome: boolean,
 	onAddProfile: Function,
+	onLoadStories: Function,
 	reads: Array<Read>,
 	profilesCount: number,
+	stories: (profile: Profile, page: number) => Array<Story>,
 };
 
 type State = {
@@ -40,12 +48,13 @@ type State = {
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
+		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows(
+			this.props.stories,
+		),
 		loading: true,
-		page: 0,
+		page: 1,
 		addDisable: false,
 	};
-	loadMoreContentAsync: Function;
 
 	static defaultProps = {
 		profile: {},
@@ -60,54 +69,12 @@ class BaseScreen extends React.PureComponent {
 		return r1.id !== r2.id && readedIds.includes(r1.id) !== readedIds.includes(r2.id);
 	}
 
-	constructor(props: Props) {
-		super(props);
-		this.loadMoreContentAsync = this.loadMoreContentAsync.bind(this);
-	}
-
-	componentDidMount() {
-		this.init();
+	componentWillMount() {
+		this.props.onLoadStories(this.props.profile);
 	}
 
 	componentWillReceiveProps() {
 		this.forceUpdate();
-	}
-
-	stories: Array<Story>;
-
-	async init() {
-		this.resetList();
-		await this.loadArticles();
-	}
-
-	async resetList() {
-		this.stories = [];
-		this.setState({
-			page: 0,
-			dataSource: this.state.dataSource.cloneWithRows([]),
-		});
-	}
-
-	async loadArticles() {
-		const page = this.state.page + 1;
-		this.setState({ loading: true });
-		const { profile } = this.props;
-		const stories = await feedClient.getStories({ page, ...profile });
-
-		this.stories = this.stories.concat(stories);
-		// await new Promise(resolve => setTimeout(resolve, 1000));
-		this.setState({
-			dataSource: this.state.dataSource.cloneWithRows(this.stories),
-			loading: false,
-			page,
-		});
-	}
-
-	async loadMoreContentAsync() {
-		if (this.state.loading) {
-			return;
-		}
-		this.loadArticles();
 	}
 
 	renderSubscribeButton() {
@@ -222,12 +189,11 @@ class BaseScreen extends React.PureComponent {
 				{this.renderPager()}
 				{this.renderSubscribeButton()}
 				<ListView
-					onLoadMoreAsync={this.loadMoreContentAsync}
 					renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
 					dataSource={this.state.dataSource}
 					enableEmptySections
 					distanceToLoadMore={100}
-					onRefresh={() => this.init()}
+					// onRefresh={() => this.init()}
 					refreshDescription=""
 				/>
 				{this.renderPager()}
@@ -240,11 +206,13 @@ class BaseScreen extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
+	stories: (state, props) => makeSelectStories(props.profile, 1),
 	profilesCount: makeSelectProfilesCount(),
 });
 
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: profile => dispatch(addProfile(profile)),
+	onLoadStories: profile => dispatch(loadStories(profile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);

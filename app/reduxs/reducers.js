@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux';
 import { fromJS } from 'immutable';
 import type { Profile } from '../types';
+import { profileSerialKey } from '../types/utils';
 
 import {
 	LOAD_PROFILES,
@@ -30,9 +31,6 @@ const initialState = fromJS({
 	loadingStory: false,
 	stories: {},
 });
-
-const profileKey = (profile: Profile) =>
-	[profile.blog_id || '', profile.tag || '', profile.q || ''].join('___');
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
@@ -66,12 +64,12 @@ function appReducers(state = initialState, action) {
 			return state
 				.set('loadingStory', true)
 				.set('error', false)
-				.setIn(['stories', profileKey(action.profile), action.page], false);
+				.setIn(['stories', profileSerialKey(action.profile), action.page], false);
 		case LOAD_STORIES_END:
 			return state
 				.set('reads', action.reads)
 				.set('loadingStory', false)
-				.setIn(['stories', profileKey(action.profile), action.page], action.stories);
+				.setIn(['stories', profileSerialKey(action.profile), action.page], action.stories);
 		default:
 			return state;
 	}
