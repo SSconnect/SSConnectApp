@@ -18,26 +18,26 @@ import {
 	addReadEnd,
 } from './actions';
 
-import type { TabProfile, Read } from '../types/index';
+import type { Profile, Read } from '../types/index';
 import realm from '../models/RealmModel';
 
-export function* addTabProfile(profile: TabProfile) {
-	const profiles = realm.addTabProfile(profile);
+export function* addProfile(profile: Profile) {
+	const profiles = realm.addProfile(profile);
 	yield put(addProfileEnd(profiles));
 }
 
-export function* getTabProfiles() {
-	const profiles = realm.getTabProfiles();
+export function* getProfiles() {
+	const profiles = realm.getProfiles();
 	yield put(loadProfilesEnd(profiles));
 }
 
-export function* moveTabProfile({ from, to }: { from: number, to: number }) {
-	const profiles = realm.moveTabProfile(from, to);
+export function* moveProfile({ from, to }: { from: number, to: number }) {
+	const profiles = realm.moveProfile(from, to);
 	yield put(moveProfileEnd(profiles));
 }
 
-export function* deleteTabProfile(profile: TabProfile) {
-	const profiles = realm.deleteTabProfile(profile);
+export function* deleteProfile(profile: Profile) {
+	const profiles = realm.deleteProfile(profile);
 	yield put(deleteProfileEnd(profiles));
 }
 
@@ -52,10 +52,10 @@ export function* getReads() {
 }
 
 export function* appData() {
-	yield takeLatest(LOAD_PROFILES, getTabProfiles);
-	yield takeLatest(ADD_PROFILE, addTabProfile);
-	yield takeLatest(DELETE_PROFILE, deleteTabProfile);
-	yield takeLatest(MOVE_PROFILE, moveTabProfile);
+	yield takeLatest(LOAD_PROFILES, getProfiles);
+	yield takeLatest(ADD_PROFILE, addProfile);
+	yield takeLatest(DELETE_PROFILE, deleteProfile);
+	yield takeLatest(MOVE_PROFILE, moveProfile);
 
 	yield takeLatest(LOAD_READS, getReads);
 	yield takeLatest(ADD_READ, addRead);

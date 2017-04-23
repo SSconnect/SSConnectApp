@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { fromJS } from 'immutable';
 
-import type { TabProfile, Read } from '../types/index';
+import type { Profile, Read } from '../types/index';
 
 const selectGlobal = state => fromJS(state).get('app');
 
@@ -9,13 +9,13 @@ const makeSelectLoading = () => createSelector(selectGlobal, state => state.get(
 
 const makeSelectError = () => createSelector(selectGlobal, state => state.get('error'));
 
-const makeSelectTabProfiles = (): array<TabProfile> =>
+const makeSelectProfiles = (): array<Profile> =>
 	createSelector(selectGlobal, state => state.get('profiles'));
 
-const makeExistsTabProfiles = (profile: TabProfile): boolean =>
+const makeExistsProfiles = (profile: Profile): boolean =>
 	createSelector(selectGlobal, state => state.get('profiles').includes(profile));
 
-const makeSelectTabProfilesCount = (): array<Read> =>
+const makeSelectProfilesCount = (): array<Read> =>
 	createSelector(selectGlobal, state => state.get('profiles').length);
 
 const makeSelectReads = (): array<Read> =>
@@ -25,8 +25,8 @@ export {
 	selectGlobal,
 	makeSelectLoading,
 	makeSelectError,
-	makeSelectTabProfiles,
-	makeSelectTabProfilesCount,
+	makeSelectProfiles,
+	makeSelectProfilesCount,
 	makeSelectReads,
-	makeExistsTabProfiles,
+	makeExistsProfiles,
 };

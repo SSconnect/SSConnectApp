@@ -3,7 +3,7 @@
 import Realm from 'realm';
 import _ from 'lodash';
 
-import type { Story, TabProfile } from '../types';
+import type { Story, TabProfile, Profile } from '../types';
 
 const ReadSchema = {
 	name: 'Read',
@@ -20,11 +20,37 @@ const TabProfileSchema = {
 	},
 };
 
+const ProfileSchema = {
+	name: 'Profile',
+	properties: {
+		blog_id: { type: 'int', optional: true },
+		q: { type: 'string', optional: true },
+		tag: { type: 'string', optional: true },
+	},
+};
+
 const realm = new Realm({
-	schema: [ReadSchema, TabProfileSchema],
-	version: 6,
+	schema: [ReadSchema, TabProfileSchema, ProfileSchema],
+	schemaVersion: 8,
 	migration: (oldRealm, newRealm) => {
-		newRealm.deleteAll();
+		console.log(oldRealm.schemaVersion, newRealm.schemaVersion);
+		if (oldRealm.schemaVersion <= 5) {
+			newRealm.deleteAll();
+		}
+		if (oldRealm.schemaVersion <= 6) {
+			const profiles = oldRealm.objects('TabProfile');
+			_.each(profiles, (profile) => {
+				if (profile.type === 'search') {
+					newRealm.create('Profile', { q: profile.value });
+				} else {
+					newRealm.create('Profile', { tag: profile.value });
+				}
+			});
+		}
+		if (oldRealm.schemaVersion <= 7) {
+			oldRealm.deleteAll();
+			newRealm.deleteAll();
+		}
 	},
 });
 
@@ -35,8 +61,8 @@ class RealmManager {
 		this.realm = realm;
 	}
 
-	getTabProfiles() {
-		return this.realm.objects('TabProfile');
+	getProfiles() {
+		return this.realm.objects('Profile');
 	}
 
 	getReads() {
@@ -52,44 +78,44 @@ class RealmManager {
 		});
 	}
 
-	addTabProfile({ profile }: { profile: TabProfile }) {
-		if (this.existsTabProfile(profile)) {
+	addProfile({ profile }: { profile: Profile }) {
+		if (this.existsProfile(profile)) {
 			throw new Error('Duplicate Insert');
 		}
 		this.realm.write(() => {
-			this.realm.create('TabProfile', profile);
+			this.realm.create('Profile', profile);
 		});
-		return this.getTabProfiles();
+		return this.getProfiles();
 	}
 
-	deleteTabProfile({ profile }: { profile: TabProfile }) {
-		const res = this.selectTabProfile(profile);
+	deleteProfile({ profile }: { profile: Profile }) {
+		const res = this.selectProfile(profile);
 		this.realm.write(() => {
 			this.realm.delete(res);
 		});
-		return this.getTabProfiles();
+		return this.getProfiles();
 	}
 
-	selectTabProfile(profile: TabProfile) {
+	selectProfile(profile: Profile) {
 		return this.realm
-			.objects('TabProfile')
-			.filtered('value = $0 AND type = $1', profile.value, profile.type);
+			.objects('Profile')
+			.filtered('q = $0 AND tag = $1 AND blog_id = $2', profile.q, profile.tag, profile.blog_id);
 	}
 
-	moveTabProfile(from: number, to: number) {
+	moveProfile(from: number, to: number) {
 		const profiles = [];
-		const oldProfiles = this.getTabProfiles();
+		const oldProfiles = this.getProfiles();
 		_.each(oldProfiles, v => profiles.push({ ...v }));
 		profiles.splice(to, 0, profiles.splice(from, 1)[0]);
 		this.realm.write(() => {
 			this.realm.delete(oldProfiles);
-			_.each(profiles, v => this.realm.create('TabProfile', v));
+			_.each(profiles, v => this.realm.create('Profile', v));
 		});
 		return profiles;
 	}
 
-	existsTabProfile(profile: TabProfile): boolean {
-		return this.selectTabProfile(profile).length > 0;
+	existsProfile(profile: Profile): boolean {
+		return this.selectProfile(profile).length > 0;
 	}
 }
 

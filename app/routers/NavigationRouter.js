@@ -9,9 +9,10 @@ import BaseScreen from '../containers/Base';
 import TagScreen from '../containers/Tag';
 import NavigationDrawer from '../containers/NavigationDrawer';
 import TabIcon from '../components/TabIcon';
+import ProfileScene from './ProfileScene';
 
 import { Colors, IconName } from '../themes';
-import type { TabProfile } from '../types';
+import type { Profile } from '../types';
 
 const Styles = StyleSheet.create({
 	container: {
@@ -30,7 +31,7 @@ const Styles = StyleSheet.create({
 });
 
 type Props = {
-	profiles: Array<TabProfile>,
+	profiles: Array<Profile>,
 };
 
 class NavigationRouter extends React.PureComponent {
@@ -50,17 +51,7 @@ class NavigationRouter extends React.PureComponent {
 
 		if (this.props.profiles !== false && this.props.profiles.length !== 0) {
 			_.chunk(this.props.profiles, 3)[0].forEach((profile) => {
-				scenes.push(
-					<Scene
-						key={`tab${profile.value}`}
-						component={BaseScreen}
-						title={(profile.type === 'tag' ? '@' : '') + profile.value}
-						tabTitle={profile.value}
-						iconName={profile.type === 'tag' ? IconName.favTag : IconName.search}
-						profile={profile}
-						{...tabAttrs}
-					/>,
-				);
+				scenes.push(<ProfileScene profile={profile} tabAttrs={tabAttrs} />);
 			});
 		}
 

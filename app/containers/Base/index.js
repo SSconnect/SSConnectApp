@@ -2,17 +2,15 @@
 
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
-import { SearchBar, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import _ from 'lodash';
 
-import { Actions } from 'react-native-router-flux';
-
 import config from '../../configs';
 
 import { addProfile } from '../../reduxs/actions';
-import { makeSelectReads, makeSelectTabProfilesCount } from '../../reduxs/selectors';
+import { makeSelectReads, makeSelectProfilesCount } from '../../reduxs/selectors';
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
@@ -20,11 +18,12 @@ import StoryCell from '../../components/StoryCell';
 import realm from '../../models/RealmModel';
 
 import feedClient from '../../services/FeedClient';
-import type { Story, TabProfile, Read } from '../../types';
+import type { Story, Profile, Read } from '../../types';
 import { Scales, IconName } from '../../themes/';
+import SearchBar from '../../components/StorySearchBar';
 
 type Props = {
-	profile: TabProfile,
+	profile: Profile,
 	isHome: boolean,
 	onAddProfile: Function,
 	reads: Array<Read>,
@@ -49,7 +48,7 @@ class BaseScreen extends React.PureComponent {
 	loadMoreContentAsync: Function;
 
 	static defaultProps = {
-		profile: { type: 'search', value: '' },
+		profile: {},
 		isHome: false,
 		onAddProfile: (tab) => {
 			console.log(tab);
@@ -93,9 +92,7 @@ class BaseScreen extends React.PureComponent {
 		const page = this.state.page + 1;
 		this.setState({ loading: true });
 		const { profile } = this.props;
-		const stories = await feedClient.getStories(
-			profile.type === 'tag' ? { page, tag: profile.value } : { page, q: profile.value },
-		);
+		const stories = await feedClient.getStories({ page, ...profile });
 
 		this.stories = this.stories.concat(stories);
 		// await new Promise(resolve => setTimeout(resolve, 1000));
@@ -115,7 +112,7 @@ class BaseScreen extends React.PureComponent {
 
 	renderSubscribeButton() {
 		const { profile, isHome, onAddProfile } = this.props;
-		if (isHome || realm.existsTabProfile(profile)) {
+		if (isHome || realm.existsProfile(profile)) {
 			return null;
 		}
 		return (
@@ -133,8 +130,13 @@ class BaseScreen extends React.PureComponent {
 						}
 						onAddProfile(profile);
 						this.setState({ addDisable: true });
-						const typeStr = profile.type === 'tag' ? 'タグ' : '検索';
-						Alert.alert('完了', `${typeStr}「${profile.value}」を登録しました`);
+						if (profile.q && profile.tag) {
+							Alert.alert('完了', `「${profile.tag}|${profile.q}」を登録しました`);
+						} else if (profile.tag) {
+							Alert.alert('完了', `タグ「${profile.tag || ''}」を登録しました`);
+						} else {
+							Alert.alert('完了', `「${profile.q}」を登録しました`);
+						}
 					}}
 				/>
 			</View>
@@ -150,27 +152,12 @@ class BaseScreen extends React.PureComponent {
 
 	render() {
 		const { profile, reads, isHome } = this.props;
-		const isTag = profile.type === 'tag';
 		const readedIds = _.map(reads, e => e.story_id);
 		return (
 			<ScrollView
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
 			>
-				<SearchBar
-					lightTheme
-					icon={{ name: isTag ? IconName.tag : IconName.search }}
-					onSubmitEditing={(e) => {
-						const newProfile = {
-							type: profile.type,
-							value: e.nativeEvent.text,
-						};
-						Actions.baseScreen({
-							profile: newProfile,
-							title: `${isTag ? 'タグ' : '検索'}: ${newProfile.value}`,
-						});
-					}}
-					placeholder={isTag ? 'タグ検索' : 'タイトル検索'}
-				/>
+				<SearchBar profile={profile} />
 				{this.renderSubscribeButton()}
 				<ListView
 					onLoadMoreAsync={this.loadMoreContentAsync}
@@ -190,7 +177,7 @@ class BaseScreen extends React.PureComponent {
 
 const mapStateToProps = createStructuredSelector({
 	reads: makeSelectReads(),
-	profilesCount: makeSelectTabProfilesCount(),
+	profilesCount: makeSelectProfilesCount(),
 });
 
 const mapDispatchToProps = dispatch => ({

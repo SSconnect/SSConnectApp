@@ -10,9 +10,16 @@ import { createStructuredSelector } from 'reselect';
 import { moveProfile, deleteProfile } from '../../reduxs/actions';
 
 import { Colors, IconName } from '../../themes/index';
-import type { TabProfile } from '../../types/index';
+import type { Profile } from '../../types/index';
 
 function RowComponent({ sortHandlers, data, onDelete }: any) {
+	let iconName = IconName.threeBar;
+	if (data.tag && data.q) {
+		iconName = IconName.favTag;
+	} else {
+		iconName = data.tag ? IconName.tag : IconName.search;
+	}
+
 	return (
 		<TouchableOpacity
 			underlayColor={'#eee'}
@@ -20,20 +27,26 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
 			onPress={() => {
 				Actions.refresh({ key: 'drawer', open: false });
-				setTimeout(() =>
+				setTimeout(() => {
+					let title = '';
+					if (data.tag && data.q) {
+						title = `${data.tag}|${data.q}`;
+					} else {
+						title = data.tag || data.q;
+					}
 					Actions.baseScreen({
 						profile: data,
-						title: `${data.type === 'tag' ? 'タグ' : '検索'}: ${data.value}`,
-					}),
-				);
+						title,
+					});
+				});
 			}}
 			{...sortHandlers}
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 				<Icon name={IconName.threeBar} />
 				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={data.type === 'tag' ? IconName.favTag : IconName.search} />
-					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.value}</Text>
+					<Icon size={25} name={iconName} />
+					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.q || data.tag}</Text>
 				</View>
 				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
 			</View>
@@ -42,7 +55,7 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 }
 
 type Props = {
-	tabs: Array<TabProfile>,
+	profiles: Array<Profile>,
 	onMoveProfile: (from, to) => {},
 	onDeleteProfile: Function,
 };
@@ -55,10 +68,10 @@ class TabList extends React.PureComponent {
 	}
 
 	render() {
-		const { tabs, onMoveProfile, onDeleteProfile } = this.props;
+		const { profiles, onMoveProfile, onDeleteProfile } = this.props;
 		return (
 			<SortableListView
-				data={tabs}
+				data={profiles}
 				onRowMoved={(e) => {
 					onMoveProfile(e.from, e.to);
 				}}

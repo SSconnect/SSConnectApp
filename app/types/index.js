@@ -36,3 +36,9 @@ export type TabProfile = {
 	value: string,
 	type: 'search' | 'tag',
 };
+
+export type Profile = {
+	blog_id: number,
+	q: string,
+	tag: string,
+};

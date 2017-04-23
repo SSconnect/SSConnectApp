@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { View, ListView } from 'react-native';
-import { SearchBar, Icon } from 'react-native-elements';
-
-import { Actions } from 'react-native-router-flux';
+import { SearchBar } from 'react-native-elements';
 
 import Indicator from '../../components/Indicator';
 import TagCell from '../../components/TagCell';
@@ -66,10 +64,8 @@ class TagScreen extends React.PureComponent {
 				<SearchBar
 					lightTheme
 					icon={{ name: 'videogame-asset' }}
-					onSubmitEditing={(e) => {
-						Actions.baseScreen({
-							profile: { type: 'tag', value: e.nativeEvent.text },
-						});
+					onSubmitEditing={() => {
+						// TODO e.nativeEvent.text
 					}}
 					placeholder="タグ検索"
 				/>
