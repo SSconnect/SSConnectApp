@@ -22,9 +22,8 @@ const makeSelectProfilesCount = (): array<Read> =>
 const makeSelectReads = (): array<Read> =>
 	createSelector(selectGlobal, state => state.get('reads'));
 
-const makeSelectStories = (profile, page): array<Story> => createSelector(selectGlobal, state =>
-		state.getIn(['stories', profileSerialKey(profile), page]),
-	);
+const makeSelectStories = (profile, page): array<Story> =>
+	createSelector(selectGlobal, state => state.getIn(['stories', profileSerialKey(profile), page]));
 
 export {
 	selectGlobal,

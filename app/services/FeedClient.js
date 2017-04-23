@@ -23,8 +23,8 @@ class FeedClient {
 	}
 
 	async getStories(params: ?Params): Promise<Array<Story>> {
-		console.log(params);
-		const res = await this.api.get('/v1/stories', params);
+		const defaultParams = { page: 1 };
+		const res = await this.api.get('/v1/stories', { ...defaultParams, ...params });
 		console.log('res', res);
 		if (!res.ok) {
 			throw new Error("can't request");
