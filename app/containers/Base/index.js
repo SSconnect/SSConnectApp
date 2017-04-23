@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import _ from 'lodash';
@@ -150,6 +150,67 @@ class BaseScreen extends React.PureComponent {
 		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
 	}
 
+	renderPager() {
+		if (this.state.loading) {
+			return null;
+		}
+		return (
+			<View style={{ flexDirection: 'row' }}>
+				<Button
+					style={{ flex: 1 }}
+					buttonStyle={{
+						padding: 8,
+						borderRadius: 3,
+						marginLeft: 3,
+						marginRight: 3,
+						marginTop: 3,
+					}}
+					icon={{ name: IconName.prev }}
+					onPress={() => {
+						console.log('prev');
+					}}
+				/>
+				<Text
+					style={{
+						flex: 1,
+						textAlign: 'center',
+						paddingTop: 12,
+					}}
+				>
+					{this.state.page}
+				</Text>
+				<Slider
+					value={this.state.page}
+					style={{ flex: 4 }}
+					step={1}
+					thumbTintColor="#333"
+					maximumValue={100}
+					minimumValue={1}
+					onValueChange={(value) => {
+						this.setState({ page: value });
+					}}
+					onSlidingComplete={(value) => {
+						console.log(value);
+					}}
+				/>
+				<Button
+					style={{ flex: 1 }}
+					buttonStyle={{
+						padding: 8,
+						borderRadius: 3,
+						marginLeft: 3,
+						marginRight: 3,
+						marginTop: 3,
+					}}
+					icon={{ name: IconName.next }}
+					onPress={() => {
+						console.log('prev');
+					}}
+				/>
+			</View>
+		);
+	}
+
 	render() {
 		const { profile, reads, isHome } = this.props;
 		const readedIds = _.map(reads, e => e.story_id);
@@ -158,6 +219,7 @@ class BaseScreen extends React.PureComponent {
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
 			>
 				<SearchBar profile={profile} />
+				{this.renderPager()}
 				{this.renderSubscribeButton()}
 				<ListView
 					onLoadMoreAsync={this.loadMoreContentAsync}
@@ -168,6 +230,7 @@ class BaseScreen extends React.PureComponent {
 					onRefresh={() => this.init()}
 					refreshDescription=""
 				/>
+				{this.renderPager()}
 				<Indicator loading={this.state.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
