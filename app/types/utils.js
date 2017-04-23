@@ -4,5 +4,7 @@
 import type { Profile } from '.';
 
 export function profileSerialKey(profile: Profile): string {
-	return [profile.blog_id || '', profile.tag || '', profile.q || ''].join('___');
+	const key = [profile.blog_id || '', profile.tag || '', profile.q || ''].join('ABCDEFG');
+	debugger;
+	return key;
 }

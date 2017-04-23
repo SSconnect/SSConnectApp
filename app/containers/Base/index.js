@@ -36,7 +36,7 @@ type Props = {
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
-	stories: (profile: Profile, page: number) => Array<Story>,
+	stories: Array<Story>,
 };
 
 type State = {
@@ -68,11 +68,14 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile);
+		this.props.onLoadStories(this.props.profile, this.state.page);
 	}
 
-	componentWillReceiveProps() {
+	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
+		this.setState({
+			dataSource: this.state.dataSource.cloneWithRowsAndSections(newProps.stories),
+		});
 	}
 
 	renderSubscribeButton() {
@@ -179,6 +182,7 @@ class BaseScreen extends React.PureComponent {
 	render() {
 		const { profile, reads, isHome } = this.props;
 		const readedIds = _.map(reads, e => e.story_id);
+		debugger;
 		return (
 			<ScrollView
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
@@ -211,7 +215,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: profile => dispatch(addProfile(profile)),
-	onLoadStories: profile => dispatch(loadStories(profile)),
+	onLoadStories: (profile, page) => dispatch(loadStories(profile, page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);
