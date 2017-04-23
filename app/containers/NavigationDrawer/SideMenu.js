@@ -50,8 +50,8 @@ class SideMenu extends React.Component {
 	}
 }
 
-const mapStateToProps = createStructuredSelector({
-	profiles: makeSelectProfiles(),
+const mapStateToProps = (state, props) => ({
+	profiles: makeSelectProfiles(state, props),
 });
 
 const mapDispatchToProps = dispatch => ({});

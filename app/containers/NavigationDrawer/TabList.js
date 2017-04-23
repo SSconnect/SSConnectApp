@@ -88,7 +88,7 @@ class TabList extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
 	onMoveProfile: (from, to) => dispatch(moveProfile(from, to)),

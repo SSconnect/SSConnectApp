@@ -28,7 +28,6 @@ class StoryCell extends React.PureComponent {
 
 	render() {
 		const { story, onAddRead } = this.props;
-
 		moment.updateLocale('ja');
 		const timestamp = moment.utc(story.first_posted_at);
 		const color = this.state.readed ? Colors.disable : Colors.black;

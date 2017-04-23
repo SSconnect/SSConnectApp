@@ -3,7 +3,7 @@
 import Realm from 'realm';
 import _ from 'lodash';
 
-import type { Story, TabProfile, Profile } from '../types';
+import type { Story, Profile } from '../types';
 
 const ReadSchema = {
 	name: 'Read',
@@ -57,8 +57,8 @@ const realm = new Realm({
 class RealmManager {
 	realm: Realm;
 
-	constructor(realm: Realm) {
-		this.realm = realm;
+	constructor(realmC: Realm) {
+		this.realm = realmC;
 	}
 
 	getProfiles() {

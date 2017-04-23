@@ -1,25 +1,29 @@
+// @flow
+
 import { createSelector } from 'reselect';
 import { fromJS } from 'immutable';
+import { profileSerialKey } from '../types/utils';
 
-import type { Profile, Read } from '../types/index';
+const selectGlobal = (state: Object) => fromJS(state).get('app');
+const selectStories = state => selectGlobal(state).get('stories');
+const selectProfiles = state => selectGlobal(state).get('profiles');
 
-const selectGlobal = state => fromJS(state).get('app');
+const makeSelectLoading = createSelector(selectGlobal, state => state.get('loading'));
 
-const makeSelectLoading = () => createSelector(selectGlobal, state => state.get('loading'));
+const makeSelectError = createSelector(selectGlobal, state => state.get('error'));
 
-const makeSelectError = () => createSelector(selectGlobal, state => state.get('error'));
+const makeSelectProfiles = createSelector(selectProfiles, state => state);
 
-const makeSelectProfiles = (): array<Profile> =>
-	createSelector(selectGlobal, state => state.get('profiles'));
+const makeExistsProfiles = createSelector(selectProfiles, state => state.includes(''));
 
-const makeExistsProfiles = (profile: Profile): boolean =>
-	createSelector(selectGlobal, state => state.get('profiles').includes(profile));
+const makeSelectProfilesCount = createSelector(selectProfiles, state => state.size);
 
-const makeSelectProfilesCount = (): array<Read> =>
-	createSelector(selectGlobal, state => state.get('profiles').length);
+const makeSelectReads = createSelector(selectGlobal, state => state.get('reads'));
 
-const makeSelectReads = (): array<Read> =>
-	createSelector(selectGlobal, state => state.get('reads'));
+const selectProfileStories = (state, props) =>
+	selectStories(state).getIn([profileSerialKey(props.profile), props.page]);
+
+const makeSelectStories = createSelector(selectStories, state => state || []);
 
 export {
 	selectGlobal,
@@ -29,4 +33,5 @@ export {
 	makeSelectProfilesCount,
 	makeSelectReads,
 	makeExistsProfiles,
+	makeSelectStories,
 };

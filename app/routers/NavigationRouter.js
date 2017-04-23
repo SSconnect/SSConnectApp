@@ -14,6 +14,8 @@ import ProfileScene from './ProfileScene';
 import { Colors, IconName } from '../themes';
 import type { Profile } from '../types';
 
+import { profileSerialKey } from '../types/utils';
+
 const Styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -51,7 +53,9 @@ class NavigationRouter extends React.PureComponent {
 
 		if (this.props.profiles !== false && this.props.profiles.length !== 0) {
 			_.chunk(this.props.profiles, 3)[0].forEach((profile) => {
-				scenes.push(<ProfileScene profile={profile} tabAttrs={tabAttrs} />);
+				scenes.push(
+					<ProfileScene key={profileSerialKey(profile)} profile={profile} tabAttrs={tabAttrs} />,
+				);
 			});
 		}
 

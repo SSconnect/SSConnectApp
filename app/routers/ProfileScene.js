@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Scene, Actions } from 'react-native-router-flux';
+import { Scene } from 'react-native-router-flux';
 
 import BaseScreen from '../containers/Base';
 import { IconName } from '../themes';
@@ -33,7 +33,6 @@ class ProfileScene extends React.PureComponent {
 		if (this.profileType() === 'tag') {
 			return (
 				<Scene
-					key={profile}
 					component={BaseScreen}
 					title={profile.tag}
 					tabTitle={profile.tag}
@@ -46,7 +45,6 @@ class ProfileScene extends React.PureComponent {
 		if (this.profileType() === 'search') {
 			return (
 				<Scene
-					key={profile}
 					component={BaseScreen}
 					title={profile.q}
 					tabTitle={profile.q}
@@ -59,7 +57,6 @@ class ProfileScene extends React.PureComponent {
 		if (this.profileType() === 'tabsearch') {
 			return (
 				<Scene
-					key={profile}
 					component={BaseScreen}
 					title={`${profile.tag}: ${profile.q}`}
 					tabTitle={profile.q}
@@ -71,7 +68,6 @@ class ProfileScene extends React.PureComponent {
 		}
 		return (
 			<Scene
-				key={profile}
 				component={BaseScreen}
 				title={'blog'}
 				tabTitle={profile.tag + profile.q}

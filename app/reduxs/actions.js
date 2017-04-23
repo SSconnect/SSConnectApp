@@ -5,6 +5,8 @@ import {
 	ADD_PROFILE_END,
 	DELETE_PROFILE,
 	DELETE_PROFILE_END,
+	LOAD_STORIES,
+	LOAD_STORIES_END,
 	LOAD_READS,
 	LOAD_READS_END,
 	ADD_READ,
@@ -93,5 +95,22 @@ export function addReadEnd(reads) {
 	return {
 		type: ADD_READ_END,
 		reads,
+	};
+}
+
+export function loadStories(profile, page) {
+	return {
+		type: LOAD_STORIES,
+		profile,
+		page,
+	};
+}
+
+export function loadStoriesEnd(profile, page, stories) {
+	return {
+		type: LOAD_STORIES_END,
+		profile,
+		page,
+		stories,
 	};
 }
