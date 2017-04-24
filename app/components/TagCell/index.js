@@ -35,7 +35,7 @@ function TagCell({ tag }: Props) {
 					name="local-offer"
 					size={20}
 				/>
-				<Text style={{ fontSize: 24, paddingLeft: 5 }}>{`${tag.name}(${tag.count})`}</Text>
+				<Text style={{ fontSize: 24, paddingLeft: 5 }}>{`${tag.name}(${tag.taggings_count})`}</Text>
 			</View>
 		</TouchableOpacity>
 	);
