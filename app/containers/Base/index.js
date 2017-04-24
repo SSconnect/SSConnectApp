@@ -20,6 +20,7 @@ import {
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
+import PagingButton from '../../components/PagingButton';
 
 import realm from '../../models/RealmModel';
 
@@ -128,18 +129,10 @@ class BaseScreen extends React.PureComponent {
 		}
 		return (
 			<View style={{ flexDirection: 'row' }}>
-				<Button
-					style={{ flex: 1 }}
-					buttonStyle={{
-						padding: 8,
-						borderRadius: 3,
-						marginLeft: 3,
-						marginRight: 3,
-						marginTop: 3,
-					}}
+				<PagingButton
 					icon={{ name: IconName.prev }}
 					onPress={() => {
-						console.log('prev');
+						Actions.refresh({ page: this.props.page - 1 });
 					}}
 				/>
 				<Text
@@ -166,18 +159,10 @@ class BaseScreen extends React.PureComponent {
 						// this.props.onLoadStories(this.props.profile, this.props.page);
 					}}
 				/>
-				<Button
-					style={{ flex: 1 }}
-					buttonStyle={{
-						padding: 8,
-						borderRadius: 3,
-						marginLeft: 3,
-						marginRight: 3,
-						marginTop: 3,
-					}}
+				<PagingButton
 					icon={{ name: IconName.next }}
 					onPress={() => {
-						console.log('prev');
+						Actions.refresh({ page: this.props.page + 1 });
 					}}
 				/>
 			</View>
