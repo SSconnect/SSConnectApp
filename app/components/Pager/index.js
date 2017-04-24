@@ -30,7 +30,11 @@ class Pager extends React.PureComponent {
 		const { pageInfo, onComplete, onPressNext, onPressPrev } = this.props;
 		return (
 			<View style={{ flexDirection: 'row' }}>
-				<PagingButton icon={{ name: IconName.prev }} onPress={onPressPrev} />
+				<PagingButton
+					icon={{ name: IconName.prev }}
+					onPress={onPressPrev}
+					disabled={!pageInfo.prev}
+				/>
 				<Text
 					style={{
 						flex: 1,
@@ -38,7 +42,7 @@ class Pager extends React.PureComponent {
 						paddingTop: 12,
 					}}
 				>
-					{pageInfo.current}/{pageInfo.max}
+					{this.state.previewPage}/{pageInfo.max}
 				</Text>
 				<Slider
 					value={pageInfo.current}
@@ -52,7 +56,11 @@ class Pager extends React.PureComponent {
 						this.setState({ previewPage: value });
 					}}
 				/>
-				<PagingButton icon={{ name: IconName.next }} onPress={onPressNext} />
+				<PagingButton
+					icon={{ name: IconName.next }}
+					onPress={onPressNext}
+					disabled={!pageInfo.next}
+				/>
 			</View>
 		);
 	}

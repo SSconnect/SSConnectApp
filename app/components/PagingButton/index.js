@@ -8,6 +8,7 @@ import { IconName } from '../../themes/';
 type Props = {
 	icon: Object,
 	onPress: Function,
+	disabled: boolean,
 };
 
 class PagingButton extends React.PureComponent {
@@ -15,12 +16,14 @@ class PagingButton extends React.PureComponent {
 	static defaultProps: Props = {
 		icon: { name: IconName.threeBar },
 		onPress: () => {},
+		disabled: false,
 	};
 
 	render() {
-		const { icon, onPress } = this.props;
+		const { icon, onPress, disabled } = this.props;
 		return (
 			<Button
+				disabled={disabled}
 				style={{ flex: 1 }}
 				buttonStyle={{
 					padding: 8,
