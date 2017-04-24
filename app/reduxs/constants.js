@@ -15,3 +15,5 @@ export const ADD_READ_END = 'ssconnect/App/ADD_READ_END';
 export const LOAD_STORIES = 'ssconnect/App/LOAD_STORIES';
 export const LOAD_STORIES_END = 'ssconnect/App/LOAD_STORIES_END';
 export const LOAD_STORIES_ERROR = 'ssconnect/App/LOAD_STORIES_ERROR';
+
+export const UPDATE_PAGE = 'ssconnect/App/UPDATE_PAGE';

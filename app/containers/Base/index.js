@@ -3,14 +3,13 @@
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
 
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import config from '../../configs';
 
-import { addProfile, loadStories } from '../../reduxs/actions';
+import { addProfile, loadStories, updatePage } from '../../reduxs/actions';
 import {
 	makeSelectReads,
 	makeSelectProfilesCount,
@@ -34,6 +33,7 @@ type Props = {
 	isHome: boolean,
 	onAddProfile: Function,
 	onLoadStories: Function,
+	onUpdatePage: Function,
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
@@ -55,14 +55,17 @@ class BaseScreen extends React.PureComponent {
 		prevPage: this.props.pageInfo.current,
 	};
 
-	static defaultProps = {
-		profile: {},
+	static defaultProps: Props = {
+		profile: { q: '', tag: '' },
 		pageInfo: false,
 		loading: true,
 		isHome: false,
-		onAddProfile: (tab) => {
-			console.log(tab);
-		},
+		reads: [],
+		profilesCount: 0,
+		stories: [],
+		onAddProfile: () => {},
+		onLoadStories: () => {},
+		onUpdatePage: () => {},
 	};
 
 	rowHasChanged(r1: Story, r2: Story) {
@@ -140,7 +143,7 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	handlePageChange(page) {
-		Actions.refresh({ pageInfo: { ...this.props.pageInfo, current: page } });
+		this.props.onUpdatePage(page);
 	}
 
 	render() {
@@ -180,6 +183,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: profile => dispatch(addProfile(profile)),
 	onLoadStories: (profile, page) => dispatch(loadStories(profile, page)),
+	onUpdatePage: page => dispatch(updatePage(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);

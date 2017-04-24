@@ -19,6 +19,7 @@ import {
 	ADD_READ_END,
 	LOAD_STORIES,
 	LOAD_STORIES_END,
+	UPDATE_PAGE,
 } from './constants';
 
 // The initial state of the app
@@ -70,6 +71,8 @@ function appReducers(state = initialState, action) {
 				.set('loading', false)
 				.set('stories', action.stories)
 				.set('pageInfo', action.pageInfo);
+		case UPDATE_PAGE:
+			return state.set('pageInfo', { current: action.page });
 		default:
 			return state;
 	}
