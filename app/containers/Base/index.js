@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
-import { Button, Slider } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ import {
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
-import PagingButton from '../../components/PagingButton';
+import Pager from '../../components/Pager';
 
 import realm from '../../models/RealmModel';
 
@@ -124,48 +124,19 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderPager() {
-		if (this.props.loading) {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
 			return null;
 		}
 		return (
-			<View style={{ flexDirection: 'row' }}>
-				<PagingButton
-					icon={{ name: IconName.prev }}
-					onPress={() => {
-						Actions.refresh({ page: this.props.page - 1 });
-					}}
-				/>
-				<Text
-					style={{
-						flex: 1,
-						textAlign: 'center',
-						paddingTop: 12,
-					}}
-				>
-					{this.state.prevPage}
-				</Text>
-				<Slider
-					value={this.state.prevPage}
-					style={{ flex: 4 }}
-					step={1}
-					thumbTintColor="#333"
-					maximumValue={100}
-					minimumValue={1}
-					onValueChange={(value) => {
-						this.setState({ prevPage: value });
-					}}
-					onSlidingComplete={(value) => {
-						Actions.refresh({ page: value });
-						// this.props.onLoadStories(this.props.profile, this.props.page);
-					}}
-				/>
-				<PagingButton
-					icon={{ name: IconName.next }}
-					onPress={() => {
-						Actions.refresh({ page: this.props.page + 1 });
-					}}
-				/>
-			</View>
+			<Pager
+				page={this.state.prevPage}
+				onChange={(value) => {
+					this.setState({ prevPage: value });
+				}}
+				onComplete={(value) => {
+					Actions.refresh({ page: value });
+				}}
+			/>
 		);
 	}
 
