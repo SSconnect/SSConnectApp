@@ -7,31 +7,30 @@ import { Slider } from 'react-native-elements';
 
 import { IconName } from '../../themes/';
 import PagingButton from '../../components/PagingButton';
+import type { PageInfo } from '../../types';
 
 type Props = {
-	page: number,
-	onChange: Function,
+	pageInfo: PageInfo,
 	onComplete: Function,
+	onPressNext: Function,
+	onPressPrev: Function,
+};
+
+type State = {
+	previewPage: number,
 };
 
 class Pager extends React.PureComponent {
 	props: Props;
-	static defaultProps: Props = {
-		page: 1,
-		onChange: () => {},
-		onComplete: () => {},
+	state: State = {
+		previewPage: this.props.pageInfo.current,
 	};
 
 	render() {
-		const { page, onChange, onComplete } = this.props;
+		const { pageInfo, onComplete, onPressNext, onPressPrev } = this.props;
 		return (
 			<View style={{ flexDirection: 'row' }}>
-				<PagingButton
-					icon={{ name: IconName.prev }}
-					onPress={() => {
-						Actions.refresh({ page: page - 1 });
-					}}
-				/>
+				<PagingButton icon={{ name: IconName.prev }} onPress={onPressPrev} />
 				<Text
 					style={{
 						flex: 1,
@@ -39,24 +38,21 @@ class Pager extends React.PureComponent {
 						paddingTop: 12,
 					}}
 				>
-					{page}
+					{pageInfo.current}/{pageInfo.max}
 				</Text>
 				<Slider
-					value={page}
+					value={pageInfo.current}
 					style={{ flex: 4 }}
 					step={1}
 					thumbTintColor="#333"
 					maximumValue={100}
 					minimumValue={1}
-					onValueChange={onChange}
 					onSlidingComplete={onComplete}
-				/>
-				<PagingButton
-					icon={{ name: IconName.next }}
-					onPress={() => {
-						Actions.refresh({ page: page + 1 });
+					onValueChange={(value) => {
+						this.setState({ previewPage: value });
 					}}
 				/>
+				<PagingButton icon={{ name: IconName.next }} onPress={onPressNext} />
 			</View>
 		);
 	}

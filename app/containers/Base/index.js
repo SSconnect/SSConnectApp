@@ -43,7 +43,6 @@ type Props = {
 
 type State = {
 	dataSource: any,
-	prevPage: number,
 	addDisable: boolean,
 };
 
@@ -52,7 +51,6 @@ class BaseScreen extends React.PureComponent {
 	state: State = {
 		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		addDisable: false,
-		prevPage: this.props.pageInfo.current,
 	};
 
 	static defaultProps: Props = {
@@ -82,7 +80,6 @@ class BaseScreen extends React.PureComponent {
 			this.props.onLoadStories(newProps.profile, newProps.pageInfo.current);
 		}
 		this.setState({
-			prevPage: newProps.pageInfo.current,
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
 		});
 	}
@@ -133,9 +130,12 @@ class BaseScreen extends React.PureComponent {
 		}
 		return (
 			<Pager
-				page={this.state.prevPage}
-				onChange={(value) => {
-					this.setState({ prevPage: value });
+				pageInfo={this.props.pageInfo}
+				onPressPrev={() => {
+					this.props.onUpdatePage(this.props.pageInfo.current - 1);
+				}}
+				onPressNext={() => {
+					this.props.onUpdatePage(this.props.pageInfo.current + 1);
 				}}
 				onComplete={this.handlePageChange.bind(this)}
 			/>
