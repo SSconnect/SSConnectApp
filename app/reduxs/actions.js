@@ -106,11 +106,11 @@ export function loadStories(profile, page) {
 	};
 }
 
-export function loadStoriesEnd(profile, page, stories) {
+export function loadStoriesEnd(profile, pageInfo, stories) {
 	return {
 		type: LOAD_STORIES_END,
 		profile,
-		page,
+		pageInfo,
 		stories,
 	};
 }

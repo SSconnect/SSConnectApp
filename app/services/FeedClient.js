@@ -1,7 +1,7 @@
 // @flow
 
 import { create } from 'apisauce';
-import type { Story, Blog, Tag } from '../types';
+import type { Story, Blog, Tag, PageInfo } from '../types';
 
 type Params = {
 	page?: number,
@@ -22,14 +22,14 @@ class FeedClient {
 		});
 	}
 
-	async getStories(params: ?Params): Promise<Array<Story>> {
+	async getStories(params: ?Params): Promise<{ stories: Array<Story>, pageInfo: PageInfo }> {
 		const defaultParams = { page: 1 };
 		const res = await this.api.get('/v1/stories', { ...defaultParams, ...params });
 		console.log('res', res);
 		if (!res.ok) {
 			throw new Error("can't request");
 		}
-		return res.data;
+		return { stories: res.data, pageInfo: { current: 10, max: 20, next: 11, prev: 9 } };
 	}
 
 	async getBlogs(): Promise<Array<Blog>> {

@@ -8,6 +8,7 @@ const selectGlobal = (state: Object) => fromJS(state).get('app');
 const selectStories = state => selectGlobal(state).get('stories');
 const selectProfiles = state => selectGlobal(state).get('profiles');
 const selectReads = state => selectGlobal(state).get('reads');
+const selectPageInfo = state => selectGlobal(state).get('pageInfo');
 
 const makeSelectLoading = createSelector(selectGlobal, state => state.get('loading'));
 
@@ -20,6 +21,8 @@ const makeExistsProfiles = createSelector(selectProfiles, state => state.include
 const makeSelectProfilesCount = createSelector(selectProfiles, state => state.size);
 
 const makeSelectReads = createSelector(selectReads, state => state);
+
+const makeSelectPageInfo = createSelector(selectPageInfo, state => state);
 
 const selectProfileStories = (state, props) =>
 	selectStories(state).getIn([profileSerialKey(props.profile), props.page]);
@@ -35,4 +38,5 @@ export {
 	makeSelectReads,
 	makeExistsProfiles,
 	makeSelectStories,
+	makeSelectPageInfo,
 };

@@ -16,6 +16,7 @@ import {
 	makeSelectProfilesCount,
 	makeSelectLoading,
 	makeSelectStories,
+	makeSelectPageInfo,
 } from '../../reduxs/selectors';
 
 import Indicator from '../../components/Indicator';
@@ -24,7 +25,7 @@ import Pager from '../../components/Pager';
 
 import realm from '../../models/RealmModel';
 
-import type { Story, Profile, Read } from '../../types';
+import type { Story, Profile, Read, PageInfo } from '../../types';
 import { Scales, IconName } from '../../themes/';
 import SearchBar from '../../components/StorySearchBar';
 
@@ -36,7 +37,7 @@ type Props = {
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
-	page: number,
+	pageInfo: PageInfo,
 	stories: Array<Story>,
 };
 
@@ -51,12 +52,12 @@ class BaseScreen extends React.PureComponent {
 	state: State = {
 		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
 		addDisable: false,
-		prevPage: this.props.page,
+		prevPage: this.props.pageInfo.current,
 	};
 
 	static defaultProps = {
 		profile: {},
-		page: 1,
+		pageInfo: false,
 		loading: true,
 		isHome: false,
 		onAddProfile: (tab) => {
@@ -69,16 +70,16 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile, this.props.page);
+		this.props.onLoadStories(this.props.profile, this.props.pageInfo.current);
 	}
 
 	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
-		if (this.props.page !== newProps.page) {
-			this.props.onLoadStories(newProps.profile, newProps.page);
+		if (this.props.pageInfo.current !== newProps.pageInfo.current) {
+			this.props.onLoadStories(newProps.profile, newProps.pageInfo.current);
 		}
 		this.setState({
-			prevPage: newProps.page,
+			prevPage: newProps.pageInfo.current,
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
 		});
 	}
@@ -133,11 +134,13 @@ class BaseScreen extends React.PureComponent {
 				onChange={(value) => {
 					this.setState({ prevPage: value });
 				}}
-				onComplete={(value) => {
-					Actions.refresh({ page: value });
-				}}
+				onComplete={this.handlePageChange.bind(this)}
 			/>
 		);
+	}
+
+	handlePageChange(page) {
+		Actions.refresh({ pageInfo: { ...this.props.pageInfo, current: page } });
 	}
 
 	render() {
@@ -169,6 +172,7 @@ class BaseScreen extends React.PureComponent {
 const mapStateToProps = (state, props) => ({
 	reads: makeSelectReads(state, props),
 	stories: makeSelectStories(state, props),
+	pageInfo: makeSelectPageInfo(state, props),
 	profilesCount: makeSelectProfilesCount(state, props),
 	loading: makeSelectLoading(state, props),
 });

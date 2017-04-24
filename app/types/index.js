@@ -42,3 +42,10 @@ export type Profile = {
 	q: string,
 	tag: string,
 };
+
+export type PageInfo = {
+	current: number,
+	max: number,
+	prev: number | false,
+	next: number | false,
+};
