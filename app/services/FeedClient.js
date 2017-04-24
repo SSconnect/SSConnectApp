@@ -22,6 +22,15 @@ class FeedClient {
 		});
 	}
 
+	static getPageInfo(res: any): PageInfo {
+		return {
+			current: parseInt(res.headers['x-page'], 10),
+			max: parseInt(res.headers['x-total-page'], 10),
+			next: parseInt(res.headers['x-next-page']) || false,
+			prev: parseInt(res.headers['x-prev-page']) || false,
+		};
+	}
+
 	async getStories(params: ?Params): Promise<{ stories: Array<Story>, pageInfo: PageInfo }> {
 		const defaultParams = { page: 1 };
 		const res = await this.api.get('/v1/stories', { ...defaultParams, ...params });
@@ -29,7 +38,7 @@ class FeedClient {
 		if (!res.ok) {
 			throw new Error("can't request");
 		}
-		return { stories: res.data, pageInfo: { current: 10, max: 20, next: 11, prev: 9 } };
+		return { stories: res.data, pageInfo: FeedClient.getPageInfo(res) };
 	}
 
 	async getBlogs(): Promise<Array<Blog>> {
