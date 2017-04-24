@@ -1,7 +1,7 @@
 // @flow
 
 import { create } from 'apisauce';
-import type { Story, Blog, Tag } from '../types';
+import type { Story, Blog, Tag, PageInfo } from '../types';
 
 type Params = {
 	page?: number,
@@ -22,14 +22,23 @@ class FeedClient {
 		});
 	}
 
-	async getStories(params: ?Params): Promise<Array<Story>> {
+	static getPageInfo(res: any): PageInfo {
+		return {
+			page: parseInt(res.headers['x-page'], 10),
+			total: parseInt(res.headers['x-total-pages'], 10),
+			next: parseInt(res.headers['x-next-page'], 10) || false,
+			prev: parseInt(res.headers['x-prev-page'], 10) || false,
+		};
+	}
+
+	async getStories(params: ?Params): Promise<{ stories: Array<Story>, pageInfo: PageInfo }> {
 		const defaultParams = { page: 1 };
 		const res = await this.api.get('/v1/stories', { ...defaultParams, ...params });
 		console.log('res', res);
 		if (!res.ok) {
 			throw new Error("can't request");
 		}
-		return res.data;
+		return { stories: res.data, pageInfo: FeedClient.getPageInfo(res) };
 	}
 
 	async getBlogs(): Promise<Array<Blog>> {

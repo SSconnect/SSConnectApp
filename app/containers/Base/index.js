@@ -2,28 +2,29 @@
 
 import React from 'react';
 import { View, Text, ListView, ScrollView, Alert } from 'react-native';
-import { Button, Slider } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
+import { Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import config from '../../configs';
 
-import { addProfile, loadStories } from '../../reduxs/actions';
+import { addProfile, loadStories, updatePage } from '../../reduxs/actions';
 import {
 	makeSelectReads,
 	makeSelectProfilesCount,
 	makeSelectLoading,
 	makeSelectStories,
+	makeSelectPageInfo,
 } from '../../reduxs/selectors';
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
+import Paginator from '../../components/Paginator';
 
 import realm from '../../models/RealmModel';
 
-import type { Story, Profile, Read } from '../../types';
+import type { Story, Profile, Read, PageInfo } from '../../types';
 import { Scales, IconName } from '../../themes/';
 import SearchBar from '../../components/StorySearchBar';
 
@@ -32,53 +33,52 @@ type Props = {
 	isHome: boolean,
 	onAddProfile: Function,
 	onLoadStories: Function,
+	onUpdatePage: Function,
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
-	page: number,
+	pageInfo: PageInfo,
 	stories: Array<Story>,
 };
 
 type State = {
 	dataSource: any,
-	prevPage: number,
 	addDisable: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
+		dataSource: new ListView.DataSource({ rowHasChanged: BaseScreen.rowHasChanged }).cloneWithRows(
+			this.props.stories,
+		),
 		addDisable: false,
-		prevPage: this.props.page,
 	};
 
 	static defaultProps = {
-		profile: {},
-		page: 1,
+		profile: { q: '', tag: '' },
+		pageInfo: false,
 		loading: true,
 		isHome: false,
-		onAddProfile: (tab) => {
-			console.log(tab);
-		},
+		reads: [],
+		profilesCount: 0,
+		stories: [],
 	};
 
-	rowHasChanged(r1: Story, r2: Story) {
-		const readedIds = _.map(this.props.reads, e => e.story_id);
-		return r1.id !== r2.id && readedIds.includes(r1.id) !== readedIds.includes(r2.id);
+	static rowHasChanged(r1: Story, r2: Story) {
+		return r1.id !== r2.id;
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile, this.props.page);
+		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
 	}
 
 	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
-		if (this.props.page !== newProps.page) {
-			this.props.onLoadStories(newProps.profile, newProps.page);
+		if (this.props.pageInfo.page !== newProps.pageInfo.page) {
+			this.props.onLoadStories(newProps.profile, newProps.pageInfo.page);
 		}
 		this.setState({
-			prevPage: newProps.page,
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
 		});
 	}
@@ -124,65 +124,25 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderPager() {
-		if (this.props.loading) {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
 			return null;
 		}
 		return (
-			<View style={{ flexDirection: 'row' }}>
-				<Button
-					style={{ flex: 1 }}
-					buttonStyle={{
-						padding: 8,
-						borderRadius: 3,
-						marginLeft: 3,
-						marginRight: 3,
-						marginTop: 3,
-					}}
-					icon={{ name: IconName.prev }}
-					onPress={() => {
-						console.log('prev');
-					}}
-				/>
-				<Text
-					style={{
-						flex: 1,
-						textAlign: 'center',
-						paddingTop: 12,
-					}}
-				>
-					{this.state.prevPage}
-				</Text>
-				<Slider
-					value={this.state.prevPage}
-					style={{ flex: 4 }}
-					step={1}
-					thumbTintColor="#333"
-					maximumValue={100}
-					minimumValue={1}
-					onValueChange={(value) => {
-						this.setState({ prevPage: value });
-					}}
-					onSlidingComplete={(value) => {
-						Actions.refresh({ page: value });
-						// this.props.onLoadStories(this.props.profile, this.props.page);
-					}}
-				/>
-				<Button
-					style={{ flex: 1 }}
-					buttonStyle={{
-						padding: 8,
-						borderRadius: 3,
-						marginLeft: 3,
-						marginRight: 3,
-						marginTop: 3,
-					}}
-					icon={{ name: IconName.next }}
-					onPress={() => {
-						console.log('prev');
-					}}
-				/>
-			</View>
+			<Paginator
+				pageInfo={this.props.pageInfo}
+				onPressPrev={() => {
+					this.props.onUpdatePage(this.props.pageInfo.page - 1);
+				}}
+				onPressNext={() => {
+					this.props.onUpdatePage(this.props.pageInfo.page + 1);
+				}}
+				onComplete={this.handlePageChange.bind(this)}
+			/>
 		);
+	}
+
+	handlePageChange(page) {
+		this.props.onUpdatePage(page);
 	}
 
 	render() {
@@ -214,6 +174,7 @@ class BaseScreen extends React.PureComponent {
 const mapStateToProps = (state, props) => ({
 	reads: makeSelectReads(state, props),
 	stories: makeSelectStories(state, props),
+	pageInfo: makeSelectPageInfo(state, props),
 	profilesCount: makeSelectProfilesCount(state, props),
 	loading: makeSelectLoading(state, props),
 });
@@ -221,6 +182,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: profile => dispatch(addProfile(profile)),
 	onLoadStories: (profile, page) => dispatch(loadStories(profile, page)),
+	onUpdatePage: page => dispatch(updatePage(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);

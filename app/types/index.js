@@ -38,7 +38,14 @@ export type TabProfile = {
 };
 
 export type Profile = {
-	blog_id: number,
+	blog_id?: number,
 	q: string,
 	tag: string,
+};
+
+export type PageInfo = {
+	page: number,
+	total: number,
+	prev: number | false,
+	next: number | false,
 };

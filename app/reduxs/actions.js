@@ -13,6 +13,7 @@ import {
 	ADD_READ_END,
 	MOVE_PROFILE,
 	MOVE_PROFILE_END,
+	UPDATE_PAGE,
 } from './constants';
 
 export function loadProfiles() {
@@ -106,11 +107,18 @@ export function loadStories(profile, page) {
 	};
 }
 
-export function loadStoriesEnd(profile, page, stories) {
+export function loadStoriesEnd(profile, pageInfo, stories) {
 	return {
 		type: LOAD_STORIES_END,
 		profile,
-		page,
+		pageInfo,
 		stories,
+	};
+}
+
+export function updatePage(page) {
+	return {
+		type: UPDATE_PAGE,
+		page,
 	};
 }
