@@ -45,7 +45,7 @@ class Pager extends React.PureComponent {
 					style={{ flex: 4 }}
 					step={1}
 					thumbTintColor="#333"
-					maximumValue={100}
+					maximumValue={pageInfo.max}
 					minimumValue={1}
 					onSlidingComplete={onComplete}
 					onValueChange={(value) => {
