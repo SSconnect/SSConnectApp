@@ -64,8 +64,7 @@ class BaseScreen extends React.PureComponent {
 	};
 
 	rowHasChanged(r1: Story, r2: Story) {
-		const readedIds = _.map(this.props.reads, e => e.story_id);
-		return r1.id !== r2.id && readedIds.includes(r1.id) !== readedIds.includes(r2.id);
+		return r1.id !== r2.id;
 	}
 
 	componentWillMount() {
