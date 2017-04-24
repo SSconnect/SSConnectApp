@@ -44,8 +44,8 @@ export type Profile = {
 };
 
 export type PageInfo = {
-	current: number,
-	max: number,
+	page: number,
+	total: number,
 	prev: number | false,
 	next: number | false,
 };

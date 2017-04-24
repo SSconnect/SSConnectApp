@@ -24,10 +24,10 @@ class FeedClient {
 
 	static getPageInfo(res: any): PageInfo {
 		return {
-			current: parseInt(res.headers['x-page'], 10),
-			max: parseInt(res.headers['x-total-pages'], 10),
-			next: parseInt(res.headers['x-next-page']) || false,
-			prev: parseInt(res.headers['x-prev-page']) || false,
+			page: parseInt(res.headers['x-page'], 10),
+			total: parseInt(res.headers['x-total-pages'], 10),
+			next: parseInt(res.headers['x-next-page'], 10) || false,
+			prev: parseInt(res.headers['x-prev-page'], 10) || false,
 		};
 	}
 

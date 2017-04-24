@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { Slider } from 'react-native-elements';
 
 import { IconName } from '../../themes/';
@@ -20,10 +19,10 @@ type State = {
 	previewPage: number,
 };
 
-class Pager extends React.PureComponent {
+class Paginator extends React.PureComponent {
 	props: Props;
 	state: State = {
-		previewPage: this.props.pageInfo.current,
+		previewPage: this.props.pageInfo.page,
 	};
 
 	render() {
@@ -42,14 +41,14 @@ class Pager extends React.PureComponent {
 						paddingTop: 12,
 					}}
 				>
-					{this.state.previewPage}/{pageInfo.max}
+					{this.state.previewPage}/{pageInfo.total}
 				</Text>
 				<Slider
-					value={pageInfo.current}
+					value={pageInfo.page}
 					style={{ flex: 4 }}
 					step={1}
 					thumbTintColor="#333"
-					maximumValue={pageInfo.max}
+					maximumValue={pageInfo.total}
 					minimumValue={1}
 					onSlidingComplete={onComplete}
 					onValueChange={(value) => {
@@ -66,4 +65,4 @@ class Pager extends React.PureComponent {
 	}
 }
 
-export default Pager;
+export default Paginator;

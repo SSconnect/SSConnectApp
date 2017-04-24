@@ -20,7 +20,7 @@ import {
 
 import Indicator from '../../components/Indicator';
 import StoryCell from '../../components/StoryCell';
-import Pager from '../../components/Pager';
+import Paginator from '../../components/Paginator';
 
 import realm from '../../models/RealmModel';
 
@@ -49,11 +49,13 @@ type State = {
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
-		dataSource: new ListView.DataSource({ rowHasChanged: this.rowHasChanged }).cloneWithRows([]),
+		dataSource: new ListView.DataSource({ rowHasChanged: BaseScreen.rowHasChanged }).cloneWithRows(
+			this.props.stories,
+		),
 		addDisable: false,
 	};
 
-	static defaultProps: Props = {
+	static defaultProps = {
 		profile: { q: '', tag: '' },
 		pageInfo: false,
 		loading: true,
@@ -61,23 +63,20 @@ class BaseScreen extends React.PureComponent {
 		reads: [],
 		profilesCount: 0,
 		stories: [],
-		onAddProfile: () => {},
-		onLoadStories: () => {},
-		onUpdatePage: () => {},
 	};
 
-	rowHasChanged(r1: Story, r2: Story) {
+	static rowHasChanged(r1: Story, r2: Story) {
 		return r1.id !== r2.id;
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile, this.props.pageInfo.current);
+		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
 	}
 
 	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
-		if (this.props.pageInfo.current !== newProps.pageInfo.current) {
-			this.props.onLoadStories(newProps.profile, newProps.pageInfo.current);
+		if (this.props.pageInfo.page !== newProps.pageInfo.page) {
+			this.props.onLoadStories(newProps.profile, newProps.pageInfo.page);
 		}
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
@@ -129,13 +128,13 @@ class BaseScreen extends React.PureComponent {
 			return null;
 		}
 		return (
-			<Pager
+			<Paginator
 				pageInfo={this.props.pageInfo}
 				onPressPrev={() => {
-					this.props.onUpdatePage(this.props.pageInfo.current - 1);
+					this.props.onUpdatePage(this.props.pageInfo.page - 1);
 				}}
 				onPressNext={() => {
-					this.props.onUpdatePage(this.props.pageInfo.current + 1);
+					this.props.onUpdatePage(this.props.pageInfo.page + 1);
 				}}
 				onComplete={this.handlePageChange.bind(this)}
 			/>

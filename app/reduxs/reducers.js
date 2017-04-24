@@ -72,7 +72,7 @@ function appReducers(state = initialState, action) {
 				.set('stories', action.stories)
 				.set('pageInfo', action.pageInfo);
 		case UPDATE_PAGE:
-			return state.set('pageInfo', { current: action.page });
+			return state.set('pageInfo', { page: action.page });
 		default:
 			return state;
 	}
