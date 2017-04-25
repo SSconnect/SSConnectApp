@@ -3,10 +3,9 @@
 import React from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { loadProfiles, loadReads } from '../../reduxs/actions';
-import { makeSelectProfiles } from '../../reduxs/selectors';
+import { selectProfiles } from '../../reduxs/selectors';
 
 import realm from '../../models/RealmModel';
 import NavigationRouter from '../../routers/NavigationRouter';
@@ -68,7 +67,7 @@ class RootContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-	profiles: makeSelectProfiles(state, props),
+	profiles: selectProfiles(state, props),
 });
 
 const mapDispatchToProps = dispatch => ({

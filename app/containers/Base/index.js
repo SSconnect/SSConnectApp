@@ -11,9 +11,9 @@ import config from '../../configs';
 
 import { addProfile, loadStories, updatePage } from '../../reduxs/actions';
 import {
-	makeSelectReads,
-	makeSelectProfilesCount,
-	makeSelectLoading,
+	selectReads,
+	selectProfilesCount,
+	selectLoading,
 	makeSelectStories,
 	makeSelectPageInfo,
 } from '../../reduxs/selectors';
@@ -171,18 +171,22 @@ class BaseScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = (state, props) => ({
-	reads: makeSelectReads(state, props),
-	stories: makeSelectStories(state, props),
-	pageInfo: makeSelectPageInfo(state, props),
-	profilesCount: makeSelectProfilesCount(state, props),
-	loading: makeSelectLoading(state, props),
-});
+const makeMapStateToProps = () => {
+	const selectStories = makeSelectStories();
+	const selectPageInfo = makeSelectPageInfo();
+	return (state, props) => ({
+		reads: selectReads(state, props),
+		stories: selectStories(state, props),
+		pageInfo: selectPageInfo(state, props),
+		profilesCount: selectProfilesCount(state, props),
+		loading: selectLoading(state, props),
+	});
+};
 
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: profile => dispatch(addProfile(profile)),
 	onLoadStories: (profile, page) => dispatch(loadStories(profile, page)),
-	onUpdatePage: page => dispatch(updatePage(page)),
+	onUpdatePage: (profile, page) => dispatch(updatePage(profile, page)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BaseScreen);
+export default connect(makeMapStateToProps, mapDispatchToProps)(BaseScreen);

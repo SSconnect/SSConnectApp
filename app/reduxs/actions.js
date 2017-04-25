@@ -116,9 +116,10 @@ export function loadStoriesEnd(profile, pageInfo, stories) {
 	};
 }
 
-export function updatePage(page) {
+export function updatePage(profile, page) {
 	return {
 		type: UPDATE_PAGE,
+		profile,
 		page,
 	};
 }

@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { Button } from 'react-native-elements';
 
 import TabList from './TabList';
 
-import { makeSelectProfiles } from '../../reduxs/selectors';
+import { selectProfiles } from '../../reduxs/selectors';
 
 import { Scales, IconName } from '../../themes';
 import type { Profile } from '../../types';
@@ -51,9 +50,9 @@ class SideMenu extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-	profiles: makeSelectProfiles(state, props),
+	profiles: selectProfiles(state, props),
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);

@@ -1,8 +1,8 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import { fromJS } from 'immutable';
 import { profileSerialKey } from '../types/utils';
+import { fromJS, Map } from 'immutable';
 
 import {
 	LOAD_PROFILES,
@@ -28,8 +28,7 @@ const initialState = fromJS({
 	error: false,
 	reads: false,
 	profiles: false,
-	stories: false,
-	pageInfo: false,
+	pages: {},
 });
 
 function appReducers(state = initialState, action) {
@@ -64,15 +63,20 @@ function appReducers(state = initialState, action) {
 			return state
 				.set('loading', true)
 				.set('error', false)
-				.set('stories', false)
-				.set('page', false);
+				.setIn(['pages', profileSerialKey(action.profile), 'stories', action.page], false)
+				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], false);
 		case LOAD_STORIES_END:
 			return state
 				.set('loading', false)
-				.set('stories', action.stories)
-				.set('pageInfo', action.pageInfo);
+				.setIn(
+					['pages', profileSerialKey(action.profile), 'stories', action.pageInfo.page],
+					action.stories,
+				)
+				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], action.pageInfo);
 		case UPDATE_PAGE:
-			return state.set('pageInfo', { page: action.page });
+			return state.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], {
+				page: action.page,
+			});
 		default:
 			return state;
 	}
