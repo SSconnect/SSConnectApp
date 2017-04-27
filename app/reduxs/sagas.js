@@ -54,7 +54,7 @@ export function* getReads() {
 	yield put(loadReadsEnd(reads));
 }
 
-export function* getStories({ page, profile }: { page: number, profile: Profile }) {
+export function* getStories({ profile, page }: { profile: Profile }) {
 	const { stories, pageInfo } = yield feedClient.getStories({ page, ...profile });
 	yield put(loadStoriesEnd(profile, pageInfo, stories));
 }

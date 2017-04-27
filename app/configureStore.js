@@ -1,20 +1,14 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { fromJS } from 'immutable';
-import { createLogger } from 'redux-logger';
+import devTools from 'remote-redux-devtools';
 
 import reducer from './reduxs/reducers';
-
-const loggerMiddleware = createLogger({
-	stateTransformer: state => fromJS(state).toJS(),
-});
-
-const sagaMiddleware = createSagaMiddleware();
-
-const createStoreWithMiddleware = applyMiddleware(sagaMiddleware, loggerMiddleware)(createStore);
+import sagas from './reduxs/sagas';
 
 export default (initialState) => {
-	const store = createStoreWithMiddleware(reducer, initialState);
-	store.runSaga = sagaMiddleware.run;
+	const sagaMiddleware = createSagaMiddleware();
+	const enhancer = compose(applyMiddleware(sagaMiddleware), devTools());
+	const store = createStore(reducer, initialState, enhancer);
+	sagaMiddleware.run(sagas);
 	return store;
 };

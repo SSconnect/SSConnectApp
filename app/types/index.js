@@ -25,7 +25,7 @@ export type Story = {
 export type Tag = {
 	id: number,
 	name: string,
-	count: number,
+	taggings_count: number,
 };
 
 export type Read = {

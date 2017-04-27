@@ -71,6 +71,7 @@ class NavigationRouter extends React.PureComponent {
 								title="ホーム"
 								tabTitle="Home"
 								isHome
+								profile={{ q: '', tag: '' }}
 								iconName={IconName.home}
 								{...tabAttrs}
 							/>
