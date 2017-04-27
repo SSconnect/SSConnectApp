@@ -33,7 +33,6 @@ type Props = {
 	isHome: boolean,
 	onAddProfile: Function,
 	onLoadStories: Function,
-	onUpdatePage: Function,
 	reads: Array<Read>,
 	profilesCount: number,
 	loading: boolean,
@@ -75,9 +74,6 @@ class BaseScreen extends React.PureComponent {
 
 	componentWillReceiveProps(newProps: Props) {
 		this.forceUpdate();
-		if (this.props.pageInfo.page !== newProps.pageInfo.page) {
-			this.props.onLoadStories(newProps.profile, newProps.pageInfo.page);
-		}
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
 		});
@@ -160,7 +156,7 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	handlePageChange(page) {
-		this.props.onUpdatePage(this.props.profile, page);
+		this.props.onLoadStories(this.props.profile, page);
 	}
 
 	render() {
@@ -196,7 +192,6 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: (profile: Profile) => dispatch(addProfile(profile)),
 	onLoadStories: (profile: Profile, page: number) => dispatch(loadStories(profile, page)),
-	onUpdatePage: (profile: Profile, page: number) => dispatch(updatePage(profile, page)),
 });
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(BaseScreen);

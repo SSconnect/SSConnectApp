@@ -11,8 +11,12 @@ const inPages = state => selectGlobal(state).get('pages');
 const inProfilePage = (state, props) =>
 	inPages(state).get(profileSerialKey(props.profile)) || Map();
 const inStories = (state, props) => {
-	const page = props.pageInfo ? props.pageInfo.page : 1;
-	return inProfilePage(state, props).getIn(['stories', page]) || false;
+	const pageStore = inProfilePage(state, props);
+	const pageInfo = pageStore.get('pageInfo');
+	if (!pageInfo) {
+		return false;
+	}
+	return pageStore.getIn(['stories', pageInfo.page]);
 };
 
 const inPageInfo = (state, props) => inProfilePage(state, props).get('pageInfo');
