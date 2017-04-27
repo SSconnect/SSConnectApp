@@ -57,7 +57,7 @@ class BaseScreen extends React.PureComponent {
 
 	static defaultProps = {
 		profile: { q: '', tag: '' },
-		pageInfo: false,
+		pageInfo: { page: 1 },
 		loading: true,
 		isHome: false,
 		reads: [],
