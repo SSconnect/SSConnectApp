@@ -2,7 +2,7 @@
 
 import { combineReducers } from 'redux';
 import { profileSerialKey } from '../types/utils';
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
 	LOAD_PROFILES,
@@ -63,8 +63,7 @@ function appReducers(state = initialState, action) {
 			return state
 				.set('loading', true)
 				.set('error', false)
-				.setIn(['pages', profileSerialKey(action.profile), 'stories', action.page], false)
-				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], false);
+				.setIn(['pages', profileSerialKey(action.profile), 'stories', action.page], false);
 		case LOAD_STORIES_END:
 			return state
 				.set('loading', false)

@@ -116,6 +116,24 @@ class BaseScreen extends React.PureComponent {
 		);
 	}
 
+	renderListView() {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
+			return null;
+		}
+		const { reads } = this.props;
+		const readedIds = _.map(reads, e => e.story_id);
+		return (
+			<ListView
+				renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
+				dataSource={this.state.dataSource}
+				enableEmptySections
+				distanceToLoadMore={100}
+				// onRefresh={() => this.init()}
+				refreshDescription=""
+			/>
+		);
+	}
+
 	renderNoHit() {
 		if (this.props.loading || this.state.dataSource.getRowCount() > 0) {
 			return null;
@@ -131,10 +149,10 @@ class BaseScreen extends React.PureComponent {
 			<Paginator
 				pageInfo={this.props.pageInfo}
 				onPressPrev={() => {
-					this.props.onUpdatePage(this.props.pageInfo.page - 1);
+					this.handlePageChange(this.props.pageInfo.page - 1);
 				}}
 				onPressNext={() => {
-					this.props.onUpdatePage(this.props.pageInfo.page + 1);
+					this.handlePageChange(this.props.pageInfo.page + 1);
 				}}
 				onComplete={this.handlePageChange.bind(this)}
 			/>
@@ -142,12 +160,11 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	handlePageChange(page) {
-		this.props.onUpdatePage(page);
+		this.props.onUpdatePage(this.props.profile, page);
 	}
 
 	render() {
-		const { profile, reads, isHome } = this.props;
-		const readedIds = _.map(reads, e => e.story_id);
+		const { profile, isHome } = this.props;
 		return (
 			<ScrollView
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
@@ -155,14 +172,7 @@ class BaseScreen extends React.PureComponent {
 				<SearchBar profile={profile} />
 				{this.renderPager()}
 				{this.renderSubscribeButton()}
-				<ListView
-					renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
-					dataSource={this.state.dataSource}
-					enableEmptySections
-					distanceToLoadMore={100}
-					// onRefresh={() => this.init()}
-					refreshDescription=""
-				/>
+				{this.renderListView()}
 				{this.renderPager()}
 				<Indicator loading={this.props.loading} />
 				{this.renderNoHit()}
@@ -184,9 +194,9 @@ const makeMapStateToProps = () => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onAddProfile: profile => dispatch(addProfile(profile)),
-	onLoadStories: (profile, page) => dispatch(loadStories(profile, page)),
-	onUpdatePage: (profile, page) => dispatch(updatePage(profile, page)),
+	onAddProfile: (profile: Profile) => dispatch(addProfile(profile)),
+	onLoadStories: (profile: Profile, page: number) => dispatch(loadStories(profile, page)),
+	onUpdatePage: (profile: Profile, page: number) => dispatch(updatePage(profile, page)),
 });
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(BaseScreen);
