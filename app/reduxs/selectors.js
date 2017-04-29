@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { fromJS, Map, List } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { profileSerialKey } from '../types/utils';
 
 const selectGlobal = (state: Object) => fromJS(state).get('app');
@@ -25,7 +25,6 @@ const selectLoading = createSelector(selectGlobal, state => state.get('loading')
 const selectError = createSelector(selectGlobal, state => state.get('error'));
 const selectProfiles = createSelector(inProfiles, state => state);
 const existsProfiles = createSelector(inProfiles, state => state.includes(''));
-const selectProfilesCount = createSelector(inProfiles, state => state.size);
 const selectReads = createSelector(inReads, state => state);
 
 const makeSelectPageInfo = () => createSelector([inPageInfo], state => state || { page: 1 });
@@ -36,7 +35,6 @@ export {
 	selectLoading,
 	selectError,
 	selectProfiles,
-	selectProfilesCount,
 	selectReads,
 	existsProfiles,
 	makeSelectStories,
