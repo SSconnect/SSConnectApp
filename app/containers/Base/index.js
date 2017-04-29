@@ -69,7 +69,6 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillMount() {
-		debugger;
 		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
 	}
 
@@ -162,7 +161,6 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		debugger;
 		const { isHome } = this.state;
 		const { profile } = this.props;
 		return (
