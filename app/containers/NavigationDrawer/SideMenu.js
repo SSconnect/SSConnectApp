@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, List, ListItem } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import TabList from './TabList';
