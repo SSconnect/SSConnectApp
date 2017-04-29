@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { moveProfile, deleteProfile } from '../../reduxs/actions';
 import { profileIcon, profileLabel } from '../../types/utils';
 
+import { selectProfiles } from '../../reduxs/selectors';
+
 import { Colors, IconName } from '../../themes/index';
 import type { Profile } from '../../types/index';
 
@@ -60,6 +62,13 @@ class TabList extends React.PureComponent {
 
 	render() {
 		const { profiles, onMoveProfile, onDeleteProfile } = this.props;
+		if (profiles.length === 0) {
+			return (
+				<Text style={{ padding: 10 }}>
+					検索キーワードや作品タグをブックマークしましょう！
+				</Text>
+			);
+		}
 		return (
 			<SortableListView
 				data={profiles}
@@ -79,7 +88,9 @@ class TabList extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state, props) => ({
+	profiles: selectProfiles(state, props),
+});
 
 const mapDispatchToProps = dispatch => ({
 	onMoveProfile: (from, to) => dispatch(moveProfile(from, to)),

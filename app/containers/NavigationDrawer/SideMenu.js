@@ -1,18 +1,13 @@
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 
 import TabList from './TabList';
 
-import { selectProfiles } from '../../reduxs/selectors';
-
 import { Scales, IconName } from '../../themes';
-import type { Profile } from '../../types';
 
-type Props = {
-	profiles: array<Profile>,
-};
+type Props = {};
 
 type State = {};
 
@@ -23,8 +18,14 @@ class SideMenu extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
-				{this.renderEmpty()}
-				<TabList profiles={this.props.profiles} />
+				<TabList />
+				<Button
+					title="開発者・リクエスト"
+					icon={{ name: IconName.send }}
+					onPress={() => {
+						Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
+					}}
+				/>
 				<Button
 					title="開発者・リクエスト"
 					icon={{ name: IconName.send }}
@@ -35,23 +36,9 @@ class SideMenu extends React.Component {
 			</View>
 		);
 	}
-
-	renderEmpty() {
-		const { profiles } = this.props;
-		if (profiles.length > 0) {
-			return null;
-		}
-		return (
-			<Text style={{ padding: 10 }}>
-				検索キーワードや作品タグをブックマークしましょう！
-			</Text>
-		);
-	}
 }
 
-const mapStateToProps = (state, props) => ({
-	profiles: selectProfiles(state, props),
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = () => ({});
 
