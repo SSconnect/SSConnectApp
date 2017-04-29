@@ -1,18 +1,14 @@
 import React from 'react';
 import { View, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, List, ListItem } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import TabList from './TabList';
 
-import { selectProfiles } from '../../reduxs/selectors';
-
 import { Scales, IconName } from '../../themes';
-import type { Profile } from '../../types';
 
-type Props = {
-	profiles: array<Profile>,
-};
+type Props = {};
 
 type State = {};
 
@@ -23,35 +19,30 @@ class SideMenu extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
-				{this.renderEmpty()}
-				<TabList profiles={this.props.profiles} />
-				<Button
-					title="開発者・リクエスト"
-					icon={{ name: IconName.send }}
-					onPress={() => {
-						Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
-					}}
-				/>
+				<TabList />
+				<List>
+					<ListItem
+						title="タグ一覧"
+						leftIcon={{ name: IconName.tag }}
+						onPress={() => {
+							Actions.refresh({ key: 'drawer', open: false });
+							setTimeout(() => Actions.tagsScreen());
+						}}
+					/>
+					<ListItem
+						title="開発者・リクエスト"
+						leftIcon={{ name: IconName.send }}
+						onPress={() => {
+							Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
+						}}
+					/>
+				</List>
 			</View>
-		);
-	}
-
-	renderEmpty() {
-		const { profiles } = this.props;
-		if (profiles.length > 0) {
-			return null;
-		}
-		return (
-			<Text style={{ padding: 10 }}>
-				検索キーワードや作品タグをブックマークしましょう！
-			</Text>
 		);
 	}
 }
 
-const mapStateToProps = (state, props) => ({
-	profiles: selectProfiles(state, props),
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = () => ({});
 

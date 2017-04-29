@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import config from '../../configs';
 
-import { addProfile, loadStories, updatePage } from '../../reduxs/actions';
+import { addProfile, loadStories } from '../../reduxs/actions';
 import {
 	selectReads,
 	selectProfilesCount,
@@ -30,7 +30,6 @@ import SearchBar from '../../components/StorySearchBar';
 
 type Props = {
 	profile: Profile,
-	isHome: boolean,
 	onAddProfile: Function,
 	onLoadStories: Function,
 	reads: Array<Read>,
@@ -43,6 +42,7 @@ type Props = {
 type State = {
 	dataSource: any,
 	addDisable: boolean,
+	isHome: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
@@ -52,13 +52,13 @@ class BaseScreen extends React.PureComponent {
 			this.props.stories,
 		),
 		addDisable: false,
+		isHome: this.props.profile.q === '' && this.props.profile.tag === '',
 	};
 
 	static defaultProps = {
 		profile: { q: '', tag: '' },
 		pageInfo: { page: 1 },
 		loading: true,
-		isHome: false,
 		reads: [],
 		profilesCount: 0,
 		stories: [],
@@ -79,8 +79,57 @@ class BaseScreen extends React.PureComponent {
 		});
 	}
 
+	render() {
+		const { isHome } = this.state;
+		const { profile } = this.props;
+		return (
+			<ScrollView
+				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
+			>
+				<SearchBar profile={profile} />
+				{this.renderMain()}
+				<Indicator loading={this.props.loading} />
+				{this.renderNoHit()}
+			</ScrollView>
+		);
+	}
+
+	renderMain() {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
+			return null;
+		}
+		return (
+			<View>
+				{this.renderPager()}
+				{this.renderSubscribeButton()}
+				{this.renderListView()}
+				{this.renderPager()}
+			</View>
+		);
+	}
+
+	renderPager() {
+		return (
+			<Paginator
+				pageInfo={this.props.pageInfo}
+				onPressPrev={() => {
+					this.handlePageChange(this.props.pageInfo.page - 1);
+				}}
+				onPressNext={() => {
+					this.handlePageChange(this.props.pageInfo.page + 1);
+				}}
+				onComplete={this.handlePageChange.bind(this)}
+			/>
+		);
+	}
+
+	handlePageChange(page) {
+		this.props.onLoadStories(this.props.profile, page);
+	}
+
 	renderSubscribeButton() {
-		const { profile, isHome, onAddProfile } = this.props;
+		const { profile, onAddProfile } = this.props;
+		const { isHome } = this.state;
 		if (isHome || realm.existsProfile(profile)) {
 			return null;
 		}
@@ -113,9 +162,6 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderListView() {
-		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
-		}
 		const { reads } = this.props;
 		const readedIds = _.map(reads, e => e.story_id);
 		return (
@@ -135,45 +181,6 @@ class BaseScreen extends React.PureComponent {
 			return null;
 		}
 		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
-	}
-
-	renderPager() {
-		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
-		}
-		return (
-			<Paginator
-				pageInfo={this.props.pageInfo}
-				onPressPrev={() => {
-					this.handlePageChange(this.props.pageInfo.page - 1);
-				}}
-				onPressNext={() => {
-					this.handlePageChange(this.props.pageInfo.page + 1);
-				}}
-				onComplete={this.handlePageChange.bind(this)}
-			/>
-		);
-	}
-
-	handlePageChange(page) {
-		this.props.onLoadStories(this.props.profile, page);
-	}
-
-	render() {
-		const { profile, isHome } = this.props;
-		return (
-			<ScrollView
-				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
-			>
-				<SearchBar profile={profile} />
-				{this.renderPager()}
-				{this.renderSubscribeButton()}
-				{this.renderListView()}
-				{this.renderPager()}
-				<Indicator loading={this.props.loading} />
-				{this.renderNoHit()}
-			</ScrollView>
-		);
 	}
 }
 
