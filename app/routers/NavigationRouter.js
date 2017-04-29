@@ -6,15 +6,13 @@ import { Scene, Router } from 'react-native-router-flux';
 import _ from 'lodash';
 
 import BaseScreen from '../containers/Base';
+import MainScreen from '../containers/Main';
 import TagScreen from '../containers/Tag';
 import NavigationDrawer from '../containers/NavigationDrawer';
 import TabIcon from '../components/TabIcon';
-import ProfileScene from './ProfileScene';
 
 import { Colors, IconName } from '../themes';
 import type { Profile } from '../types';
-
-import { profileSerialKey } from '../types/utils';
 
 const Styles = StyleSheet.create({
 	container: {
@@ -49,42 +47,26 @@ class NavigationRouter extends React.PureComponent {
 			icon: TabIcon,
 			passProps: true,
 		};
-		const scenes = [];
-
-		if (this.props.profiles !== false && this.props.profiles.length !== 0) {
-			_.chunk(this.props.profiles, 3)[0].forEach((profile) => {
-				scenes.push(
-					<ProfileScene key={profileSerialKey(profile)} profile={profile} tabAttrs={tabAttrs} />,
-				);
-			});
-		}
-
 		return (
 			<Router>
 				<Scene key="drawer" component={NavigationDrawer} open={false}>
 					<Scene key="root" style={Styles.container}>
-						<Scene initial key="tabbar" tabs tabBarStyle={Styles.tabBarStyle}>
-							<Scene
-								initial
-								key="homeScreen"
-								component={BaseScreen}
-								title="ホーム"
-								tabTitle="Home"
-								isHome
-								profile={{ q: '', tag: '' }}
-								iconName={IconName.home}
-								{...tabAttrs}
-							/>
-							<Scene
-								key="tagsScreen"
-								component={TagScreen}
-								title="タグリスト"
-								tabTitle="Tags"
-								iconName={IconName.tag}
-								{...tabAttrs}
-							/>
-							{scenes}
-						</Scene>
+						<Scene
+							initial
+							key="MainScreen"
+							component={MainScreen}
+							title="ホーム"
+							tabTitle="main"
+							{...tabAttrs}
+						/>
+						<Scene
+							key="tagsScreen"
+							component={TagScreen}
+							title="タグリスト"
+							tabTitle="Tags"
+							iconName={IconName.tag}
+							{...tabAttrs}
+						/>
 						<Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
 					</Scene>
 				</Scene>

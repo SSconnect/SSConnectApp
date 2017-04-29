@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import config from '../../configs';
 
-import { addProfile, loadStories, updatePage } from '../../reduxs/actions';
+import { addProfile, loadStories } from '../../reduxs/actions';
 import {
 	selectReads,
 	selectProfilesCount,
@@ -30,7 +30,6 @@ import SearchBar from '../../components/StorySearchBar';
 
 type Props = {
 	profile: Profile,
-	isHome: boolean,
 	onAddProfile: Function,
 	onLoadStories: Function,
 	reads: Array<Read>,
@@ -43,6 +42,7 @@ type Props = {
 type State = {
 	dataSource: any,
 	addDisable: boolean,
+	isHome: boolean,
 };
 
 class BaseScreen extends React.PureComponent {
@@ -52,13 +52,13 @@ class BaseScreen extends React.PureComponent {
 			this.props.stories,
 		),
 		addDisable: false,
+		isHome: this.props.profile === {},
 	};
 
 	static defaultProps = {
 		profile: { q: '', tag: '' },
 		pageInfo: { page: 1 },
 		loading: true,
-		isHome: false,
 		reads: [],
 		profilesCount: 0,
 		stories: [],
@@ -69,6 +69,7 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	componentWillMount() {
+		debugger;
 		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
 	}
 
@@ -80,7 +81,8 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderSubscribeButton() {
-		const { profile, isHome, onAddProfile } = this.props;
+		const { profile, onAddProfile } = this.props;
+		const { isHome } = this.state;
 		if (isHome || realm.existsProfile(profile)) {
 			return null;
 		}
@@ -160,7 +162,9 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { profile, isHome } = this.props;
+		debugger;
+		const { isHome } = this.state;
+		const { profile } = this.props;
 		return (
 			<ScrollView
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
