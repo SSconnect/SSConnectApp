@@ -12,7 +12,7 @@ import config from '../../configs';
 import { addProfile, loadStories } from '../../reduxs/actions';
 import {
 	selectReads,
-	selectProfilesCount,
+	selectProfiles,
 	selectLoading,
 	makeSelectStories,
 	makeSelectPageInfo,
@@ -33,7 +33,7 @@ type Props = {
 	onAddProfile: Function,
 	onLoadStories: Function,
 	reads: Array<Read>,
-	profilesCount: number,
+	profiles: Array<Profile>,
 	loading: boolean,
 	pageInfo: PageInfo,
 	stories: Array<Story>,
@@ -60,7 +60,6 @@ class BaseScreen extends React.PureComponent {
 		pageInfo: { page: 1 },
 		loading: true,
 		reads: [],
-		profilesCount: 0,
 		stories: [],
 	};
 
@@ -142,7 +141,7 @@ class BaseScreen extends React.PureComponent {
 					icon={{ name: IconName.add }}
 					disabled={this.state.addDisable}
 					onPress={() => {
-						if (this.props.profilesCount >= config.LIMITS.PROFILE_MAX.FREE) {
+						if (this.props.profiles.length >= config.LIMITS.PROFILE_MAX.FREE) {
 							Alert.alert('失敗', 'タグは 3つまでしか登録できません。(Free プラン)');
 							return;
 						}
@@ -191,7 +190,7 @@ const makeMapStateToProps = () => {
 		reads: selectReads(state, props),
 		stories: selectStories(state, props),
 		pageInfo: selectPageInfo(state, props),
-		profilesCount: selectProfilesCount(state, props),
+		profiles: selectProfiles(state, props),
 		loading: selectLoading(state, props),
 	});
 };
