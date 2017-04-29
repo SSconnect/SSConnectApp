@@ -11,7 +11,7 @@ import BaseScreen from '../Base';
 import type { Profile } from '../../types';
 
 import { selectProfiles } from '../../reduxs/selectors';
-import { profileSerialKey } from '../../types/utils';
+import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils';
 
 type Props = {
 	profiles: Array<Profile>,
@@ -34,13 +34,14 @@ class RootContainer extends React.PureComponent {
 	renderTab(profile: Profile) {
 		const { selectedTab } = this.state;
 		const key = profileSerialKey(profile);
+		const selected = selectedTab === key;
 		return (
 			<Tab
 				key={key}
 				titleStyle={{ fontWeight: 'bold', fontSize: 10 }}
 				selectedTitleStyle={{ marginTop: -1, marginBottom: 6 }}
-				selected={selectedTab === key}
-				title={profile.q || profile.tag || 'ホーム'}
+				selected={selected}
+				title={profileLabel(profile)}
 				renderIcon={() => (
 					<Icon
 						containerStyle={{
@@ -48,12 +49,11 @@ class RootContainer extends React.PureComponent {
 							alignItems: 'center',
 							marginTop: 12,
 						}}
-						color={'#5e6977'}
-						name="whatshot"
+						name={profileIcon(profile)}
 						size={33}
 					/>
 				)}
-				renderSelectedIcon={() => <Icon color={'#6296f9'} name="whatshot" size={30} />}
+				renderSelectedIcon={() => <Icon color={'#6296f9'} name={profileIcon(profile)} size={30} />}
 				onPress={() => this.setState({ selectedTab: key })}
 			>
 				<BaseScreen profile={profile} />

@@ -7,18 +7,16 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import { moveProfile, deleteProfile } from '../../reduxs/actions';
+import { profileIcon, profileLabel } from '../../types/utils';
 
 import { Colors, IconName } from '../../themes/index';
 import type { Profile } from '../../types/index';
 
-function RowComponent({ sortHandlers, data, onDelete }: any) {
-	let iconName = IconName.threeBar;
-	if (data.tag && data.q) {
-		iconName = IconName.favTag;
-	} else {
-		iconName = data.tag ? IconName.tag : IconName.search;
-	}
-
+function RowComponent({
+	sortHandlers,
+	data,
+	onDelete,
+}: { sortHandlers: any, data: Profile, onDelete: Function }) {
 	return (
 		<TouchableOpacity
 			underlayColor={'#eee'}
@@ -27,15 +25,9 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 			onPress={() => {
 				Actions.refresh({ key: 'drawer', open: false });
 				setTimeout(() => {
-					let title = '';
-					if (data.tag && data.q) {
-						title = `${data.tag}|${data.q}`;
-					} else {
-						title = data.tag || data.q;
-					}
 					Actions.baseScreen({
 						profile: data,
-						title,
+						title: profileLabel(data),
 					});
 				});
 			}}
@@ -44,7 +36,7 @@ function RowComponent({ sortHandlers, data, onDelete }: any) {
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 				<Icon name={IconName.threeBar} />
 				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={iconName} />
+					<Icon size={25} name={profileIcon(data)} />
 					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.q || data.tag}</Text>
 				</View>
 				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
