@@ -1,9 +1,6 @@
 import React from 'react';
 import Drawer from 'react-native-drawer';
 import { Actions, DefaultRenderer } from 'react-native-router-flux';
-import { Icon } from 'react-native-elements';
-
-import { IconName } from '../../themes';
 
 import SideMenu from './SideMenu';
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { Tabs, Tab, Icon } from 'react-native-elements';
 
 import BaseScreen from '../Base';
-// import { IconName } from '../../themes';
+
 import type { Profile } from '../../types';
 
 type Props = {
