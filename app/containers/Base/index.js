@@ -79,6 +79,54 @@ class BaseScreen extends React.PureComponent {
 		});
 	}
 
+	render() {
+		const { isHome } = this.state;
+		const { profile } = this.props;
+		return (
+			<ScrollView
+				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
+			>
+				<SearchBar profile={profile} />
+				{this.renderMain()}
+				<Indicator loading={this.props.loading} />
+				{this.renderNoHit()}
+			</ScrollView>
+		);
+	}
+
+	renderMain() {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
+			return null;
+		}
+		return (
+			<View>
+				{this.renderPager()}
+				{this.renderSubscribeButton()}
+				{this.renderListView()}
+				{this.renderPager()}
+			</View>
+		);
+	}
+
+	renderPager() {
+		return (
+			<Paginator
+				pageInfo={this.props.pageInfo}
+				onPressPrev={() => {
+					this.handlePageChange(this.props.pageInfo.page - 1);
+				}}
+				onPressNext={() => {
+					this.handlePageChange(this.props.pageInfo.page + 1);
+				}}
+				onComplete={this.handlePageChange.bind(this)}
+			/>
+		);
+	}
+
+	handlePageChange(page) {
+		this.props.onLoadStories(this.props.profile, page);
+	}
+
 	renderSubscribeButton() {
 		const { profile, onAddProfile } = this.props;
 		const { isHome } = this.state;
@@ -133,54 +181,6 @@ class BaseScreen extends React.PureComponent {
 			return null;
 		}
 		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
-	}
-
-	renderPager() {
-		return (
-			<Paginator
-				pageInfo={this.props.pageInfo}
-				onPressPrev={() => {
-					this.handlePageChange(this.props.pageInfo.page - 1);
-				}}
-				onPressNext={() => {
-					this.handlePageChange(this.props.pageInfo.page + 1);
-				}}
-				onComplete={this.handlePageChange.bind(this)}
-			/>
-		);
-	}
-
-	handlePageChange(page) {
-		this.props.onLoadStories(this.props.profile, page);
-	}
-
-	renderMain() {
-		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
-		}
-		return (
-			<View>
-				{this.renderPager()}
-				{this.renderSubscribeButton()}
-				{this.renderListView()}
-				{this.renderPager()}
-			</View>
-		);
-	}
-
-	render() {
-		const { isHome } = this.state;
-		const { profile } = this.props;
-		return (
-			<ScrollView
-				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
-			>
-				<SearchBar profile={profile} />
-				{this.renderMain()}
-				<Indicator loading={this.props.loading} />
-				{this.renderNoHit()}
-			</ScrollView>
-		);
 	}
 }
 

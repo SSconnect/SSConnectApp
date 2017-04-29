@@ -9,7 +9,6 @@ import BaseScreen from '../containers/Base';
 import MainScreen from '../containers/Main';
 import TagScreen from '../containers/Tag';
 import NavigationDrawer from '../containers/NavigationDrawer';
-import TabIcon from '../components/TabIcon';
 
 import { Colors, IconName } from '../themes';
 import type { Profile } from '../types';
@@ -44,7 +43,6 @@ class NavigationRouter extends React.PureComponent {
 	render() {
 		const tabAttrs = {
 			titleStyle: Styles.title,
-			icon: TabIcon,
 			passProps: true,
 		};
 		return (

@@ -5,7 +5,6 @@ import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { moveProfile, deleteProfile } from '../../reduxs/actions';
 
