@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Linking } from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, List, ListItem } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import TabList from './TabList';
 
@@ -19,20 +20,23 @@ class SideMenu extends React.Component {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
 				<TabList />
-				<Button
-					title="開発者・リクエスト"
-					icon={{ name: IconName.send }}
-					onPress={() => {
-						Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
-					}}
-				/>
-				<Button
-					title="開発者・リクエスト"
-					icon={{ name: IconName.send }}
-					onPress={() => {
-						Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
-					}}
-				/>
+				<List>
+					<ListItem
+						title="タグ一覧"
+						leftIcon={{ name: IconName.tag }}
+						onPress={() => {
+							Actions.refresh({ key: 'drawer', open: false });
+							setTimeout(() => Actions.tagsScreen());
+						}}
+					/>
+					<ListItem
+						title="開発者・リクエスト"
+						leftIcon={{ name: IconName.send }}
+						onPress={() => {
+							Linking.openURL('https://sites.google.com/view/ssconnect/サポート');
+						}}
+					/>
+				</List>
 			</View>
 		);
 	}
