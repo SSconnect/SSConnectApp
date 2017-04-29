@@ -31,7 +31,7 @@ class RootContainer extends React.PureComponent {
 		this.forceUpdate();
 	}
 
-	renderTab(profile, tabProps) {
+	renderTab(profile: Profile) {
 		const { selectedTab } = this.state;
 		const key = profileSerialKey(profile);
 		return (
@@ -40,7 +40,7 @@ class RootContainer extends React.PureComponent {
 				titleStyle={{ fontWeight: 'bold', fontSize: 10 }}
 				selectedTitleStyle={{ marginTop: -1, marginBottom: 6 }}
 				selected={selectedTab === key}
-				title={profile.q}
+				title={profile.q || profile.tag || 'ホーム'}
 				renderIcon={() => (
 					<Icon
 						containerStyle={{
@@ -55,7 +55,6 @@ class RootContainer extends React.PureComponent {
 				)}
 				renderSelectedIcon={() => <Icon color={'#6296f9'} name="whatshot" size={30} />}
 				onPress={() => this.setState({ selectedTab: key })}
-				{...tabProps}
 			>
 				<BaseScreen profile={profile} />
 			</Tab>
@@ -68,7 +67,7 @@ class RootContainer extends React.PureComponent {
 
 		return (
 			<Tabs>
-				{this.renderTab({})}
+				{this.renderTab({ q: '', tag: '' })}
 				{tabs}
 			</Tabs>
 		);

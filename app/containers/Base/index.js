@@ -52,7 +52,7 @@ class BaseScreen extends React.PureComponent {
 			this.props.stories,
 		),
 		addDisable: false,
-		isHome: this.props.profile === {},
+		isHome: this.props.profile.q === '' && this.props.profile.tag === '',
 	};
 
 	static defaultProps = {
@@ -114,9 +114,6 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderListView() {
-		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
-		}
 		const { reads } = this.props;
 		const readedIds = _.map(reads, e => e.story_id);
 		return (
@@ -139,9 +136,6 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderPager() {
-		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
-		}
 		return (
 			<Paginator
 				pageInfo={this.props.pageInfo}
@@ -160,6 +154,20 @@ class BaseScreen extends React.PureComponent {
 		this.props.onLoadStories(this.props.profile, page);
 	}
 
+	renderMain() {
+		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
+			return null;
+		}
+		return (
+			<View>
+				{this.renderPager()}
+				{this.renderSubscribeButton()}
+				{this.renderListView()}
+				{this.renderPager()}
+			</View>
+		);
+	}
+
 	render() {
 		const { isHome } = this.state;
 		const { profile } = this.props;
@@ -168,10 +176,7 @@ class BaseScreen extends React.PureComponent {
 				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
 			>
 				<SearchBar profile={profile} />
-				{this.renderPager()}
-				{this.renderSubscribeButton()}
-				{this.renderListView()}
-				{this.renderPager()}
+				{this.renderMain()}
 				<Indicator loading={this.props.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
