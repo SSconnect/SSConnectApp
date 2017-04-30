@@ -14,11 +14,12 @@ import { selectProfiles } from '../../reduxs/selectors';
 import { Colors, IconName } from '../../themes/index';
 import type { Profile } from '../../types/index';
 
-function RowComponent({
-	sortHandlers,
-	data,
-	onDelete,
-}: { sortHandlers: any, data: Profile, onDelete: Function }) {
+type RowType = {
+	sortHandlers: any,
+	data: Profile,
+	onDelete: Function,
+};
+function RowComponent({ sortHandlers, data, onDelete }: RowType) {
 	return (
 		<TouchableOpacity
 			underlayColor={'#eee'}

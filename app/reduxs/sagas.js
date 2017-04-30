@@ -21,26 +21,26 @@ import {
 	loadStoriesEnd,
 } from './actions';
 
-import type { Profile, Read } from '../types/index';
+import type { Profile } from '../types/index';
 import realm from '../models/RealmModel';
 
 export function* addProfile(profile: Profile) {
-	const profiles = realm.addProfile(profile);
+	const profiles = yield realm.addProfile(profile);
 	yield put(addProfileEnd(profiles));
 }
 
 export function* getProfiles() {
-	const profiles = realm.getProfiles();
+	const profiles = yield realm.getProfiles();
 	yield put(loadProfilesEnd(profiles));
 }
 
 export function* moveProfile({ from, to }: { from: number, to: number }) {
-	const profiles = realm.moveProfile(from, to);
+	const profiles = yield realm.moveProfile(from, to);
 	yield put(moveProfileEnd(profiles));
 }
 
 export function* deleteProfile(profile: Profile) {
-	const profiles = realm.deleteProfile(profile);
+	const profiles = yield realm.deleteProfile(profile);
 	yield put(deleteProfileEnd(profiles));
 }
 

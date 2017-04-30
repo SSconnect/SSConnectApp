@@ -61,7 +61,7 @@ class RealmManager {
 		this.realm = realmC;
 	}
 
-	getProfiles() {
+	async getProfiles() {
 		return this.realm.objects('Profile');
 	}
 

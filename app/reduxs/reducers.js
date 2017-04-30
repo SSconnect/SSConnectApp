@@ -27,14 +27,14 @@ const initialState = fromJS({
 	loading: false,
 	error: false,
 	reads: false,
-	profiles: false,
+	profiles: [],
 	pages: {},
 });
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
 		case LOAD_PROFILES:
-			return state.set('error', false).set('profiles', false);
+			return state.set('error', false).set('profiles', []);
 		case LOAD_PROFILES_END:
 			return state.set('profiles', action.profiles);
 		case ADD_PROFILE:

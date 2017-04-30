@@ -11,7 +11,6 @@ import TagScreen from '../containers/Tag';
 import NavigationDrawer from '../containers/NavigationDrawer';
 
 import { Colors, IconName } from '../themes';
-import type { Profile } from '../types';
 
 const Styles = StyleSheet.create({
 	container: {
@@ -29,17 +28,7 @@ const Styles = StyleSheet.create({
 	},
 });
 
-type Props = {
-	profiles: Array<Profile>,
-};
-
 class NavigationRouter extends React.PureComponent {
-	props: Props;
-
-	componentWillReceiveProps() {
-		this.forceUpdate();
-	}
-
 	render() {
 		const tabAttrs = {
 			titleStyle: Styles.title,
