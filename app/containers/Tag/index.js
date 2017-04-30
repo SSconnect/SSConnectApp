@@ -60,7 +60,7 @@ class TagScreen extends React.PureComponent {
 
 	render() {
 		return (
-			<View style={{ marginTop: Scales.navBarHeight, marginBottom: 50 }}>
+			<View style={{ marginTop: Scales.navBarHeight }}>
 				<SearchBar
 					lightTheme
 					icon={{ name: 'videogame-asset' }}

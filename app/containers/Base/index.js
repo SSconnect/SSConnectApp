@@ -79,12 +79,9 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { isHome } = this.state;
 		const { profile } = this.props;
 		return (
-			<ScrollView
-				style={{ marginTop: Scales.navBarHeight, marginBottom: isHome ? Scales.footerHeight : 0 }}
-			>
+			<ScrollView style={{ marginTop: Scales.navBarHeight }}>
 				<SearchBar profile={profile} />
 				{this.renderMain()}
 				<Indicator loading={this.props.loading} />
