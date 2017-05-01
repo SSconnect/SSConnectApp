@@ -11,6 +11,7 @@
     "lint": "eslint App",
     "lint:fix": "eslint App --fix",
     "precommit": "lint-staged",
+    "release:android": "cd android && ./gradlew assembleRelease",
     "test": "jest"
   },
   "dependencies": {

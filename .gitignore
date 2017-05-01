@@ -54,3 +54,7 @@ fastlane/Preview.html
 fastlane/screenshots
 
 flow-typed/
+*.apk
+
+android/app/src/main/assets/
+android/app/src/main/res/
