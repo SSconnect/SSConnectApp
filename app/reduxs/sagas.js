@@ -1,9 +1,9 @@
 import { fork, put, takeLatest } from 'redux-saga/effects';
+import { Platform } from 'react-native';
+import InAppBilling from 'react-native-billing';
 
 import config from '../configs';
 import feedClient from '../services/FeedClient';
-
-import InAppBilling from 'react-native-billing';
 
 import {
 	LOAD_PROFILES,
@@ -60,7 +60,17 @@ export function* getReads() {
 }
 
 export function* getPremium() {
-	yield put(loadPremiumEnd(false));
+	if (Platform.OS === 'ios') {
+		yield put(loadPremiumEnd(true));
+		return;
+	}
+	// android
+	yield InAppBilling.close();
+	yield InAppBilling.open();
+
+	const isPurchased = yield InAppBilling.isPurchased(config.productID);
+	yield put(loadPremiumEnd(isPurchased));
+	yield InAppBilling.close();
 }
 
 export function* getStories({ profile, page }: { profile: Profile }) {

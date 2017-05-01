@@ -7,7 +7,7 @@ type Params = {
 	page?: number,
 	tag?: string,
 	blog_id?: number,
-	q?: string,
+	q?: string
 };
 
 class FeedClient {
