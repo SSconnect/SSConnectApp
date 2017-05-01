@@ -3,6 +3,8 @@ import { fork, put, takeLatest } from 'redux-saga/effects';
 import config from '../configs';
 import feedClient from '../services/FeedClient';
 
+import InAppBilling from 'react-native-billing';
+
 import {
 	LOAD_PROFILES,
 	ADD_PROFILE,
