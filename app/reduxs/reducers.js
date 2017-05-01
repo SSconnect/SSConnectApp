@@ -19,6 +19,8 @@ import {
 	ADD_READ_END,
 	LOAD_STORIES,
 	LOAD_STORIES_END,
+	LOAD_PREMIUM,
+	LOAD_PREMIUM_END,
 	UPDATE_PAGE,
 } from './constants';
 
@@ -29,6 +31,7 @@ const initialState = fromJS({
 	reads: false,
 	profiles: [],
 	pages: {},
+	premium: false,
 });
 
 function appReducers(state = initialState, action) {
@@ -58,6 +61,11 @@ function appReducers(state = initialState, action) {
 			return state.set('error', false);
 		case ADD_READ_END:
 			return state.set('reads', action.reads);
+
+		case LOAD_PREMIUM:
+			return state.set('premium', false);
+		case LOAD_PREMIUM_END:
+			return state.set('premium', action.isPremium);
 
 		case LOAD_STORIES:
 			return state

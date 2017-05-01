@@ -16,4 +16,7 @@ export const LOAD_STORIES = 'ssconnect/App/LOAD_STORIES';
 export const LOAD_STORIES_END = 'ssconnect/App/LOAD_STORIES_END';
 export const LOAD_STORIES_ERROR = 'ssconnect/App/LOAD_STORIES_ERROR';
 
+export const LOAD_PREMIUM = 'ssconnect/App/LOAD_PREMIUM';
+export const LOAD_PREMIUM_END = 'ssconnect/App/LOAD_PREMIUM_END';
+
 export const UPDATE_PAGE = 'ssconnect/App/UPDATE_PAGE';

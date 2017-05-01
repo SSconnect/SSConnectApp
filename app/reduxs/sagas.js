@@ -1,4 +1,6 @@
 import { fork, put, takeLatest } from 'redux-saga/effects';
+
+import config from '../configs';
 import feedClient from '../services/FeedClient';
 
 import {
@@ -9,6 +11,7 @@ import {
 	LOAD_READS,
 	ADD_READ,
 	LOAD_STORIES,
+	LOAD_PREMIUM,
 } from './constants';
 
 import {
@@ -19,16 +22,16 @@ import {
 	loadReadsEnd,
 	addReadEnd,
 	loadStoriesEnd,
+	loadPremiumEnd,
 } from './actions';
 
-import type { Profile } from '../types/index';
 import realm from '../models/RealmModel';
+import type { Profile } from '../types/index';
 
 export function* addProfile(profile: Profile) {
 	const profiles = yield realm.addProfile(profile);
 	yield put(addProfileEnd(profiles));
 }
-
 export function* getProfiles() {
 	const profiles = yield realm.getProfiles();
 	yield put(loadProfilesEnd(profiles));
@@ -54,6 +57,10 @@ export function* getReads() {
 	yield put(loadReadsEnd(reads));
 }
 
+export function* getPremium() {
+	yield put(loadPremiumEnd(false));
+}
+
 export function* getStories({ profile, page }: { profile: Profile }) {
 	const { stories, pageInfo } = yield feedClient.getStories({ page, ...profile });
 	yield put(loadStoriesEnd(profile, pageInfo, stories));
@@ -68,6 +75,7 @@ export function* appData() {
 	yield takeLatest(LOAD_READS, getReads);
 	yield takeLatest(ADD_READ, addRead);
 	yield takeLatest(LOAD_STORIES, getStories);
+	yield takeLatest(LOAD_PREMIUM, getPremium);
 }
 
 export default function* root() {
