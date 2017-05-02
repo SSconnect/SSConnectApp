@@ -29,10 +29,9 @@ const initialState = fromJS({
 	loading: false,
 	error: false,
 	reads: false,
-	profiles: [],
-	pages: {},
 	premium: false,
-});
+	pages: {},
+}).set('profiles', []);
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
@@ -77,7 +76,7 @@ function appReducers(state = initialState, action) {
 				.set('loading', false)
 				.setIn(
 					['pages', profileSerialKey(action.profile), 'stories', action.pageInfo.page],
-					action.stories,
+					action.stories
 				)
 				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], action.pageInfo);
 		case UPDATE_PAGE:
