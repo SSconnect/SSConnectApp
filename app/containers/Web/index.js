@@ -27,7 +27,7 @@ type State = {
 class WebScreen extends React.Component {
 	props: Props;
 	state: State = {
-		height: 100,
+		height: 40,
 	};
 
 	componentDidMount() {}
@@ -55,14 +55,14 @@ class WebScreen extends React.Component {
 				>
 					<Button
 						style={{ flex: 1 }}
-						icon={{ type: 'font-awesome', name: 'caret-up' }}
+						color="#ccc"
 						onPress={() => {
 							this.setState({ height: height - 10 });
 						}}
 					/>
 					<Button
 						style={{ flex: 1 }}
-						icon={{ type: 'font-awesome', name: 'caret-down' }}
+						color="#ccc"
 						onPress={() => {
 							this.setState({ height: height + 10 });
 						}}
@@ -71,10 +71,7 @@ class WebScreen extends React.Component {
 					<Button
 						style={{ flex: 2 }}
 						title="Safari"
-						icon={{
-							type: 'font-awesome',
-							name: 'safari',
-						}}
+						icon={{ type: 'font-awesome', name: 'safari' }}
 						onPress={() => {
 							Actions.pop();
 							Linking.openURL(uri);
