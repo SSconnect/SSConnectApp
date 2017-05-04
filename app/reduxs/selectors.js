@@ -21,9 +21,10 @@ const inStories = (state, props) => {
 
 const inPageInfo = (state, props) => inProfilePage(state, props).get('pageInfo');
 
+const selectPremium = createSelector(selectGlobal, state => state.get('premium'));
 const selectLoading = createSelector(selectGlobal, state => state.get('loading'));
 const selectError = createSelector(selectGlobal, state => state.get('error'));
-const selectProfiles = createSelector(inProfiles, state => (state.length > 0 ? state : []));
+const selectProfiles = createSelector(inProfiles, state => state);
 const existsProfiles = createSelector(inProfiles, state => state.includes(''));
 const selectReads = createSelector(inReads, state => state);
 
@@ -32,6 +33,7 @@ const makeSelectStories = () => createSelector([inStories], state => state || []
 
 export {
 	selectGlobal,
+	selectPremium,
 	selectLoading,
 	selectError,
 	selectProfiles,

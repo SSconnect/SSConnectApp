@@ -9,6 +9,8 @@ import {
 	LOAD_STORIES_END,
 	LOAD_READS,
 	LOAD_READS_END,
+	LOAD_PREMIUM,
+	LOAD_PREMIUM_END,
 	ADD_READ,
 	ADD_READ_END,
 	MOVE_PROFILE,
@@ -69,6 +71,19 @@ export function moveProfileEnd(profiles) {
 	return {
 		type: MOVE_PROFILE_END,
 		profiles,
+	};
+}
+
+export function loadPremium() {
+	return {
+		type: LOAD_PREMIUM,
+	};
+}
+
+export function loadPremiumEnd(isPremium) {
+	return {
+		type: LOAD_PREMIUM_END,
+		isPremium,
 	};
 }
 

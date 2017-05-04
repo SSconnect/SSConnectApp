@@ -1,4 +1,8 @@
 import { fork, put, takeLatest } from 'redux-saga/effects';
+import { Platform } from 'react-native';
+import InAppBilling from 'react-native-billing';
+
+import config from '../configs';
 import feedClient from '../services/FeedClient';
 
 import {
@@ -9,6 +13,7 @@ import {
 	LOAD_READS,
 	ADD_READ,
 	LOAD_STORIES,
+	LOAD_PREMIUM,
 } from './constants';
 
 import {
@@ -19,16 +24,16 @@ import {
 	loadReadsEnd,
 	addReadEnd,
 	loadStoriesEnd,
+	loadPremiumEnd,
 } from './actions';
 
-import type { Profile } from '../types/index';
 import realm from '../models/RealmModel';
+import type { Profile } from '../types/index';
 
 export function* addProfile(profile: Profile) {
 	const profiles = yield realm.addProfile(profile);
 	yield put(addProfileEnd(profiles));
 }
-
 export function* getProfiles() {
 	const profiles = yield realm.getProfiles();
 	yield put(loadProfilesEnd(profiles));
@@ -54,6 +59,20 @@ export function* getReads() {
 	yield put(loadReadsEnd(reads));
 }
 
+export function* getPremium() {
+	if (Platform.OS === 'ios') {
+		yield put(loadPremiumEnd(true));
+		return;
+	}
+	// android
+	yield InAppBilling.close();
+	yield InAppBilling.open();
+
+	const isPurchased = yield InAppBilling.isPurchased(config.productID);
+	yield put(loadPremiumEnd(isPurchased));
+	yield InAppBilling.close();
+}
+
 export function* getStories({ profile, page }: { profile: Profile }) {
 	const { stories, pageInfo } = yield feedClient.getStories({ page, ...profile });
 	yield put(loadStoriesEnd(profile, pageInfo, stories));
@@ -68,6 +87,7 @@ export function* appData() {
 	yield takeLatest(LOAD_READS, getReads);
 	yield takeLatest(ADD_READ, addRead);
 	yield takeLatest(LOAD_STORIES, getStories);
+	yield takeLatest(LOAD_PREMIUM, getPremium);
 }
 
 export default function* root() {

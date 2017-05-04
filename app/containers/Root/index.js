@@ -4,7 +4,7 @@ import React from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { loadProfiles, loadReads } from '../../reduxs/actions';
+import { loadProfiles, loadReads, loadPremium } from '../../reduxs/actions';
 import { selectProfiles } from '../../reduxs/selectors';
 
 import realm from '../../models/RealmModel';
@@ -38,6 +38,7 @@ type Props = {
 	profiles: Array<Profile>,
 	loadProfiles: Function,
 	loadReads: Function,
+	loadPremium: Function,
 };
 
 class RootContainer extends React.Component {
@@ -49,6 +50,7 @@ class RootContainer extends React.Component {
 		// if (!ReduxPersist.active) {
 		this.props.loadProfiles();
 		this.props.loadReads();
+		this.props.loadPremium();
 		// }
 	}
 
@@ -73,6 +75,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = dispatch => ({
 	loadProfiles: () => dispatch(loadProfiles()),
 	loadReads: () => dispatch(loadReads()),
+	loadPremium: () => dispatch(loadPremium()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);

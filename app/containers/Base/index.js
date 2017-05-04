@@ -36,20 +36,20 @@ type Props = {
 	profiles: Array<Profile>,
 	loading: boolean,
 	pageInfo: PageInfo,
-	stories: Array<Story>,
+	stories: Array<Story>
 };
 
 type State = {
 	dataSource: any,
 	addDisable: boolean,
-	isHome: boolean,
+	isHome: boolean
 };
 
 class BaseScreen extends React.PureComponent {
 	props: Props;
 	state: State = {
 		dataSource: new ListView.DataSource({ rowHasChanged: BaseScreen.rowHasChanged }).cloneWithRows(
-			this.props.stories,
+			this.props.stories
 		),
 		addDisable: false,
 		isHome: this.props.profile.q === '' && this.props.profile.tag === '',

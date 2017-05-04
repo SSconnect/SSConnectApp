@@ -17,7 +17,7 @@ import type { Profile } from '../../types/index';
 type RowType = {
 	sortHandlers: any,
 	data: Profile,
-	onDelete: Function,
+	onDelete: Function
 };
 function RowComponent({ sortHandlers, data, onDelete }: RowType) {
 	return (
@@ -51,7 +51,7 @@ function RowComponent({ sortHandlers, data, onDelete }: RowType) {
 type Props = {
 	profiles: Array<Profile>,
 	onMoveProfile: (from, to) => {},
-	onDeleteProfile: Function,
+	onDeleteProfile: Function
 };
 
 class TabList extends React.PureComponent {
