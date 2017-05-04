@@ -56,7 +56,7 @@ class NavigationRouter extends React.PureComponent {
 							{...tabAttrs}
 						/>
 						<Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
-						<Scene key="webScreen" component={WebScreen} {...tabAttrs} />
+						<Scene key="webScreen" component={WebScreen} {...tabAttrs} panHandlers={null} />
 					</Scene>
 				</Scene>
 			</Router>

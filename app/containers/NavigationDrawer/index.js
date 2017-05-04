@@ -6,7 +6,7 @@ import SideMenu from './SideMenu';
 
 type Props = {
 	navigationState: any,
-	onNavigate: any,
+	onNavigate: any
 };
 
 class NavigationDrawer extends React.Component {
@@ -28,7 +28,7 @@ class NavigationDrawer extends React.Component {
 					main: { opacity: Math.max(0.54, 1 - ratio) },
 				})}
 				captureGestures="open"
-				panOpenMask={0.20}
+				panOpenMask={0.03}
 				negotiatePan
 				acceptPan
 				tapToClose
