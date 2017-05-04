@@ -34,11 +34,20 @@ class WebScreen extends React.Component {
 		return (
 			<View style={styles.applicationView}>
 				<WebView source={{ uri }} />
-				<View style={{ flexDirection: 'row', background: 'gray' }}>
+				<View
+					style={{
+						flexDirection: 'row',
+						backgroundColor: '#ccc',
+					}}
+				>
 					<View style={{ flex: 2 }} />
 					<Button
 						style={{ flex: 1 }}
 						title="Safari"
+						icon={{
+							type: 'font-awesome',
+							name: 'safari',
+						}}
 						onPress={() => {
 							Actions.pop();
 							Linking.openURL(uri);
