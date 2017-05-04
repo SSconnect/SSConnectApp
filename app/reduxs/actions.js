@@ -16,6 +16,9 @@ import {
 	MOVE_PROFILE,
 	MOVE_PROFILE_END,
 	UPDATE_PAGE,
+	LOAD_CONFIG,
+	LOAD_CONFIG_END,
+	TOGGLE_IAB_CONFIG,
 } from './constants';
 
 export function loadProfiles() {
@@ -138,3 +141,7 @@ export function updatePage(profile, page) {
 		page,
 	};
 }
+
+export const loadConfig = () => ({ type: LOAD_CONFIG });
+export const loadConfigEnd = config => ({ type: LOAD_CONFIG_END, config });
+export const toggleConfigIAB = () => ({ type: TOGGLE_IAB_CONFIG });

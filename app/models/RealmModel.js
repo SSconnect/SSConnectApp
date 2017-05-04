@@ -115,7 +115,6 @@ class RealmManager {
 		this.realm.write(() => {
 			config.inappbrowse = !config.inappbrowse;
 		});
-		return !config.inappbrowse;
 	}
 
 	selectProfile(profile: Profile) {
