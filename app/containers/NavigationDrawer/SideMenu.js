@@ -28,12 +28,7 @@ class SideMenu extends React.Component {
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
 				<TabList />
-				<CheckBox
-					center
-					title="Click Here"
-					checked={config.inappbrowse}
-					onPress={onToggleConfigIAB}
-				/>
+				<CheckBox center title="アプリで開く" checked={config.inappbrowse} onPress={onToggleConfigIAB} />
 				<List>
 					<ListItem
 						title="タグ一覧"
