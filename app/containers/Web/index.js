@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, StyleSheet, WebView, Linking } from 'react-native';
+import { View, StyleSheet, WebView, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -70,8 +70,8 @@ class WebScreen extends React.Component {
 					<View style={{ flex: 2 }} />
 					<Button
 						style={{ flex: 2 }}
-						title="Safari"
-						icon={{ type: 'font-awesome', name: 'safari' }}
+						title="開く"
+						icon={{ type: 'font-awesome', name: Platform.OS === 'ios' ? 'safari' : 'chrome' }}
 						onPress={() => {
 							Actions.pop();
 							Linking.openURL(uri);
