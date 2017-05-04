@@ -45,7 +45,7 @@ class WebScreen extends React.Component {
 				<View
 					style={{
 						flexDirection: 'row',
-						backgroundColor: '#ccc',
+						backgroundColor: '#ddd',
 						position: 'absolute',
 						bottom: 0,
 						left: 0,
@@ -55,16 +55,16 @@ class WebScreen extends React.Component {
 				>
 					<Button
 						style={{ flex: 1 }}
-						color="#ccc"
+						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: height - 10 });
+							this.setState({ height: height + 10 });
 						}}
 					/>
 					<Button
 						style={{ flex: 1 }}
-						color="#ccc"
+						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: height + 10 });
+							this.setState({ height: Math.max(height - 10, 40) });
 						}}
 					/>
 					<View style={{ flex: 2 }} />
