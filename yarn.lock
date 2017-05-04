@@ -2112,7 +2112,7 @@ fbjs-scripts@^0.7.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9, fbjs@~0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.5, fbjs@^0.8.9, fbjs@~0.8.9:
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.9.tgz#180247fbd347dcc9004517b904f865400a0c8f14"
   dependencies:
@@ -2204,9 +2204,9 @@ flow-bin@^0.45.0:
   version "0.45.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.45.0.tgz#009dd0f577a3f665c74ca8be827ae8c2dd8fd6b5"
 
-flow-parser@0.43.0:
-  version "0.43.0"
-  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.43.0.tgz#e2b8eb1ac83dd53f7b6b04a7c35b6a52c33479b7"
+flow-parser@0.45.0:
+  version "0.45.0"
+  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.45.0.tgz#aa29d4ae27f06aa02817772bba0fcbefef7e62f0"
 
 follow-redirects@^1.2.3:
   version "1.2.3"
@@ -2602,13 +2602,13 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
-
-inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1:
+inherits@2, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+
+inherits@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
 
 ini@^1.3.4, ini@~1.3.0:
   version "1.3.4"
@@ -4073,9 +4073,9 @@ prettier-eslint-cli@^3.4.2:
     rxjs "^5.3.0"
     yargs "^7.1.0"
 
-prettier-eslint@^6.0.0, prettier-eslint@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/prettier-eslint/-/prettier-eslint-6.1.2.tgz#97984cbeb668d3b748cda92983898b2fa4850006"
+prettier-eslint@^6.0.0, prettier-eslint@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/prettier-eslint/-/prettier-eslint-6.2.0.tgz#1b5c9ea695be120fb2332ff81d6ae1c945ddbf06"
   dependencies:
     common-tags "^1.4.0"
     dlv "^1.1.0"
@@ -4083,20 +4083,20 @@ prettier-eslint@^6.0.0, prettier-eslint@^6.1.2:
     indent-string "^3.1.0"
     lodash.merge "^4.6.0"
     loglevel-colored-level-prefix "^1.0.0"
-    prettier "^1.0.2"
+    prettier "^1.3.0"
     pretty-format "^19.0.0"
     require-relative "^0.8.7"
 
-prettier@^1.0.2, prettier@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.2.2.tgz#22d17c1132faaaea1f1d4faea31f19f7a1959f3e"
+prettier@^1.3.0, prettier@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.3.1.tgz#fa0ea84b45ac0ba6de6a1e4cecdcff900d563151"
   dependencies:
     ast-types "0.9.8"
     babel-code-frame "6.22.0"
     babylon "7.0.0-beta.8"
     chalk "1.1.3"
     esutils "2.0.2"
-    flow-parser "0.43.0"
+    flow-parser "0.45.0"
     get-stdin "5.0.1"
     glob "7.1.1"
     jest-validate "19.0.0"
@@ -4138,7 +4138,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0:
+prop-types@^15.0.0, prop-types@^15.5.8:
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
   dependencies:
@@ -4218,12 +4218,9 @@ rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-addons-pure-render-mixin@^15.0.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.4.2.tgz#a8433c71c45e2368503721921dc47bdaf1fbabcd"
-  dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
+react-addons-pure-render-mixin@15.0.2, react-addons-pure-render-mixin@^15.0.2:
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/react-addons-pure-render-mixin/-/react-addons-pure-render-mixin-15.0.2.tgz#b7731c5cc7f21214d68a78c84f40df3aefdf462f"
 
 react-clone-referenced-element@^1.0.1:
   version "1.0.1"
@@ -4248,15 +4245,15 @@ react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
 
-react-native-drawer-layout-polyfill@^1.0.4:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-drawer-layout-polyfill/-/react-native-drawer-layout-polyfill-1.3.0.tgz#50ea3f1dceed360b06f24a33b5ef3701d5c1417a"
+react-native-drawer-layout-polyfill@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout-polyfill/-/react-native-drawer-layout-polyfill-1.2.0.tgz#0d77bd3af8964ffe7fd0f1f6550d6be328a5b567"
   dependencies:
-    react-native-drawer-layout "1.3.0"
+    react-native-drawer-layout "1.2.0"
 
-react-native-drawer-layout@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-1.3.0.tgz#3f9942c4c57e18bfe947a1a9b624365c91914280"
+react-native-drawer-layout@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-1.2.0.tgz#ae274ee17fadce58d9d7ecef4797d9fad672af74"
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
@@ -4266,9 +4263,9 @@ react-native-drawer@^2.3.0:
   dependencies:
     tween-functions "^1.0.1"
 
-react-native-elements@^0.10.0:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.10.3.tgz#ddef62a456cb71a21a2fdf4aa9ee268af7e1cdd0"
+react-native-elements@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.11.2.tgz#441b26d1a3102eb11abd0dbf24e291b3eb630e56"
   dependencies:
     react-native-side-menu "^0.20.1"
     react-native-tab-navigator "^0.3.3"
@@ -4291,10 +4288,11 @@ react-native-infinite-scroll-view@^0.4.2:
     react-clone-referenced-element "^1.0.1"
     react-native-scrollable-mixin "^1.0.0"
 
-react-native-router-flux@^3.37.0:
-  version "3.38.0"
-  resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-3.38.0.tgz#f5f8ec2875b46f96f61006ff502d0d80268e6ce2"
+react-native-router-flux@3.37.0:
+  version "3.37.0"
+  resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-3.37.0.tgz#18e8fd3e1e6dbdc4d8340cd47313c28bb9bb1caf"
   dependencies:
+    react-addons-pure-render-mixin "15.0.2"
     react-native-experimental-navigation "0.26.x"
     react-native-tabs "^1.0.9"
     react-static-container "1.0.1"
@@ -4323,19 +4321,22 @@ react-native-tab-navigator@^0.3.3:
   dependencies:
     immutable "^3.8.1"
 
-react-native-tab-view@^0.0.57:
-  version "0.0.57"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.57.tgz#715e2ea4100fa50168e134df3947dd76ebd55743"
+react-native-tab-view@^0.0.61:
+  version "0.0.61"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.61.tgz#9f5446c9ad33158b87f0bccf5004fbff79ca1f92"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-native-tabs@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/react-native-tabs/-/react-native-tabs-1.0.9.tgz#75d3c35e8b5b6970869eab282372cb32e2a782cd"
 
-react-native-vector-icons@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.0.1.tgz#39c05d2e775deeb98d5afdbda5dcf67965ff674f"
+react-native-vector-icons@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.1.0.tgz#816054e85ce7d0a68957b2a4433d2daea91fd821"
   dependencies:
     lodash "^4.0.0"
+    prop-types "^15.5.8"
     yargs "^6.3.0"
 
 react-native@^0.44.0:
@@ -4424,16 +4425,17 @@ react-native@^0.44.0:
     xpipe "^1.0.5"
     yargs "^6.4.0"
 
-"react-navigation@git+https://github.com/react-community/react-navigation.git#7edd9a7":
-  version "1.0.0-beta.7"
-  resolved "git+https://github.com/react-community/react-navigation.git#7edd9a7"
+react-navigation@^1.0.0-beta.9:
+  version "1.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.9.tgz#9fb1f8e4d15cee70cc8b5d58719a986ca443664d"
   dependencies:
     clamp "^1.0.1"
     fbjs "^0.8.5"
     hoist-non-react-statics "^1.2.0"
     path-to-regexp "^1.7.0"
-    react-native-drawer-layout-polyfill "^1.0.4"
-    react-native-tab-view "^0.0.57"
+    prop-types "^15.5.8"
+    react-native-drawer-layout-polyfill "1.2.0"
+    react-native-tab-view "^0.0.61"
 
 react-proxy@^1.1.7:
   version "1.1.8"
@@ -4587,17 +4589,17 @@ redux-logger@^3.0.1:
   dependencies:
     deep-diff "0.3.4"
 
-redux-persist@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.6.0.tgz#3994793d5f2f38bf02591c9e693e16bf8eae2728"
+redux-persist@^4.7.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.7.1.tgz#162abce7063066db37fdb2d51ed39a16c6561ac5"
   dependencies:
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
     lodash-es "^4.17.4"
 
-redux-saga@^0.14.6:
-  version "0.14.6"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.6.tgz#bc409aa0edaa4a7234759041cc70da62f37c6f13"
+redux-saga@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.1.tgz#13db6b78d34ca9e77c983935143ec0ed1cfe34b5"
 
 redux@^3.6.0:
   version "3.6.0"

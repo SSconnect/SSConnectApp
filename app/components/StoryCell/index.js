@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Linking } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import moment from 'moment';
 
@@ -13,11 +14,11 @@ import type { Story } from '../../types';
 type Props = {
 	story: Story,
 	onAddRead: Function,
-	readed: boolean,
+	readed: boolean
 };
 
 type State = {
-	readed: boolean,
+	readed: boolean
 };
 
 class StoryCell extends React.PureComponent {
@@ -35,9 +36,17 @@ class StoryCell extends React.PureComponent {
 			<TouchableOpacity
 				onPress={() => {
 					onAddRead(story);
-					const url = story.articles[0].url;
+					const uri = story.articles[0].url;
 					this.setState({ readed: true });
-					Linking.openURL(url);
+					if (false) {
+						Linking.openURL(uri);
+					} else {
+						Actions.webScreen({
+							title: story.title,
+							uri,
+							direction: 'vertical',
+						});
+					}
 				}}
 			>
 				<View style={{ padding: 10 }}>

@@ -14,14 +14,14 @@ import { selectProfiles } from '../../reduxs/selectors';
 import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils';
 
 type Props = {
-	profiles: Array<Profile>,
+	profiles: Array<Profile>
 };
 
 type State = {
-	selectedTab: string,
+	selectedTab: string
 };
 
-class RootContainer extends React.PureComponent {
+class MainScreen extends React.PureComponent {
 	props: Props;
 	state: State = { selectedTab: profileSerialKey({}) };
 
@@ -35,25 +35,30 @@ class RootContainer extends React.PureComponent {
 		const { selectedTab } = this.state;
 		const key = profileSerialKey(profile);
 		const selected = selectedTab === key;
+
+		const iconProps = {
+			containerStyle: {
+				justifyContent: 'center',
+				alignItems: 'center',
+				marginTop: 0,
+			},
+			name: profileIcon(profile),
+			size: 24,
+		};
 		return (
 			<Tab
 				key={key}
-				titleStyle={{ fontWeight: 'bold', fontSize: 10 }}
-				selectedTitleStyle={{ marginTop: -1, marginBottom: 6 }}
 				selected={selected}
+				style={{
+					padding: 5,
+				}}
 				title={profileLabel(profile)}
-				renderIcon={() => (
-					<Icon
-						containerStyle={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginTop: 12,
-						}}
-						name={profileIcon(profile)}
-						size={33}
-					/>
-				)}
-				renderSelectedIcon={() => <Icon color={'#6296f9'} name={profileIcon(profile)} size={30} />}
+				titleStyle={{
+					margin: 0,
+					marginBottom: 5,
+				}}
+				renderIcon={() => <Icon {...iconProps} />}
+				renderSelectedIcon={() => <Icon color={'#6296f9'} {...iconProps} />}
 				onPress={() => this.setState({ selectedTab: key })}
 			>
 				<BaseScreen profile={profile} />
@@ -80,4 +85,4 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
