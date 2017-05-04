@@ -41,7 +41,7 @@ class WebScreen extends React.Component {
 		const { height } = this.state;
 		return (
 			<View style={styles.applicationView}>
-				<WebView source={{ uri }} />
+				<WebView source={{ uri }} style={{ marginBottom: 40 }} />
 				<View
 					style={{
 						flexDirection: 'row',
