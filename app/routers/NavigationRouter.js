@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import BaseScreen from '../containers/Base';
 import MainScreen from '../containers/Main';
+import WebScreen from '../containers/Web';
 import TagScreen from '../containers/Tag';
 import NavigationDrawer from '../containers/NavigationDrawer';
 
@@ -55,6 +56,12 @@ class NavigationRouter extends React.PureComponent {
 							{...tabAttrs}
 						/>
 						<Scene key="baseScreen" component={BaseScreen} title="結果" titleStyle={Styles.title} />
+						<Scene
+							key="webScreen"
+							component={WebScreen}
+							titleStyle={Styles.title}
+							direciton="vertical"
+						/>
 					</Scene>
 				</Scene>
 			</Router>

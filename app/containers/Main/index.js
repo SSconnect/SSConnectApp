@@ -14,14 +14,14 @@ import { selectProfiles } from '../../reduxs/selectors';
 import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils';
 
 type Props = {
-	profiles: Array<Profile>,
+	profiles: Array<Profile>
 };
 
 type State = {
-	selectedTab: string,
+	selectedTab: string
 };
 
-class RootContainer extends React.PureComponent {
+class MainScreen extends React.PureComponent {
 	props: Props;
 	state: State = { selectedTab: profileSerialKey({}) };
 
@@ -80,4 +80,4 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
