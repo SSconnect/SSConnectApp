@@ -49,7 +49,14 @@ class MainScreen extends React.PureComponent {
 			<Tab
 				key={key}
 				selected={selected}
+				style={{
+					padding: 5,
+				}}
 				title={profileLabel(profile)}
+				titleStyle={{
+					margin: 0,
+					marginBottom: 5,
+				}}
 				renderIcon={() => <Icon {...iconProps} />}
 				renderSelectedIcon={() => <Icon color={'#6296f9'} {...iconProps} />}
 				onPress={() => this.setState({ selectedTab: key })}
