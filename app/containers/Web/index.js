@@ -1,11 +1,20 @@
 // @flow
 
 import React from 'react';
-import { View, StyleSheet, WebView } from 'react-native';
+import { View, StyleSheet, WebView, Linking } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
+
+import { Scales } from '../../themes';
 
 // Styles
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	applicationView: {
+		flex: 1,
+		marginTop: Scales.navBarHeight,
+	},
+});
 
 type Props = {
 	uri: string
@@ -25,6 +34,17 @@ class WebScreen extends React.Component {
 		return (
 			<View style={styles.applicationView}>
 				<WebView source={{ uri }} />
+				<View style={{ flexDirection: 'row', background: 'gray' }}>
+					<View style={{ flex: 2 }} />
+					<Button
+						style={{ flex: 1 }}
+						title="Safari"
+						onPress={() => {
+							Actions.pop();
+							Linking.openURL(uri);
+						}}
+					/>
+				</View>
 			</View>
 		);
 	}

@@ -44,6 +44,7 @@ class StoryCell extends React.PureComponent {
 						Actions.webScreen({
 							title: story.title,
 							uri,
+							direction: 'vertical',
 						});
 					}
 				}}
