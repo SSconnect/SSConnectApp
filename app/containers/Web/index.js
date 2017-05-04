@@ -20,8 +20,15 @@ type Props = {
 	uri: string
 };
 
+type State = {
+	height: number
+};
+
 class WebScreen extends React.Component {
 	props: Props;
+	state: State = {
+		height: 100,
+	};
 
 	componentDidMount() {}
 
@@ -31,6 +38,7 @@ class WebScreen extends React.Component {
 
 	render() {
 		const { uri } = this.props;
+		const { height } = this.state;
 		return (
 			<View style={styles.applicationView}>
 				<WebView source={{ uri }} />
@@ -38,11 +46,30 @@ class WebScreen extends React.Component {
 					style={{
 						flexDirection: 'row',
 						backgroundColor: '#ccc',
+						position: 'absolute',
+						bottom: 0,
+						left: 0,
+						right: 0,
+						height,
 					}}
 				>
-					<View style={{ flex: 2 }} />
 					<Button
 						style={{ flex: 1 }}
+						icon={{ type: 'font-awesome', name: 'caret-up' }}
+						onPress={() => {
+							this.setState({ height: height - 10 });
+						}}
+					/>
+					<Button
+						style={{ flex: 1 }}
+						icon={{ type: 'font-awesome', name: 'caret-down' }}
+						onPress={() => {
+							this.setState({ height: height + 10 });
+						}}
+					/>
+					<View style={{ flex: 2 }} />
+					<Button
+						style={{ flex: 2 }}
 						title="Safari"
 						icon={{
 							type: 'font-awesome',
