@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, StyleSheet, WebView, Linking } from 'react-native';
+import { View, StyleSheet, WebView, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -41,11 +41,11 @@ class WebScreen extends React.Component {
 		const { height } = this.state;
 		return (
 			<View style={styles.applicationView}>
-				<WebView source={{ uri }} />
+				<WebView source={{ uri }} style={{ marginBottom: 40 }} />
 				<View
 					style={{
 						flexDirection: 'row',
-						backgroundColor: '#ccc',
+						backgroundColor: '#ddd',
 						position: 'absolute',
 						bottom: 0,
 						left: 0,
@@ -55,23 +55,23 @@ class WebScreen extends React.Component {
 				>
 					<Button
 						style={{ flex: 1 }}
-						color="#ccc"
+						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: height - 10 });
+							this.setState({ height: height + 10 });
 						}}
 					/>
 					<Button
 						style={{ flex: 1 }}
-						color="#ccc"
+						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: height + 10 });
+							this.setState({ height: Math.max(height - 10, 40) });
 						}}
 					/>
 					<View style={{ flex: 2 }} />
 					<Button
 						style={{ flex: 2 }}
-						title="Safari"
-						icon={{ type: 'font-awesome', name: 'safari' }}
+						title="開く"
+						icon={{ type: 'font-awesome', name: Platform.OS === 'ios' ? 'safari' : 'chrome' }}
 						onPress={() => {
 							Actions.pop();
 							Linking.openURL(uri);

@@ -49,3 +49,7 @@ export type PageInfo = {
 	prev: number | false,
 	next: number | false
 };
+
+export type Config = {
+	inappbrowse: boolean
+};

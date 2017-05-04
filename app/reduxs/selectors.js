@@ -21,6 +21,7 @@ const inStories = (state, props) => {
 
 const inPageInfo = (state, props) => inProfilePage(state, props).get('pageInfo');
 
+const selectConfig = createSelector(selectGlobal, state => state.get('config'));
 const selectPremium = createSelector(selectGlobal, state => state.get('premium'));
 const selectLoading = createSelector(selectGlobal, state => state.get('loading'));
 const selectError = createSelector(selectGlobal, state => state.get('error'));
@@ -33,6 +34,7 @@ const makeSelectStories = () => createSelector([inStories], state => state || []
 
 export {
 	selectGlobal,
+	selectConfig,
 	selectPremium,
 	selectLoading,
 	selectError,

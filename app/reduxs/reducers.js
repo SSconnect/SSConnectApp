@@ -22,6 +22,8 @@ import {
 	LOAD_PREMIUM,
 	LOAD_PREMIUM_END,
 	UPDATE_PAGE,
+	LOAD_CONFIG_END,
+	TOGGLE_IAB_CONFIG,
 } from './constants';
 
 // The initial state of the app
@@ -31,7 +33,9 @@ const initialState = fromJS({
 	reads: false,
 	premium: false,
 	pages: {},
-}).set('profiles', []);
+})
+	.set('profiles', [])
+	.set('config', { inappbrowse: false });
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
@@ -83,6 +87,11 @@ function appReducers(state = initialState, action) {
 			return state.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], {
 				page: action.page,
 			});
+		case LOAD_CONFIG_END:
+			return state.set('config', action.config);
+		case TOGGLE_IAB_CONFIG:
+			return state.set('config', { inappbrowse: !state.get('config').inappbrowse });
+
 		default:
 			return state;
 	}

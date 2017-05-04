@@ -1,25 +1,34 @@
 import React from 'react';
 import { View, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, CheckBox } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import TabList from './TabList';
+import { selectConfig } from '../../reduxs/selectors';
+import { toggleConfigIAB } from '../../reduxs/actions';
 
 import { Scales, IconName } from '../../themes';
+import { Config } from '../../types';
 
-type Props = {};
-
-type State = {};
+type Props = {
+	config: Config,
+	onToggleConfigIAB: Function
+};
 
 class SideMenu extends React.Component {
 	props: Props;
-	state: State = {};
+
+	componentWillReceiveProps() {
+		this.forceUpdate();
+	}
 
 	render() {
+		const { config, onToggleConfigIAB } = this.props;
 		return (
 			<View style={{ flex: 1, paddingTop: Scales.statusBarHeight, paddingBottom: 10 }}>
 				<TabList />
+				<CheckBox center title="アプリで開く" checked={config.inappbrowse} onPress={onToggleConfigIAB} />
 				<List>
 					<ListItem
 						title="タグ一覧"
@@ -42,8 +51,12 @@ class SideMenu extends React.Component {
 	}
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state, props) => ({
+	config: selectConfig(state, props),
+});
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+	onToggleConfigIAB: () => dispatch(toggleConfigIAB()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);

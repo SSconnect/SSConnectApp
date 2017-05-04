@@ -20,3 +20,7 @@ export const LOAD_PREMIUM = 'ssconnect/App/LOAD_PREMIUM';
 export const LOAD_PREMIUM_END = 'ssconnect/App/LOAD_PREMIUM_END';
 
 export const UPDATE_PAGE = 'ssconnect/App/UPDATE_PAGE';
+
+export const LOAD_CONFIG = 'ssconnect/App/LOAD_CONFIG';
+export const LOAD_CONFIG_END = 'ssconnect/App/LOAD_CONFIG_END';
+export const TOGGLE_IAB_CONFIG = 'ssconnect/App/TOGGLE_CONFIG';

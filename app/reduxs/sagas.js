@@ -14,6 +14,8 @@ import {
 	ADD_READ,
 	LOAD_STORIES,
 	LOAD_PREMIUM,
+	LOAD_CONFIG,
+	TOGGLE_IAB_CONFIG,
 } from './constants';
 
 import {
@@ -25,6 +27,7 @@ import {
 	addReadEnd,
 	loadStoriesEnd,
 	loadPremiumEnd,
+	loadConfigEnd,
 } from './actions';
 
 import realm from '../models/RealmModel';
@@ -59,6 +62,14 @@ export function* getReads() {
 	yield put(loadReadsEnd(reads));
 }
 
+export function* getConfig() {
+	yield put(loadConfigEnd(realm.selectConfig()));
+}
+
+export function* toggleConfigIAB() {
+	yield realm.toggleConfigInAppBrowse();
+}
+
 export function* getPremium() {
 	if (Platform.OS === 'ios') {
 		yield put(loadPremiumEnd(true));
@@ -88,6 +99,9 @@ export function* appData() {
 	yield takeLatest(ADD_READ, addRead);
 	yield takeLatest(LOAD_STORIES, getStories);
 	yield takeLatest(LOAD_PREMIUM, getPremium);
+
+	yield takeLatest(LOAD_CONFIG, getConfig);
+	yield takeLatest(TOGGLE_IAB_CONFIG, toggleConfigIAB);
 }
 
 export default function* root() {

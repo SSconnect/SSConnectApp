@@ -5,6 +5,13 @@ import _ from 'lodash';
 
 import type { Story, Profile } from '../types';
 
+const ConfigSchema = {
+	name: 'Config',
+	properties: {
+		inappbrowse: { type: 'bool', default: false },
+	},
+};
+
 const ReadSchema = {
 	name: 'Read',
 	properties: {
@@ -30,8 +37,8 @@ const ProfileSchema = {
 };
 
 const realm = new Realm({
-	schema: [ReadSchema, TabProfileSchema, ProfileSchema],
-	schemaVersion: 8,
+	schema: [ReadSchema, TabProfileSchema, ProfileSchema, ConfigSchema],
+	schemaVersion: 9,
 	migration: (oldRealm, newRealm) => {
 		console.log(oldRealm.schemaVersion, newRealm.schemaVersion);
 		if (oldRealm.schemaVersion <= 5) {
@@ -50,6 +57,9 @@ const realm = new Realm({
 		if (oldRealm.schemaVersion <= 7) {
 			oldRealm.deleteAll();
 			newRealm.deleteAll();
+		}
+		if (oldRealm.schemaVersion <= 8) {
+			newRealm.create('Config', { inappbrowse: false });
 		}
 	},
 });
@@ -94,6 +104,17 @@ class RealmManager {
 			this.realm.delete(res);
 		});
 		return this.getProfiles();
+	}
+
+	selectConfig() {
+		return this.realm.objects('Config')[0];
+	}
+
+	toggleConfigInAppBrowse() {
+		const config = this.realm.objects('Config')[0];
+		this.realm.write(() => {
+			config.inappbrowse = !config.inappbrowse;
+		});
 	}
 
 	selectProfile(profile: Profile) {

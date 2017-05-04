@@ -7,14 +7,16 @@ import { Actions } from 'react-native-router-flux';
 
 import moment from 'moment';
 
+import { selectConfig } from '../../reduxs/selectors';
 import { addRead } from '../../reduxs/actions';
 import { Colors } from '../../themes/';
-import type { Story } from '../../types';
+import type { Story, Config } from '../../types';
 
 type Props = {
 	story: Story,
 	onAddRead: Function,
-	readed: boolean
+	readed: boolean,
+	config: Config
 };
 
 type State = {
@@ -38,14 +40,14 @@ class StoryCell extends React.PureComponent {
 					onAddRead(story);
 					const uri = story.articles[0].url;
 					this.setState({ readed: true });
-					if (false) {
-						Linking.openURL(uri);
-					} else {
+					if (this.props.config.inappbrowse) {
 						Actions.webScreen({
 							title: story.title,
 							uri,
 							direction: 'vertical',
 						});
+					} else {
+						Linking.openURL(uri);
 					}
 				}}
 			>
@@ -69,8 +71,12 @@ class StoryCell extends React.PureComponent {
 	}
 }
 
+const mapStateToProps = (state, props) => ({
+	config: selectConfig(state, props),
+});
+
 const mapDispatchToProps = dispatch => ({
 	onAddRead: story => dispatch(addRead(story)),
 });
 
-export default connect(null, mapDispatchToProps)(StoryCell);
+export default connect(mapStateToProps, mapDispatchToProps)(StoryCell);
