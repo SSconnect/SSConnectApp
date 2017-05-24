@@ -12,7 +12,8 @@
     "lint:fix": "eslint App --fix",
     "precommit": "lint-staged",
     "release:android": "cd android && ./gradlew assembleRelease",
-    "test": "jest"
+    "test": "jest",
+    "snapshot": "jest -u"
   },
   "dependencies": {
     "apisauce": "^0.12.0",
