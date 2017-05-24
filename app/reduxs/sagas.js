@@ -5,18 +5,7 @@ import InAppBilling from 'react-native-billing'
 import config from '../configs'
 import feedClient from '../services/FeedClient'
 
-import {
-	LOAD_PROFILES,
-	ADD_PROFILE,
-	DELETE_PROFILE,
-	MOVE_PROFILE,
-	LOAD_READS,
-	ADD_READ,
-	LOAD_STORIES,
-	LOAD_PREMIUM,
-	LOAD_CONFIG,
-	TOGGLE_IAB_CONFIG,
-} from './constants'
+import { ActionTypes } from './constants'
 
 import {
 	loadProfilesEnd,
@@ -90,18 +79,18 @@ export function* getStories({ profile, page }: { profile: Profile }) {
 }
 
 export function* appData() {
-	yield takeLatest(LOAD_PROFILES, getProfiles)
-	yield takeLatest(ADD_PROFILE, addProfile)
-	yield takeLatest(DELETE_PROFILE, deleteProfile)
-	yield takeLatest(MOVE_PROFILE, moveProfile)
+	yield takeLatest(ActionTypes.LOAD_PROFILES_TYPE, getProfiles)
+	yield takeLatest(ActionTypes.ADD_PROFILE_TYPE, addProfile)
+	yield takeLatest(ActionTypes.DELETE_PROFILE_TYPE, deleteProfile)
+	yield takeLatest(ActionTypes.MOVE_PROFILE_TYPE, moveProfile)
 
-	yield takeLatest(LOAD_READS, getReads)
-	yield takeLatest(ADD_READ, addRead)
-	yield takeLatest(LOAD_STORIES, getStories)
-	yield takeLatest(LOAD_PREMIUM, getPremium)
+	yield takeLatest(ActionTypes.LOAD_READS_TYPE, getReads)
+	yield takeLatest(ActionTypes.ADD_READ_TYPE, addRead)
+	yield takeLatest(ActionTypes.LOAD_STORIES_TYPE, getStories)
+	yield takeLatest(ActionTypes.LOAD_PREMIUM_TYPE, getPremium)
 
-	yield takeLatest(LOAD_CONFIG, getConfig)
-	yield takeLatest(TOGGLE_IAB_CONFIG, toggleConfigIAB)
+	yield takeLatest(ActionTypes.LOAD_CONFIG_TYPE, getConfig)
+	yield takeLatest(ActionTypes.TOGGLE_IAB_CONFIG_TYPE, toggleConfigIAB)
 }
 
 export default function* root() {

@@ -1,70 +1,49 @@
-import {
-	LOAD_PROFILES,
-	LOAD_PROFILES_END,
-	ADD_PROFILE,
-	ADD_PROFILE_END,
-	DELETE_PROFILE,
-	DELETE_PROFILE_END,
-	LOAD_STORIES,
-	LOAD_STORIES_END,
-	LOAD_READS,
-	LOAD_READS_END,
-	LOAD_PREMIUM,
-	LOAD_PREMIUM_END,
-	ADD_READ,
-	ADD_READ_END,
-	MOVE_PROFILE,
-	MOVE_PROFILE_END,
-	UPDATE_PAGE,
-	LOAD_CONFIG,
-	LOAD_CONFIG_END,
-	TOGGLE_IAB_CONFIG,
-} from './constants'
+import { ActionTypes } from './constants'
 
 export function loadProfiles() {
 	return {
-		type: LOAD_PROFILES,
+		type: ActionTypes.LOAD_PROFILES_TYPE,
 	}
 }
 
 export function loadProfilesEnd(profiles) {
 	return {
-		type: LOAD_PROFILES_END,
+		type: ActionTypes.LOAD_PROFILES_END_TYPE,
 		profiles,
 	}
 }
 
 export function addProfile(profile) {
 	return {
-		type: ADD_PROFILE,
+		type: ActionTypes.ADD_PROFILE_TYPE,
 		profile,
 	}
 }
 
 export function addProfileEnd(profiles) {
 	return {
-		type: ADD_PROFILE_END,
+		type: ActionTypes.ADD_PROFILE_END_TYPE,
 		profiles,
 	}
 }
 
 export function deleteProfile(profile) {
 	return {
-		type: DELETE_PROFILE,
+		type: ActionTypes.DELETE_PROFILE_TYPE,
 		profile,
 	}
 }
 
 export function deleteProfileEnd(profiles) {
 	return {
-		type: DELETE_PROFILE_END,
+		type: ActionTypes.DELETE_PROFILE_END_TYPE,
 		profiles,
 	}
 }
 
 export function moveProfile(from, to) {
 	return {
-		type: MOVE_PROFILE,
+		type: ActionTypes.MOVE_PROFILE_TYPE,
 		from,
 		to,
 	}
@@ -72,54 +51,54 @@ export function moveProfile(from, to) {
 
 export function moveProfileEnd(profiles) {
 	return {
-		type: MOVE_PROFILE_END,
+		type: ActionTypes.MOVE_PROFILE_END_TYPE,
 		profiles,
 	}
 }
 
 export function loadPremium() {
 	return {
-		type: LOAD_PREMIUM,
+		type: ActionTypes.LOAD_PREMIUM_TYPE,
 	}
 }
 
 export function loadPremiumEnd(isPremium) {
 	return {
-		type: LOAD_PREMIUM_END,
+		type: ActionTypes.LOAD_PREMIUM_END_TYPE,
 		isPremium,
 	}
 }
 
 export function loadReads() {
 	return {
-		type: LOAD_READS,
+		type: ActionTypes.LOAD_READS_TYPE,
 	}
 }
 
 export function loadReadsEnd(reads) {
 	return {
-		type: LOAD_READS_END,
+		type: ActionTypes.LOAD_READS_END_TYPE,
 		reads,
 	}
 }
 
 export function addRead(story) {
 	return {
-		type: ADD_READ,
+		type: ActionTypes.ADD_READ_TYPE,
 		story,
 	}
 }
 
 export function addReadEnd(reads) {
 	return {
-		type: ADD_READ_END,
+		type: ActionTypes.ADD_READ_END_TYPE,
 		reads,
 	}
 }
 
 export function loadStories(profile, page) {
 	return {
-		type: LOAD_STORIES,
+		type: ActionTypes.LOAD_STORIES_TYPE,
 		profile,
 		page,
 	}
@@ -127,7 +106,7 @@ export function loadStories(profile, page) {
 
 export function loadStoriesEnd(profile, pageInfo, stories) {
 	return {
-		type: LOAD_STORIES_END,
+		type: ActionTypes.LOAD_STORIES_END_TYPE,
 		profile,
 		pageInfo,
 		stories,
@@ -136,12 +115,12 @@ export function loadStoriesEnd(profile, pageInfo, stories) {
 
 export function updatePage(profile, page) {
 	return {
-		type: UPDATE_PAGE,
+		type: ActionTypes.UPDATE_PAGE_TYPE,
 		profile,
 		page,
 	}
 }
 
-export const loadConfig = () => ({ type: LOAD_CONFIG })
-export const loadConfigEnd = config => ({ type: LOAD_CONFIG_END, config })
-export const toggleConfigIAB = () => ({ type: TOGGLE_IAB_CONFIG })
+export const loadConfig = () => ({ type: ActionTypes.LOAD_CONFIG_TYPE })
+export const loadConfigEnd = config => ({ type: ActionTypes.LOAD_CONFIG_END_TYPE, config })
+export const toggleConfigIAB = () => ({ type: ActionTypes.TOGGLE_IAB_CONFIG_TYPE })

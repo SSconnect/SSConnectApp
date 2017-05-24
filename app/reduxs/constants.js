@@ -1,26 +1,31 @@
-export const LOAD_PROFILES = 'ssconnect/App/LOAD_PROFILES'
-export const LOAD_PROFILES_END = 'ssconnect/App/LOAD_PROFILES_END'
-export const ADD_PROFILE = 'ssconnect/App/ADD_PROFILE'
-export const ADD_PROFILE_END = 'ssconnect/App/ADD_PROFILE_END'
-export const DELETE_PROFILE = 'ssconnect/App/DELETE_PROFILE'
-export const DELETE_PROFILE_END = 'ssconnect/App/DELETE_PROFILE_END'
-export const MOVE_PROFILE = 'ssconnect/App/MOVE_PROFILE'
-export const MOVE_PROFILE_END = 'ssconnect/App/MOVE_PROFILE_END'
+/* eslint-disable import/prefer-default-export */
+// #flow
 
-export const LOAD_READS = 'ssconnect/App/LOAD_READS'
-export const LOAD_READS_END = 'ssconnect/App/LOAD_READS_END'
-export const ADD_READ = 'ssconnect/App/ADD_READ'
-export const ADD_READ_END = 'ssconnect/App/ADD_READ_END'
+export const ActionTypes = {
+	LOAD_PROFILES_TYPE: 'ssconnect/App/LOAD_PROFILES_TYPE',
+	LOAD_PROFILES_END_TYPE: 'ssconnect/App/LOAD_PROFILES_END_TYPE',
+	ADD_PROFILE_TYPE: 'ssconnect/App/ADD_PROFILE_TYPE',
+	ADD_PROFILE_END_TYPE: 'ssconnect/App/ADD_PROFILE_END_TYPE',
+	DELETE_PROFILE_TYPE: 'ssconnect/App/DELETE_PROFILE_TYPE',
+	DELETE_PROFILE_END_TYPE: 'ssconnect/App/DELETE_PROFILE_END_TYPE',
+	MOVE_PROFILE_TYPE: 'ssconnect/App/MOVE_PROFILE_TYPE',
+	MOVE_PROFILE_END_TYPE: 'ssconnect/App/MOVE_PROFILE_END_TYPE',
 
-export const LOAD_STORIES = 'ssconnect/App/LOAD_STORIES'
-export const LOAD_STORIES_END = 'ssconnect/App/LOAD_STORIES_END'
-export const LOAD_STORIES_ERROR = 'ssconnect/App/LOAD_STORIES_ERROR'
+	LOAD_READS_TYPE: 'ssconnect/App/LOAD_READS_TYPE',
+	LOAD_READS_END_TYPE: 'ssconnect/App/LOAD_READS_END_TYPE',
+	ADD_READ_TYPE: 'ssconnect/App/ADD_READ_TYPE',
+	ADD_READ_END_TYPE: 'ssconnect/App/ADD_READ_END_TYPE',
 
-export const LOAD_PREMIUM = 'ssconnect/App/LOAD_PREMIUM'
-export const LOAD_PREMIUM_END = 'ssconnect/App/LOAD_PREMIUM_END'
+	LOAD_STORIES_TYPE: 'ssconnect/App/LOAD_STORIES_TYPE',
+	LOAD_STORIES_END_TYPE: 'ssconnect/App/LOAD_STORIES_END_TYPE',
+	LOAD_STORIES_ERROR_TYPE: 'ssconnect/App/LOAD_STORIES_ERROR_TYPE',
 
-export const UPDATE_PAGE = 'ssconnect/App/UPDATE_PAGE'
+	LOAD_PREMIUM_TYPE: 'ssconnect/App/LOAD_PREMIUM_TYPE',
+	LOAD_PREMIUM_END_TYPE: 'ssconnect/App/LOAD_PREMIUM_END_TYPE',
 
-export const LOAD_CONFIG = 'ssconnect/App/LOAD_CONFIG'
-export const LOAD_CONFIG_END = 'ssconnect/App/LOAD_CONFIG_END'
-export const TOGGLE_IAB_CONFIG = 'ssconnect/App/TOGGLE_CONFIG'
+	UPDATE_PAGE_TYPE: 'ssconnect/App/UPDATE_PAGE_TYPE',
+
+	LOAD_CONFIG_TYPE: 'ssconnect/App/LOAD_CONFIG_TYPE',
+	LOAD_CONFIG_END_TYPE: 'ssconnect/App/LOAD_CONFIG_END_TYPE',
+	TOGGLE_IAB_CONFIG_TYPE: 'ssconnect/App/TOGGLE_CONFIG_TYPE',
+}
