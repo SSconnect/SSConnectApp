@@ -107,7 +107,7 @@ class RealmManager {
 	}
 
 	selectConfig() {
-		return this.realm.objects('Config')[0];
+		return this.realm.objects('Config')[0] || { inappbrowse: false };
 	}
 
 	toggleConfigInAppBrowse() {
