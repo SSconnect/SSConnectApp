@@ -1,17 +1,17 @@
 // @flow
 
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Scene, Router } from 'react-native-router-flux';
-import _ from 'lodash';
+import React from 'react'
+import { StyleSheet } from 'react-native'
+import { Scene, Router } from 'react-native-router-flux'
+import _ from 'lodash'
 
-import BaseScreen from '../containers/Base';
-import MainScreen from '../containers/Main';
-import WebScreen from '../containers/Web';
-import TagScreen from '../containers/Tag';
-import NavigationDrawer from '../containers/NavigationDrawer';
+import BaseScreen from '../containers/Base'
+import MainScreen from '../containers/Main'
+import WebScreen from '../containers/Web'
+import TagScreen from '../containers/Tag'
+import NavigationDrawer from '../containers/NavigationDrawer'
 
-import { Colors, IconName } from '../themes';
+import { Colors, IconName } from '../themes'
 
 const Styles = StyleSheet.create({
 	container: {
@@ -27,14 +27,14 @@ const Styles = StyleSheet.create({
 	tabBarStyle: {
 		backgroundColor: Colors.white,
 	},
-});
+})
 
 class NavigationRouter extends React.PureComponent {
 	render() {
 		const tabAttrs = {
 			titleStyle: Styles.title,
 			passProps: true,
-		};
+		}
 		return (
 			<Router>
 				<Scene key="drawer" component={NavigationDrawer} open={false}>
@@ -60,8 +60,8 @@ class NavigationRouter extends React.PureComponent {
 					</Scene>
 				</Scene>
 			</Router>
-		);
+		)
 	}
 }
 
-export default NavigationRouter;
+export default NavigationRouter

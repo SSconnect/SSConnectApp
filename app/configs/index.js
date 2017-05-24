@@ -1,5 +1,5 @@
 // @flow
-import moment from 'moment';
+import moment from 'moment'
 
 const config = {
 	productID: 'com.elzup.ssconnect',
@@ -9,7 +9,7 @@ const config = {
 			PRO: 10,
 		},
 	},
-};
+}
 
 moment.locale('ja', {
 	weekdays: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
@@ -25,6 +25,6 @@ moment.locale('ja', {
 		d: '1日',
 		dd: '%d日',
 	},
-});
+})
 
-export default config;
+export default config

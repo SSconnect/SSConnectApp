@@ -6,6 +6,6 @@ const colors = {
 	disable: '#aaa',
 	passive: '#aaa',
 	black: '#000',
-};
+}
 
-export default colors;
+export default colors

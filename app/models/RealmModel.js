@@ -1,23 +1,23 @@
 // @flow
 
-import Realm from 'realm';
-import _ from 'lodash';
+import Realm from 'realm'
+import _ from 'lodash'
 
-import type { Story, Profile } from '../types';
+import type { Story, Profile } from '../types'
 
 const ConfigSchema = {
 	name: 'Config',
 	properties: {
 		inappbrowse: { type: 'bool', default: false },
 	},
-};
+}
 
 const ReadSchema = {
 	name: 'Read',
 	properties: {
 		story_id: 'int',
 	},
-};
+}
 
 const TabProfileSchema = {
 	name: 'TabProfile',
@@ -25,7 +25,7 @@ const TabProfileSchema = {
 		value: 'string',
 		type: 'string',
 	},
-};
+}
 
 const ProfileSchema = {
 	name: 'Profile',
@@ -34,110 +34,110 @@ const ProfileSchema = {
 		q: { type: 'string', optional: true },
 		tag: { type: 'string', optional: true },
 	},
-};
+}
 
 const realm = new Realm({
 	schema: [ReadSchema, TabProfileSchema, ProfileSchema, ConfigSchema],
 	schemaVersion: 9,
 	migration: (oldRealm, newRealm) => {
-		console.log(oldRealm.schemaVersion, newRealm.schemaVersion);
+		console.log(oldRealm.schemaVersion, newRealm.schemaVersion)
 		if (oldRealm.schemaVersion <= 5) {
-			newRealm.deleteAll();
+			newRealm.deleteAll()
 		}
 		if (oldRealm.schemaVersion <= 6) {
-			const profiles = oldRealm.objects('TabProfile');
+			const profiles = oldRealm.objects('TabProfile')
 			_.each(profiles, (profile) => {
 				if (profile.type === 'search') {
-					newRealm.create('Profile', { q: profile.value });
+					newRealm.create('Profile', { q: profile.value })
 				} else {
-					newRealm.create('Profile', { tag: profile.value });
+					newRealm.create('Profile', { tag: profile.value })
 				}
-			});
+			})
 		}
 		if (oldRealm.schemaVersion <= 7) {
-			oldRealm.deleteAll();
-			newRealm.deleteAll();
+			oldRealm.deleteAll()
+			newRealm.deleteAll()
 		}
 		if (oldRealm.schemaVersion <= 8) {
-			newRealm.create('Config', { inappbrowse: false });
+			newRealm.create('Config', { inappbrowse: false })
 		}
 	},
-});
+})
 
 class RealmManager {
-	realm: Realm;
+	realm: Realm
 
 	constructor(realmC: Realm) {
-		this.realm = realmC;
+		this.realm = realmC
 	}
 
 	async getProfiles() {
-		return this.realm.objects('Profile');
+		return this.realm.objects('Profile')
 	}
 
 	getReads() {
-		return this.realm.objects('Read');
+		return this.realm.objects('Read')
 	}
 
 	addRead({ story }: { story: Story }) {
 		if (realm.objects('Read').filtered('story_id = $0', story.id).count === 0) {
-			return;
+			return
 		}
 		this.realm.write(() => {
-			this.realm.create('Read', { story_id: story.id });
-		});
+			this.realm.create('Read', { story_id: story.id })
+		})
 	}
 
 	addProfile({ profile }: { profile: Profile }) {
 		if (this.existsProfile(profile)) {
-			throw new Error('Duplicate Insert');
+			throw new Error('Duplicate Insert')
 		}
 		this.realm.write(() => {
-			this.realm.create('Profile', profile);
-		});
-		return this.getProfiles();
+			this.realm.create('Profile', profile)
+		})
+		return this.getProfiles()
 	}
 
 	deleteProfile({ profile }: { profile: Profile }) {
-		const res = this.selectProfile(profile);
+		const res = this.selectProfile(profile)
 		this.realm.write(() => {
-			this.realm.delete(res);
-		});
-		return this.getProfiles();
+			this.realm.delete(res)
+		})
+		return this.getProfiles()
 	}
 
 	selectConfig() {
-		return this.realm.objects('Config')[0] || { inappbrowse: false };
+		return this.realm.objects('Config')[0] || { inappbrowse: false }
 	}
 
 	toggleConfigInAppBrowse() {
-		const config = this.realm.objects('Config')[0];
+		const config = this.realm.objects('Config')[0]
 		this.realm.write(() => {
-			config.inappbrowse = !config.inappbrowse;
-		});
+			config.inappbrowse = !config.inappbrowse
+		})
 	}
 
 	selectProfile(profile: Profile) {
 		return this.realm
 			.objects('Profile')
-			.filtered('q = $0 AND tag = $1 AND blog_id = $2', profile.q, profile.tag, profile.blog_id);
+			.filtered('q = $0 AND tag = $1 AND blog_id = $2', profile.q, profile.tag, profile.blog_id)
 	}
 
 	moveProfile(from: number, to: number) {
-		const profiles = [];
-		const oldProfiles = this.getProfiles();
-		_.each(oldProfiles, v => profiles.push({ ...v }));
-		profiles.splice(to, 0, profiles.splice(from, 1)[0]);
+		const profiles = []
+		const oldProfiles = this.getProfiles()
+		_.each(oldProfiles, v => profiles.push({ ...v }))
+		profiles.splice(to, 0, profiles.splice(from, 1)[0])
 		this.realm.write(() => {
-			this.realm.delete(oldProfiles);
-			_.each(profiles, v => this.realm.create('Profile', v));
-		});
-		return profiles;
+			this.realm.delete(oldProfiles)
+			_.each(profiles, v => this.realm.create('Profile', v))
+		})
+		return profiles
 	}
 
 	existsProfile(profile: Profile): boolean {
-		return this.selectProfile(profile).length > 0;
+		return this.selectProfile(profile).length > 0
 	}
 }
 
-export default new RealmManager(realm);
+export default new RealmManager(realm)

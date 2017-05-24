@@ -1,8 +1,8 @@
 // @flow
 
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform } from 'react-native'
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window')
 
 // Used via Metrics.baseMargin
 const scales = {
@@ -38,6 +38,6 @@ const scales = {
 		large: 60,
 		logo: 300,
 	},
-};
+}
 
-export default scales;
+export default scales

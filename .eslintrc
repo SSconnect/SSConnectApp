@@ -33,6 +33,10 @@
       2,
       "tab"
     ],
+    "semi": [
+      "error",
+      "never"
+    ],
     "react/sort-comp": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-tag-spacing": 0,

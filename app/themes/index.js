@@ -1,7 +1,7 @@
 // @flow
 
-import Colors from './Colors';
-import Scales from './Scales';
-import IconName from './IconName';
+import Colors from './Colors'
+import Scales from './Scales'
+import IconName from './IconName'
 
-export { Colors, Scales, IconName };
+export { Colors, Scales, IconName }

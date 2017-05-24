@@ -1,32 +1,32 @@
 // @flow
 
-import React from 'react';
-import { View, Text, ListView, ScrollView, Alert } from 'react-native';
-import { Button } from 'react-native-elements';
+import React from 'react'
+import { View, Text, ListView, ScrollView, Alert } from 'react-native'
+import { Button } from 'react-native-elements'
 
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import config from '../../configs';
+import config from '../../configs'
 
-import { addProfile, loadStories } from '../../reduxs/actions';
+import { addProfile, loadStories } from '../../reduxs/actions'
 import {
 	selectReads,
 	selectProfiles,
 	selectLoading,
 	makeSelectStories,
 	makeSelectPageInfo,
-} from '../../reduxs/selectors';
+} from '../../reduxs/selectors'
 
-import Indicator from '../../components/Indicator';
-import StoryCell from '../../components/StoryCell';
-import Paginator from '../../components/Paginator';
+import Indicator from '../../components/Indicator'
+import StoryCell from '../../components/StoryCell'
+import Paginator from '../../components/Paginator'
 
-import realm from '../../models/RealmModel';
+import realm from '../../models/RealmModel'
 
-import type { Story, Profile, Read, PageInfo } from '../../types';
-import { Scales, IconName } from '../../themes/';
-import SearchBar from '../../components/StorySearchBar';
+import type { Story, Profile, Read, PageInfo } from '../../types'
+import { Scales, IconName } from '../../themes/'
+import SearchBar from '../../components/StorySearchBar'
 
 type Props = {
 	profile: Profile,
@@ -37,23 +37,23 @@ type Props = {
 	loading: boolean,
 	pageInfo: PageInfo,
 	stories: Array<Story>
-};
+}
 
 type State = {
 	dataSource: any,
 	addDisable: boolean,
 	isHome: boolean
-};
+}
 
 class BaseScreen extends React.PureComponent {
-	props: Props;
+	props: Props
 	state: State = {
 		dataSource: new ListView.DataSource({ rowHasChanged: BaseScreen.rowHasChanged }).cloneWithRows(
 			this.props.stories
 		),
 		addDisable: false,
 		isHome: this.props.profile.q === '' && this.props.profile.tag === '',
-	};
+	}
 
 	static defaultProps = {
 		profile: { q: '', tag: '' },
@@ -61,25 +61,25 @@ class BaseScreen extends React.PureComponent {
 		loading: true,
 		reads: [],
 		stories: [],
-	};
+	}
 
 	static rowHasChanged(r1: Story, r2: Story) {
-		return r1.id !== r2.id;
+		return r1.id !== r2.id
 	}
 
 	componentWillMount() {
-		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
+		this.props.onLoadStories(this.props.profile, this.props.pageInfo.page)
 	}
 
 	componentWillReceiveProps(newProps: Props) {
-		this.forceUpdate();
+		this.forceUpdate()
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(newProps.stories),
-		});
+		})
 	}
 
 	render() {
-		const { profile } = this.props;
+		const { profile } = this.props
 		return (
 			<ScrollView style={{ marginTop: Scales.navBarHeight }}>
 				<SearchBar profile={profile} />
@@ -87,12 +87,12 @@ class BaseScreen extends React.PureComponent {
 				<Indicator loading={this.props.loading} />
 				{this.renderNoHit()}
 			</ScrollView>
-		);
+		)
 	}
 
 	renderMain() {
 		if (this.props.loading || this.state.dataSource.getRowCount() === 0) {
-			return null;
+			return null
 		}
 		return (
 			<View>
@@ -101,7 +101,7 @@ class BaseScreen extends React.PureComponent {
 				{this.renderListView()}
 				{this.renderPager()}
 			</View>
-		);
+		)
 	}
 
 	renderPager() {
@@ -109,25 +109,25 @@ class BaseScreen extends React.PureComponent {
 			<Paginator
 				pageInfo={this.props.pageInfo}
 				onPressPrev={() => {
-					this.handlePageChange(this.props.pageInfo.page - 1);
+					this.handlePageChange(this.props.pageInfo.page - 1)
 				}}
 				onPressNext={() => {
-					this.handlePageChange(this.props.pageInfo.page + 1);
+					this.handlePageChange(this.props.pageInfo.page + 1)
 				}}
 				onComplete={this.handlePageChange.bind(this)}
 			/>
-		);
+		)
 	}
 
 	handlePageChange(page) {
-		this.props.onLoadStories(this.props.profile, page);
+		this.props.onLoadStories(this.props.profile, page)
 	}
 
 	renderSubscribeButton() {
-		const { profile, onAddProfile } = this.props;
-		const { isHome } = this.state;
+		const { profile, onAddProfile } = this.props
+		const { isHome } = this.state
 		if (isHome || realm.existsProfile(profile)) {
-			return null;
+			return null
 		}
 		return (
 			<View style={{ margin: 5 }}>
@@ -139,27 +139,27 @@ class BaseScreen extends React.PureComponent {
 					disabled={this.state.addDisable}
 					onPress={() => {
 						if (this.props.profiles.length >= config.LIMITS.PROFILE_MAX.FREE) {
-							Alert.alert('失敗', 'タグは 3つまでしか登録できません。(Free プラン)');
-							return;
+							Alert.alert('失敗', 'タグは 3つまでしか登録できません。(Free プラン)')
+							return
 						}
-						onAddProfile(profile);
-						this.setState({ addDisable: true });
+						onAddProfile(profile)
+						this.setState({ addDisable: true })
 						if (profile.q && profile.tag) {
-							Alert.alert('完了', `「${profile.tag}|${profile.q}」を登録しました`);
+							Alert.alert('完了', `「${profile.tag}|${profile.q}」を登録しました`)
 						} else if (profile.tag) {
-							Alert.alert('完了', `タグ「${profile.tag || ''}」を登録しました`);
+							Alert.alert('完了', `タグ「${profile.tag || ''}」を登録しました`)
 						} else {
-							Alert.alert('完了', `「${profile.q}」を登録しました`);
+							Alert.alert('完了', `「${profile.q}」を登録しました`)
 						}
 					}}
 				/>
 			</View>
-		);
+		)
 	}
 
 	renderListView() {
-		const { reads } = this.props;
-		const readedIds = _.map(reads, e => e.story_id);
+		const { reads } = this.props
+		const readedIds = _.map(reads, e => e.story_id)
 		return (
 			<ListView
 				renderRow={story => <StoryCell story={story} readed={readedIds.includes(story.id)} />}
@@ -169,32 +169,32 @@ class BaseScreen extends React.PureComponent {
 				// onRefresh={() => this.init()}
 				refreshDescription=""
 			/>
-		);
+		)
 	}
 
 	renderNoHit() {
 		if (this.props.loading || this.state.dataSource.getRowCount() > 0) {
-			return null;
+			return null
 		}
-		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>;
+		return <Text style={{ padding: 10 }}>作品は見つかりませんでした</Text>
 	}
 }
 
 const makeMapStateToProps = () => {
-	const selectStories = makeSelectStories();
-	const selectPageInfo = makeSelectPageInfo();
+	const selectStories = makeSelectStories()
+	const selectPageInfo = makeSelectPageInfo()
 	return (state, props) => ({
 		reads: selectReads(state, props),
 		stories: selectStories(state, props),
 		pageInfo: selectPageInfo(state, props),
 		profiles: selectProfiles(state, props),
 		loading: selectLoading(state, props),
-	});
-};
+	})
+}
 
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: (profile: Profile) => dispatch(addProfile(profile)),
 	onLoadStories: (profile: Profile, page: number) => dispatch(loadStories(profile, page)),
-});
+})
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(BaseScreen);
+export default connect(makeMapStateToProps, mapDispatchToProps)(BaseScreen)

@@ -19,47 +19,47 @@ import {
 	LOAD_CONFIG,
 	LOAD_CONFIG_END,
 	TOGGLE_IAB_CONFIG,
-} from './constants';
+} from './constants'
 
 export function loadProfiles() {
 	return {
 		type: LOAD_PROFILES,
-	};
+	}
 }
 
 export function loadProfilesEnd(profiles) {
 	return {
 		type: LOAD_PROFILES_END,
 		profiles,
-	};
+	}
 }
 
 export function addProfile(profile) {
 	return {
 		type: ADD_PROFILE,
 		profile,
-	};
+	}
 }
 
 export function addProfileEnd(profiles) {
 	return {
 		type: ADD_PROFILE_END,
 		profiles,
-	};
+	}
 }
 
 export function deleteProfile(profile) {
 	return {
 		type: DELETE_PROFILE,
 		profile,
-	};
+	}
 }
 
 export function deleteProfileEnd(profiles) {
 	return {
 		type: DELETE_PROFILE_END,
 		profiles,
-	};
+	}
 }
 
 export function moveProfile(from, to) {
@@ -67,54 +67,54 @@ export function moveProfile(from, to) {
 		type: MOVE_PROFILE,
 		from,
 		to,
-	};
+	}
 }
 
 export function moveProfileEnd(profiles) {
 	return {
 		type: MOVE_PROFILE_END,
 		profiles,
-	};
+	}
 }
 
 export function loadPremium() {
 	return {
 		type: LOAD_PREMIUM,
-	};
+	}
 }
 
 export function loadPremiumEnd(isPremium) {
 	return {
 		type: LOAD_PREMIUM_END,
 		isPremium,
-	};
+	}
 }
 
 export function loadReads() {
 	return {
 		type: LOAD_READS,
-	};
+	}
 }
 
 export function loadReadsEnd(reads) {
 	return {
 		type: LOAD_READS_END,
 		reads,
-	};
+	}
 }
 
 export function addRead(story) {
 	return {
 		type: ADD_READ,
 		story,
-	};
+	}
 }
 
 export function addReadEnd(reads) {
 	return {
 		type: ADD_READ_END,
 		reads,
-	};
+	}
 }
 
 export function loadStories(profile, page) {
@@ -122,7 +122,7 @@ export function loadStories(profile, page) {
 		type: LOAD_STORIES,
 		profile,
 		page,
-	};
+	}
 }
 
 export function loadStoriesEnd(profile, pageInfo, stories) {
@@ -131,7 +131,7 @@ export function loadStoriesEnd(profile, pageInfo, stories) {
 		profile,
 		pageInfo,
 		stories,
-	};
+	}
 }
 
 export function updatePage(profile, page) {
@@ -139,9 +139,9 @@ export function updatePage(profile, page) {
 		type: UPDATE_PAGE,
 		profile,
 		page,
-	};
+	}
 }
 
-export const loadConfig = () => ({ type: LOAD_CONFIG });
-export const loadConfigEnd = config => ({ type: LOAD_CONFIG_END, config });
-export const toggleConfigIAB = () => ({ type: TOGGLE_IAB_CONFIG });
+export const loadConfig = () => ({ type: LOAD_CONFIG })
+export const loadConfigEnd = config => ({ type: LOAD_CONFIG_END, config })
+export const toggleConfigIAB = () => ({ type: TOGGLE_IAB_CONFIG })

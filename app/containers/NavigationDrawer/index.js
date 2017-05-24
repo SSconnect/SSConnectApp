@@ -1,20 +1,20 @@
-import React from 'react';
-import Drawer from 'react-native-drawer';
-import { Actions, DefaultRenderer } from 'react-native-router-flux';
+import React from 'react'
+import Drawer from 'react-native-drawer'
+import { Actions, DefaultRenderer } from 'react-native-router-flux'
 
-import SideMenu from './SideMenu';
+import SideMenu from './SideMenu'
 
 type Props = {
 	navigationState: any,
 	onNavigate: any
-};
+}
 
 class NavigationDrawer extends React.Component {
-	props: Props;
+	props: Props
 
 	render() {
-		const state = this.props.navigationState;
-		const children = state.children;
+		const state = this.props.navigationState
+		const children = state.children
 		return (
 			<Drawer
 				ref="navigation"
@@ -35,8 +35,8 @@ class NavigationDrawer extends React.Component {
 			>
 				<DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
 			</Drawer>
-		);
+		)
 	}
 }
 
-export default NavigationDrawer;
+export default NavigationDrawer
