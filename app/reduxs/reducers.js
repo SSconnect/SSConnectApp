@@ -1,30 +1,10 @@
 // @flow
 
-import { combineReducers } from 'redux';
-import { profileSerialKey } from '../types/utils';
-import { fromJS } from 'immutable';
+import { combineReducers } from 'redux'
+import { profileSerialKey } from '../types/utils'
+import { fromJS } from 'immutable'
 
-import {
-	LOAD_PROFILES,
-	LOAD_PROFILES_END,
-	ADD_PROFILE,
-	ADD_PROFILE_END,
-	DELETE_PROFILE,
-	DELETE_PROFILE_END,
-	MOVE_PROFILE,
-	MOVE_PROFILE_END,
-	LOAD_READS,
-	LOAD_READS_END,
-	ADD_READ,
-	ADD_READ_END,
-	LOAD_STORIES,
-	LOAD_STORIES_END,
-	LOAD_PREMIUM,
-	LOAD_PREMIUM_END,
-	UPDATE_PAGE,
-	LOAD_CONFIG_END,
-	TOGGLE_IAB_CONFIG,
-} from './constants';
+import { ActionTypes } from './constants'
 
 // The initial state of the app
 const initialState = fromJS({
@@ -35,68 +15,68 @@ const initialState = fromJS({
 	pages: {},
 })
 	.set('profiles', [])
-	.set('config', { inappbrowse: false });
+	.set('config', { inappbrowse: false })
 
 function appReducers(state = initialState, action) {
 	switch (action.type) {
-		case LOAD_PROFILES:
-			return state.set('error', false).set('profiles', []);
-		case LOAD_PROFILES_END:
-			return state.set('profiles', action.profiles);
-		case ADD_PROFILE:
-			return state.set('error', false);
-		case ADD_PROFILE_END:
-			return state.set('profiles', action.profiles);
-		case DELETE_PROFILE:
-			return state.set('error', false);
-		case DELETE_PROFILE_END:
-			return state.set('profiles', action.profiles);
-		case MOVE_PROFILE:
-			return state.set('error', false);
-		case MOVE_PROFILE_END:
-			return state.set('profiles', action.profiles);
+		case ActionTypes.LOAD_PROFILES_TYPE:
+			return state.set('error', false).set('profiles', [])
+		case ActionTypes.LOAD_PROFILES_END_TYPE:
+			return state.set('profiles', action.profiles)
+		case ActionTypes.ADD_PROFILE_TYPE:
+			return state.set('error', false)
+		case ActionTypes.ADD_PROFILE_END_TYPE:
+			return state.set('profiles', action.profiles)
+		case ActionTypes.DELETE_PROFILE_TYPE:
+			return state.set('error', false)
+		case ActionTypes.DELETE_PROFILE_END_TYPE:
+			return state.set('profiles', action.profiles)
+		case ActionTypes.MOVE_PROFILE_TYPE:
+			return state.set('error', false)
+		case ActionTypes.MOVE_PROFILE_END_TYPE:
+			return state.set('profiles', action.profiles)
 
-		case LOAD_READS:
-			return state.set('error', false).set('reads', false);
-		case LOAD_READS_END:
-			return state.set('reads', action.reads);
-		case ADD_READ:
-			return state.set('error', false);
-		case ADD_READ_END:
-			return state.set('reads', action.reads);
+		case ActionTypes.LOAD_READS_TYPE:
+			return state.set('error', false).set('reads', false)
+		case ActionTypes.LOAD_READS_END_TYPE:
+			return state.set('reads', action.reads)
+		case ActionTypes.ADD_READ_TYPE:
+			return state.set('error', false)
+		case ActionTypes.ADD_READ_END_TYPE:
+			return state.set('reads', action.reads)
 
-		case LOAD_PREMIUM:
-			return state.set('premium', false);
-		case LOAD_PREMIUM_END:
-			return state.set('premium', action.isPremium);
+		case ActionTypes.LOAD_PREMIUM_TYPE:
+			return state.set('premium', false)
+		case ActionTypes.LOAD_PREMIUM_END_TYPE:
+			return state.set('premium', action.isPremium)
 
-		case LOAD_STORIES:
+		case ActionTypes.LOAD_STORIES_TYPE:
 			return state
 				.set('loading', true)
 				.set('error', false)
-				.setIn(['pages', profileSerialKey(action.profile), 'stories', action.page], false);
-		case LOAD_STORIES_END:
+				.setIn(['pages', profileSerialKey(action.profile), 'stories', action.page], false)
+		case ActionTypes.LOAD_STORIES_END_TYPE:
 			return state
 				.set('loading', false)
 				.setIn(
 					['pages', profileSerialKey(action.profile), 'stories', action.pageInfo.page],
 					action.stories
 				)
-				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], action.pageInfo);
-		case UPDATE_PAGE:
+				.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], action.pageInfo)
+		case ActionTypes.UPDATE_PAGE_TYPE:
 			return state.setIn(['pages', profileSerialKey(action.profile), 'pageInfo'], {
 				page: action.page,
-			});
-		case LOAD_CONFIG_END:
-			return state.set('config', action.config);
-		case TOGGLE_IAB_CONFIG:
-			return state.set('config', { inappbrowse: !state.get('config').inappbrowse });
+			})
+		case ActionTypes.LOAD_CONFIG_END_TYPE:
+			return state.set('config', action.config)
+		case ActionTypes.TOGGLE_IAB_CONFIG_TYPE:
+			return state.set('config', { inappbrowse: !state.get('config').inappbrowse })
 
 		default:
-			return state;
+			return state
 	}
 }
 
 export default combineReducers({
 	app: appReducers,
-});
+})

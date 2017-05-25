@@ -1,16 +1,16 @@
 // @flow
 
-import React from 'react';
-import { View, StatusBar, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import React from 'react'
+import { View, StatusBar, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 
-import { loadProfiles, loadConfig, loadReads, loadPremium } from '../../reduxs/actions';
-import { selectProfiles } from '../../reduxs/selectors';
+import { loadProfiles, loadConfig, loadReads, loadPremium } from '../../reduxs/actions'
+import { selectProfiles } from '../../reduxs/selectors'
 
-import realm from '../../models/RealmModel';
-import NavigationRouter from '../../routers/NavigationRouter';
+import realm from '../../models/RealmModel'
+import NavigationRouter from '../../routers/NavigationRouter'
 
-import type { Profile } from '../../types';
+import type { Profile } from '../../types'
 
 // Styles
 const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		height: 200,
 		alignSelf: 'center',
 	},
-});
+})
 
 type Props = {
 	profiles: Array<Profile>,
@@ -40,24 +40,24 @@ type Props = {
 	loadReads: Function,
 	loadConfig: Function,
 	loadPremium: Function
-};
+}
 
 class RootContainer extends React.Component {
-	props: Props;
+	props: Props
 
 	componentDidMount() {
-		realm.getReads();
+		realm.getReads()
 		// if redux persist is not active fire startup action
 		// if (!ReduxPersist.active) {
-		this.props.loadProfiles();
-		this.props.loadReads();
-		this.props.loadConfig();
-		this.props.loadPremium();
+		this.props.loadProfiles()
+		this.props.loadReads()
+		this.props.loadConfig()
+		this.props.loadPremium()
 		// }
 	}
 
 	componentWillReceiveProps() {
-		this.forceUpdate();
+		this.forceUpdate()
 	}
 
 	render() {
@@ -66,19 +66,19 @@ class RootContainer extends React.Component {
 				<StatusBar barStyle="default" />
 				<NavigationRouter profiles={this.props.profiles} />
 			</View>
-		);
+		)
 	}
 }
 
 const mapStateToProps = (state, props) => ({
 	profiles: selectProfiles(state, props),
-});
+})
 
 const mapDispatchToProps = dispatch => ({
 	loadProfiles: () => dispatch(loadProfiles()),
 	loadConfig: () => dispatch(loadConfig()),
 	loadReads: () => dispatch(loadReads()),
 	loadPremium: () => dispatch(loadPremium()),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

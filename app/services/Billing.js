@@ -1,3 +1,3 @@
 // @flow
 
-type Billing = {};
+type Billing = {}

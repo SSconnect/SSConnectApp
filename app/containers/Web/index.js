@@ -1,12 +1,12 @@
 // @flow
 
-import React from 'react';
-import { View, StyleSheet, WebView, Linking, Platform } from 'react-native';
-import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
+import React from 'react'
+import { View, StyleSheet, WebView, Linking, Platform } from 'react-native'
+import { connect } from 'react-redux'
+import { Button } from 'react-native-elements'
+import { Actions } from 'react-native-router-flux'
 
-import { Scales } from '../../themes';
+import { Scales } from '../../themes'
 
 // Styles
 const styles = StyleSheet.create({
@@ -14,31 +14,31 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginTop: Scales.navBarHeight,
 	},
-});
+})
 
 type Props = {
 	uri: string
-};
+}
 
 type State = {
 	height: number
-};
+}
 
 class WebScreen extends React.Component {
-	props: Props;
+	props: Props
 	state: State = {
 		height: 40,
-	};
+	}
 
 	componentDidMount() {}
 
 	componentWillReceiveProps() {
-		this.forceUpdate();
+		this.forceUpdate()
 	}
 
 	render() {
-		const { uri } = this.props;
-		const { height } = this.state;
+		const { uri } = this.props
+		const { height } = this.state
 		return (
 			<View style={styles.applicationView}>
 				<WebView source={{ uri }} style={{ marginBottom: 40 }} />
@@ -57,14 +57,14 @@ class WebScreen extends React.Component {
 						style={{ flex: 1 }}
 						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: height + 10 });
+							this.setState({ height: height + 10 })
 						}}
 					/>
 					<Button
 						style={{ flex: 1 }}
 						backgroundColor="#ddd"
 						onPress={() => {
-							this.setState({ height: Math.max(height - 10, 40) });
+							this.setState({ height: Math.max(height - 10, 40) })
 						}}
 					/>
 					<View style={{ flex: 2 }} />
@@ -73,18 +73,18 @@ class WebScreen extends React.Component {
 						title="開く"
 						icon={{ type: 'font-awesome', name: Platform.OS === 'ios' ? 'safari' : 'chrome' }}
 						onPress={() => {
-							Actions.pop();
-							Linking.openURL(uri);
+							Actions.pop()
+							Linking.openURL(uri)
 						}}
 					/>
 				</View>
 			</View>
-		);
+		)
 	}
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = () => ({})
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = () => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(WebScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(WebScreen)

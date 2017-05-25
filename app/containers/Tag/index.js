@@ -1,61 +1,61 @@
 // @flow
 
-import React from 'react';
-import { View, ListView } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import React from 'react'
+import { View, ListView } from 'react-native'
+import { SearchBar } from 'react-native-elements'
 
-import Indicator from '../../components/Indicator';
-import TagCell from '../../components/TagCell';
+import Indicator from '../../components/Indicator'
+import TagCell from '../../components/TagCell'
 
-import feedClient from '../../services/FeedClient';
-import type { Article, Tag } from '../../types';
-import { Scales } from '../../themes/';
+import feedClient from '../../services/FeedClient'
+import type { Article, Tag } from '../../types'
+import { Scales } from '../../themes/'
 
 type Props = {
-	q: string,
-};
+	q: string
+}
 
 type State = {
 	dataSource: any,
-	loading: boolean,
-};
+	loading: boolean
+}
 
-const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2;
+const rowHasChanged = (r1: Article, r2: Article) => r1 !== r2
 
 class TagScreen extends React.PureComponent {
-	props: Props;
-	state: State;
+	props: Props
+	state: State
 
-	renderFooter: Function;
-	renderRow: Function;
+	renderFooter: Function
+	renderRow: Function
 
 	constructor(props: Props) {
-		super(props);
+		super((props: Props))
 		this.state = {
 			dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
 			loading: true,
 			q: props.q || '',
-		};
-		this.renderRow = this.renderRow.bind(this);
+		}
+		this.renderRow = this.renderRow.bind(this)
 	}
 
 	componentDidMount() {
-		this.init();
+		this.init()
 	}
 
 	async init() {
-		await this.loadTags();
+		await this.loadTags()
 	}
 
 	async loadTags() {
-		this.setState({ loading: true });
-		const tags = await feedClient.getTags();
+		this.setState({ loading: true })
+		const tags = await feedClient.getTags()
 
 		// await new Promise(resolve => setTimeout(resolve, 1000));
 		this.setState({
 			dataSource: this.state.dataSource.cloneWithRows(tags),
 			loading: false,
-		});
+		})
 	}
 
 	render() {
@@ -78,13 +78,13 @@ class TagScreen extends React.PureComponent {
 					distanceToLoadMore={100}
 				/>
 			</View>
-		);
+		)
 	}
 
 	/* eslint class-methods-use-this:0 */
 	renderRow(tag: Tag) {
-		return <TagCell tag={tag} />;
+		return <TagCell tag={tag} />
 	}
 }
 
-export default TagScreen;
+export default TagScreen

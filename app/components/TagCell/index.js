@@ -1,27 +1,27 @@
 // @flow
 
-import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import moment from 'moment';
-import { Actions } from 'react-native-router-flux';
-import { Icon } from 'react-native-elements';
+import React from 'react'
+import { View, TouchableOpacity, Text } from 'react-native'
+import moment from 'moment'
+import { Actions } from 'react-native-router-flux'
+import { Icon } from 'react-native-elements'
 
-import { Colors } from '../../themes/';
-import type { Tag } from '../../types';
+import { Colors } from '../../themes/'
+import type { Tag } from '../../types'
 
 type Props = {
-	tag: Tag,
-};
+	tag: Tag
+}
 
 function TagCell({ tag }: Props) {
-	moment.updateLocale('ja');
+	moment.updateLocale('ja')
 	return (
 		<TouchableOpacity
 			onPress={() => {
 				Actions.baseScreen({
 					profile: { tag: tag.name },
 					title: `タグ: ${tag.name}`,
-				});
+				})
 			}}
 		>
 			<View style={{ padding: 10, paddingVertical: 20, flex: 2, flexDirection: 'row' }}>
@@ -38,7 +38,7 @@ function TagCell({ tag }: Props) {
 				<Text style={{ fontSize: 24, paddingLeft: 5 }}>{`${tag.name}(${tag.taggings_count})`}</Text>
 			</View>
 		</TouchableOpacity>
-	);
+	)
 }
 
-export default TagCell;
+export default TagCell

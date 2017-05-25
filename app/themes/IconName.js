@@ -12,6 +12,6 @@ const iconName = {
 	delete: 'delete-forever',
 	next: 'navigate-next',
 	prev: 'chevron-left',
-};
+}
 
-export default iconName;
+export default iconName

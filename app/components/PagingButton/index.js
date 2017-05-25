@@ -1,26 +1,26 @@
 // @flow
 
-import React from 'react';
-import { Button } from 'react-native-elements';
+import React from 'react'
+import { Button } from 'react-native-elements'
 
-import { IconName } from '../../themes/';
+import { IconName } from '../../themes/'
 
 type Props = {
 	icon: Object,
 	onPress: Function,
-	disabled: boolean,
-};
+	disabled: boolean
+}
 
 class PagingButton extends React.PureComponent {
-	props: Props;
+	props: Props
 	static defaultProps: Props = {
 		icon: { name: IconName.threeBar },
 		onPress: () => {},
 		disabled: false,
-	};
+	}
 
 	render() {
-		const { icon, onPress, disabled } = this.props;
+		const { icon, onPress, disabled } = this.props
 		return (
 			<Button
 				disabled={disabled}
@@ -35,8 +35,8 @@ class PagingButton extends React.PureComponent {
 				icon={icon}
 				onPress={onPress}
 			/>
-		);
+		)
 	}
 }
 
-export default PagingButton;
+export default PagingButton

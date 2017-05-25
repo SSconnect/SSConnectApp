@@ -1,40 +1,40 @@
 // @flow
 
-import React from 'react';
-import 'react-native';
-import { connect } from 'react-redux';
-import { Tabs, Tab, Icon } from 'react-native-elements';
-import _ from 'lodash';
+import React from 'react'
+import 'react-native'
+import { connect } from 'react-redux'
+import { Tabs, Tab, Icon } from 'react-native-elements'
+import _ from 'lodash'
 
-import BaseScreen from '../Base';
+import BaseScreen from '../Base'
 
-import type { Profile } from '../../types';
+import type { Profile } from '../../types'
 
-import { selectProfiles } from '../../reduxs/selectors';
-import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils';
+import { selectProfiles } from '../../reduxs/selectors'
+import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils'
 
 type Props = {
 	profiles: Array<Profile>
-};
+}
 
 type State = {
 	selectedTab: string
-};
+}
 
 class MainScreen extends React.PureComponent {
-	props: Props;
-	state: State = { selectedTab: profileSerialKey({}) };
+	props: Props
+	state: State = { selectedTab: profileSerialKey({}) }
 
 	componentDidMount() {}
 
 	componentWillReceiveProps() {
-		this.forceUpdate();
+		this.forceUpdate()
 	}
 
 	renderTab(profile: Profile) {
-		const { selectedTab } = this.state;
-		const key = profileSerialKey(profile);
-		const selected = selectedTab === key;
+		const { selectedTab } = this.state
+		const key = profileSerialKey(profile)
+		const selected = selectedTab === key
 
 		const iconProps = {
 			containerStyle: {
@@ -44,7 +44,7 @@ class MainScreen extends React.PureComponent {
 			},
 			name: profileIcon(profile),
 			size: 24,
-		};
+		}
 		return (
 			<Tab
 				key={key}
@@ -63,26 +63,26 @@ class MainScreen extends React.PureComponent {
 			>
 				<BaseScreen profile={profile} />
 			</Tab>
-		);
+		)
 	}
 
 	render() {
-		const { profiles } = this.props;
-		const tabs = _.map(profiles, profile => this.renderTab(profile));
+		const { profiles } = this.props
+		const tabs = _.map(profiles, profile => this.renderTab(profile))
 
 		return (
 			<Tabs>
 				{this.renderTab({ q: '', tag: '' })}
 				{tabs}
 			</Tabs>
-		);
+		)
 	}
 }
 
 const mapStateToProps = (state, props) => ({
 	profiles: selectProfiles(state, props),
-});
+})
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = () => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen)

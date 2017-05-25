@@ -1,6 +1,7 @@
 // @flow
 
-import { AppRegistry } from 'react-native';
-import App from './app/containers/App';
+import { AppRegistry } from "react-native"
+import App from "./app/containers/App"
+import moment from "moment"
 
-AppRegistry.registerComponent('SSConnect', () => App);
+AppRegistry.registerComponent("SSConnect", () => App)
