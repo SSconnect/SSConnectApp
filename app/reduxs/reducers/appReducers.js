@@ -1,24 +1,34 @@
 // @flow
 
-import { combineReducers } from "redux"
-import { profileSerialKey } from "../types/utils"
+import { profileSerialKey } from "../../types/utils"
+import type { AppState } from "../../types"
 import _ from "lodash"
 
-import { ActionTypes } from "./constants"
+import { ActionTypes } from "../constants"
+import type { Profile, Read, PageInfo, Story } from "../../types"
+import "../../types/index"
+
+type Action = {
+  profiles: Array<Profile>,
+  profile: Profile,
+  from: number,
+  to: number,
+  type: string,
+  reads: Array<Read>,
+  story: Story,
+  stories: Array<Story>,
+  pageInfo: PageInfo
+};
 
 // The initial state of the app
 const initialState = {
 	loading: false,
 	reads: [],
-	premium: false,
 	pages: {},
 	profiles: [],
-	config: {
-		inappbrowse: false,
-	},
 }
 
-function appReducers(state = initialState, action) {
+export function appReducers(state: AppState = initialState, action: Action) {
 	const pages = { ...state.pages }
 
 	switch (action.type) {
@@ -44,8 +54,6 @@ function appReducers(state = initialState, action) {
 				...state,
 				reads: _.concat(state.reads, { story_id: action.story.id }),
 			}
-		case ActionTypes.LOAD_PREMIUM_END_TYPE:
-			return { ...state, isPremium: action.isPremium }
 
 		case ActionTypes.LOAD_STORIES_TYPE:
 			pages[profileSerialKey(action.profile)] = { stories: [], pageInfo: null }
@@ -58,15 +66,7 @@ function appReducers(state = initialState, action) {
 		case ActionTypes.UPDATE_PAGE_TYPE:
 			pages[profileSerialKey(action.profile)].pageInfo = action.pageInfo
 			return { ...state, pages }
-		case ActionTypes.LOAD_CONFIG_END_TYPE:
-			return { ...state, config: action.config }
-		case ActionTypes.TOGGLE_IAB_CONFIG_TYPE:
-			return { ...state, config: { inappbrowse: !state.config.inappbrowse } }
 		default:
 			return state
 	}
 }
-
-export default combineReducers({
-	app: appReducers,
-})

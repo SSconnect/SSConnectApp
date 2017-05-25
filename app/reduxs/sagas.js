@@ -1,21 +1,11 @@
 // @flow
 
 import { fork, put, takeLatest } from "redux-saga/effects"
-import { Platform } from "react-native"
-import InAppBilling from "react-native-billing"
-
-import config from "../configs"
 import feedClient from "../services/FeedClient"
 
 import { ActionTypes } from "./constants"
 
-import {
-  loadProfilesEnd,
-  loadReadsEnd,
-  loadStoriesEnd,
-  loadPremiumEnd,
-  loadConfigEnd,
-} from "./actions"
+import { loadReadsEnd, loadStoriesEnd, loadConfigEnd } from "./actions"
 
 import realm from "../models/RealmModel"
 import type { Profile } from "../types/index"
@@ -52,20 +42,6 @@ export function* toggleConfigIAB() {
 	yield realm.toggleConfigInAppBrowse()
 }
 
-export function* getPremium() {
-	if (Platform.OS === "ios") {
-		yield put(loadPremiumEnd(true))
-		return
-	}
-  // android
-	yield InAppBilling.close()
-	yield InAppBilling.open()
-
-	const isPurchased = yield InAppBilling.isPurchased(config.productID)
-	yield put(loadPremiumEnd(isPurchased))
-	yield InAppBilling.close()
-}
-
 export function* getStories({ profile, page }: { profile: Profile }) {
 	const { stories, pageInfo } = yield feedClient.getStories({
 		page,
@@ -83,7 +59,6 @@ export function* appData() {
 	yield takeLatest(ActionTypes.LOAD_READS_TYPE, getReads)
 	yield takeLatest(ActionTypes.ADD_READ_TYPE, addRead)
 	yield takeLatest(ActionTypes.LOAD_STORIES_TYPE, getStories)
-	yield takeLatest(ActionTypes.LOAD_PREMIUM_TYPE, getPremium)
 
 	yield takeLatest(ActionTypes.LOAD_CONFIG_TYPE, getConfig)
 	yield takeLatest(ActionTypes.TOGGLE_IAB_CONFIG_TYPE, toggleConfigIAB)

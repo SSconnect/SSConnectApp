@@ -35,19 +35,6 @@ export function moveProfile(from, to) {
 	}
 }
 
-export function loadPremium() {
-	return {
-		type: ActionTypes.LOAD_PREMIUM_TYPE,
-	}
-}
-
-export function loadPremiumEnd(isPremium) {
-	return {
-		type: ActionTypes.LOAD_PREMIUM_END_TYPE,
-		isPremium,
-	}
-}
-
 export function loadReads() {
 	return {
 		type: ActionTypes.LOAD_READS_TYPE,
