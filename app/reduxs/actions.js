@@ -1,4 +1,4 @@
-import { ActionTypes } from './constants'
+import { ActionTypes } from "./constants"
 
 export function loadProfiles() {
 	return {
@@ -89,13 +89,6 @@ export function addRead(story) {
 	}
 }
 
-export function addReadEnd(reads) {
-	return {
-		type: ActionTypes.ADD_READ_END_TYPE,
-		reads,
-	}
-}
-
 export function loadStories(profile, page) {
 	return {
 		type: ActionTypes.LOAD_STORIES_TYPE,
@@ -122,5 +115,10 @@ export function updatePage(profile, page) {
 }
 
 export const loadConfig = () => ({ type: ActionTypes.LOAD_CONFIG_TYPE })
-export const loadConfigEnd = config => ({ type: ActionTypes.LOAD_CONFIG_END_TYPE, config })
-export const toggleConfigIAB = () => ({ type: ActionTypes.TOGGLE_IAB_CONFIG_TYPE })
+export const loadConfigEnd = config => ({
+	type: ActionTypes.LOAD_CONFIG_END_TYPE,
+	config,
+})
+export const toggleConfigIAB = () => ({
+	type: ActionTypes.TOGGLE_IAB_CONFIG_TYPE,
+})
