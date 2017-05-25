@@ -79,7 +79,7 @@ class RealmManager {
 		return this.realm.objects("Read")
 	}
 
-	addRead({ story }: { story: Story }) {
+	addRead(story: Story) {
 		if (realm.objects("Read").filtered("story_id = $0", story.id).count === 0) {
 			return
 		}

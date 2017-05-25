@@ -13,42 +13,42 @@ import {
 } from "./actions"
 
 import realm from "../models/RealmModel"
-import type { Profile } from "../types/index"
+import type { Profile, Story } from "../types/index"
 
-export function* addProfile(profile: Profile) {
+function* addProfile(profile: Profile) {
 	yield realm.addProfile(profile)
 }
-export function* getProfiles() {
+function* getProfiles() {
 	const stories = yield realm.getProfiles()
 	yield put(loadProfilesEnd(stories))
 }
 
-export function* moveProfile({ from, to }: { from: number, to: number }) {
+function* moveProfile({ from, to }: { from: number, to: number }) {
 	yield realm.moveProfile(from, to)
 }
 
-export function* deleteProfile(profile: Profile) {
+function* deleteProfile(profile: Profile) {
 	yield realm.deleteProfile(profile)
 }
 
-export function* addRead(story: Stroy) {
+function* addRead(story: Story) {
 	realm.addRead(story)
 }
 
-export function* getReads() {
+function* getReads() {
 	const reads = realm.getReads()
 	yield put(loadReadsEnd(reads))
 }
 
-export function* getConfig() {
+function* getConfig() {
 	yield put(loadConfigEnd(realm.selectConfig()))
 }
 
-export function* toggleConfigIAB() {
+function* toggleConfigIAB() {
 	yield realm.toggleConfigInAppBrowse()
 }
 
-export function* getStories({ profile, page }: { profile: Profile }) {
+function* getStories({ profile, page }: { profile: Profile, page: number }) {
 	const { stories, pageInfo } = yield feedClient.getStories({
 		page,
 		...profile,
@@ -56,7 +56,7 @@ export function* getStories({ profile, page }: { profile: Profile }) {
 	yield put(loadStoriesEnd(profile, pageInfo, stories))
 }
 
-export function* appData() {
+function* appData() {
 	yield takeLatest(ActionTypes.LOAD_PROFILES_TYPE, getProfiles)
 	yield takeLatest(ActionTypes.ADD_PROFILE_TYPE, addProfile)
 	yield takeLatest(ActionTypes.DELETE_PROFILE_TYPE, deleteProfile)
@@ -70,6 +70,4 @@ export function* appData() {
 	yield takeLatest(ActionTypes.TOGGLE_IAB_CONFIG_TYPE, toggleConfigIAB)
 }
 
-export default function* root() {
-	yield [fork(appData)]
-}
+export default appData
