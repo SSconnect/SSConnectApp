@@ -1,4 +1,4 @@
-import { ActionTypes } from './constants'
+import { ActionTypes } from "./constants"
 
 export function loadProfiles() {
 	return {
@@ -20,24 +20,10 @@ export function addProfile(profile) {
 	}
 }
 
-export function addProfileEnd(profiles) {
-	return {
-		type: ActionTypes.ADD_PROFILE_END_TYPE,
-		profiles,
-	}
-}
-
 export function deleteProfile(profile) {
 	return {
 		type: ActionTypes.DELETE_PROFILE_TYPE,
 		profile,
-	}
-}
-
-export function deleteProfileEnd(profiles) {
-	return {
-		type: ActionTypes.DELETE_PROFILE_END_TYPE,
-		profiles,
 	}
 }
 
@@ -46,26 +32,6 @@ export function moveProfile(from, to) {
 		type: ActionTypes.MOVE_PROFILE_TYPE,
 		from,
 		to,
-	}
-}
-
-export function moveProfileEnd(profiles) {
-	return {
-		type: ActionTypes.MOVE_PROFILE_END_TYPE,
-		profiles,
-	}
-}
-
-export function loadPremium() {
-	return {
-		type: ActionTypes.LOAD_PREMIUM_TYPE,
-	}
-}
-
-export function loadPremiumEnd(isPremium) {
-	return {
-		type: ActionTypes.LOAD_PREMIUM_END_TYPE,
-		isPremium,
 	}
 }
 
@@ -86,13 +52,6 @@ export function addRead(story) {
 	return {
 		type: ActionTypes.ADD_READ_TYPE,
 		story,
-	}
-}
-
-export function addReadEnd(reads) {
-	return {
-		type: ActionTypes.ADD_READ_END_TYPE,
-		reads,
 	}
 }
 
@@ -122,5 +81,10 @@ export function updatePage(profile, page) {
 }
 
 export const loadConfig = () => ({ type: ActionTypes.LOAD_CONFIG_TYPE })
-export const loadConfigEnd = config => ({ type: ActionTypes.LOAD_CONFIG_END_TYPE, config })
-export const toggleConfigIAB = () => ({ type: ActionTypes.TOGGLE_IAB_CONFIG_TYPE })
+export const loadConfigEnd = config => ({
+	type: ActionTypes.LOAD_CONFIG_END_TYPE,
+	config,
+})
+export const toggleConfigIAB = () => ({
+	type: ActionTypes.TOGGLE_IAB_CONFIG_TYPE,
+})
