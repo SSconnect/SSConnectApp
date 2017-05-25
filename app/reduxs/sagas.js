@@ -15,7 +15,7 @@ import {
 import realm from "../models/RealmModel"
 import type { Profile, Story } from "../types/index"
 
-function* addProfile(profile: Profile) {
+function* addProfile({ profile }: { profile: Profile }) {
 	yield realm.addProfile(profile)
 }
 function* getProfiles() {
@@ -27,11 +27,11 @@ function* moveProfile({ from, to }: { from: number, to: number }) {
 	yield realm.moveProfile(from, to)
 }
 
-function* deleteProfile(profile: Profile) {
+function* deleteProfile({ profile }: { profile: Profile }) {
 	yield realm.deleteProfile(profile)
 }
 
-function* addRead(story: Story) {
+function* addRead({ story }: { story: Story }) {
 	realm.addRead(story)
 }
 
