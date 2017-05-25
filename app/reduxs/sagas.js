@@ -5,7 +5,12 @@ import feedClient from "../services/FeedClient"
 
 import { ActionTypes } from "./constants"
 
-import { loadReadsEnd, loadStoriesEnd, loadConfigEnd } from "./actions"
+import {
+  loadProfilesEnd,
+  loadReadsEnd,
+  loadStoriesEnd,
+  loadConfigEnd,
+} from "./actions"
 
 import realm from "../models/RealmModel"
 import type { Profile } from "../types/index"
@@ -14,7 +19,8 @@ export function* addProfile(profile: Profile) {
 	yield realm.addProfile(profile)
 }
 export function* getProfiles() {
-	yield realm.getProfiles()
+	const stories = yield realm.getProfiles()
+	yield put(loadProfilesEnd(stories))
 }
 
 export function* moveProfile({ from, to }: { from: number, to: number }) {
