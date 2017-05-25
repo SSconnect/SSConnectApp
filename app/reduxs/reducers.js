@@ -2,95 +2,66 @@
 
 import { combineReducers } from "redux"
 import { profileSerialKey } from "../types/utils"
-import { fromJS } from "immutable"
+import _ from "lodash"
 
 import { ActionTypes } from "./constants"
 
 // The initial state of the app
-const initialState = fromJS({
+const initialState = {
 	loading: false,
-	reads: false,
+	reads: [],
 	premium: false,
 	pages: {},
-})
-  .set("profiles", [])
-  .set("config", { inappbrowse: false })
+	profiles: [],
+	config: {
+		inappbrowse: false,
+	},
+}
 
 function appReducers(state = initialState, action) {
-	switch (action.type) {
-		case ActionTypes.LOAD_PROFILES_TYPE:
-			return state.set("profiles", [])
-		case ActionTypes.LOAD_PROFILES_END_TYPE:
-			return state.set("profiles", action.profiles)
-		case ActionTypes.ADD_PROFILE_TYPE:
-      // TODO: loading
-			return state
-		case ActionTypes.ADD_PROFILE_END_TYPE:
-      // TODO: loading
-			return state.set("profiles", action.profiles)
-		case ActionTypes.DELETE_PROFILE_TYPE:
-      // TODO: loading
-			return state
-		case ActionTypes.DELETE_PROFILE_END_TYPE:
-      // TODO: loading
-			return state.set("profiles", action.profiles)
-		case ActionTypes.MOVE_PROFILE_TYPE:
-      // TODO: loading
-			return state
-		case ActionTypes.MOVE_PROFILE_END_TYPE:
-      // TODO: loading
-			return state.set("profiles", action.profiles)
+	const pages = { ...state.pages }
 
-		case ActionTypes.LOAD_READS_TYPE:
-			return state.set("error", false).set("reads", false)
+	switch (action.type) {
+		case ActionTypes.LOAD_PROFILES_END_TYPE:
+			return { ...state, profiles: action.profiles }
+		case ActionTypes.ADD_PROFILE_TYPE:
+			return { ...state, profiles: _.concat(state.profiles, action.profile) }
+		case ActionTypes.DELETE_PROFILE_TYPE:
+			return {
+				...state,
+				profiles: _.difference(state.profiles, [action.profile]),
+			}
+		case ActionTypes.MOVE_PROFILE_TYPE:
+			const { profiles } = state
+			const { to, from } = action
+			profiles.splice(to, 0, profiles.splice(from, 1)[0])
+			return { ...state, profiles }
+
 		case ActionTypes.LOAD_READS_END_TYPE:
-			return state.set("reads", action.reads)
+			return { ...state, reads: action.reads }
 		case ActionTypes.ADD_READ_TYPE:
-      // TODO: add read
-			return state.set("error", false)
-		case ActionTypes.LOAD_PREMIUM_TYPE:
-			return state.set("premium", false)
+			return {
+				...state,
+				reads: _.concat(state.reads, { story_id: action.story.id }),
+			}
 		case ActionTypes.LOAD_PREMIUM_END_TYPE:
-			return state.set("premium", action.isPremium)
+			return { ...state, isPremium: action.isPremium }
 
 		case ActionTypes.LOAD_STORIES_TYPE:
-			return state
-        .set("loading", true)
-        .set("error", false)
-        .setIn(
-          ["pages", profileSerialKey(action.profile), "stories", action.page],
-          false
-        )
+			pages[profileSerialKey(action.profile)] = { stories: [], pageInfo: null }
+			return { ...state, loading: true, pages }
 		case ActionTypes.LOAD_STORIES_END_TYPE:
-			return state
-        .set("loading", false)
-        .setIn(
-				[
-					"pages",
-					profileSerialKey(action.profile),
-					"stories",
-					action.pageInfo.page,
-				],
-          action.stories
-        )
-        .setIn(
-          ["pages", profileSerialKey(action.profile), "pageInfo"],
-          action.pageInfo
-        )
+			pages[profileSerialKey(action.profile)].stories[action.pageInfo.page] =
+        action.stories
+			pages[profileSerialKey(action.profile)].pageInfo = action.pageInfo
+			return { ...state, loading: false, pages }
 		case ActionTypes.UPDATE_PAGE_TYPE:
-			return state.setIn(
-        ["pages", profileSerialKey(action.profile), "pageInfo"],
-				{
-					page: action.page,
-				}
-      )
+			pages[profileSerialKey(action.profile)].pageInfo = action.pageInfo
+			return { ...state, pages }
 		case ActionTypes.LOAD_CONFIG_END_TYPE:
-			return state.set("config", action.config)
+			return { ...state, config: action.config }
 		case ActionTypes.TOGGLE_IAB_CONFIG_TYPE:
-			return state.set("config", {
-				inappbrowse: !state.get("config").inappbrowse,
-			})
-
+			return { ...state, config: { inappbrowse: !state.config.inappbrowse } }
 		default:
 			return state
 	}

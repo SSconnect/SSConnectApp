@@ -20,24 +20,10 @@ export function addProfile(profile) {
 	}
 }
 
-export function addProfileEnd(profiles) {
-	return {
-		type: ActionTypes.ADD_PROFILE_END_TYPE,
-		profiles,
-	}
-}
-
 export function deleteProfile(profile) {
 	return {
 		type: ActionTypes.DELETE_PROFILE_TYPE,
 		profile,
-	}
-}
-
-export function deleteProfileEnd(profiles) {
-	return {
-		type: ActionTypes.DELETE_PROFILE_END_TYPE,
-		profiles,
 	}
 }
 
@@ -46,13 +32,6 @@ export function moveProfile(from, to) {
 		type: ActionTypes.MOVE_PROFILE_TYPE,
 		from,
 		to,
-	}
-}
-
-export function moveProfileEnd(profiles) {
-	return {
-		type: ActionTypes.MOVE_PROFILE_END_TYPE,
-		profiles,
 	}
 }
 
