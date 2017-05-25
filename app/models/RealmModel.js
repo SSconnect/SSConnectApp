@@ -119,13 +119,9 @@ class RealmManager {
 
 	toggleConfigInAppBrowse() {
 		const config = this.realm.objects("Config")[0]
-		if (!config) {
-			newRealm.create("Config", { inappbrowse: false })
-		} else {
-			this.realm.write(() => {
-				config.inappbrowse = !config.inappbrowse
-			})
-		}
+		this.realm.write(() => {
+			config.inappbrowse = !config.inappbrowse
+		})
 	}
 
 	selectProfile(profile: Profile) {
