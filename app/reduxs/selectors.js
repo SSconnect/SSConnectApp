@@ -2,10 +2,10 @@
 import { createSelector } from "reselect"
 import { profileSerialKey } from "../types/utils"
 
-import type { GlobalState } from "../types"
+import type { GlobalState, AppState, ConfigState } from "../types"
 
-const selectGlobal = (state: GlobalState) => state.app
-const selectConfig = (state: GlobalState) => state.config
+const selectGlobal: (state: GlobalState) => AppState = state => state.app
+const selectConfig: (state: GlobalState) => ConfigState = state => state.config
 
 const inProfiles = state => selectGlobal(state).profiles
 const inReads = state => selectGlobal(state).reads

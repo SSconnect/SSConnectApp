@@ -1,12 +1,11 @@
 {
-  "extends": [
-    "plugin:flowtype/recommended"
-  ],
+  "parser": "babel-eslint",
   "plugins": [
-    "react",
     "react-native",
-    "import",
-    "flowtype"
+    "react",
+    "flowtype",
+    "jsx-a11y",
+    "import"
   ],
   "globals": {
     "__DEV__": false,
@@ -38,15 +37,7 @@
     "semi": [
       "error",
       "never"
-    ],
-    "react/sort-comp": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-tag-spacing": 0,
-    "react/jsx-space-before-closing": 0,
-    "react/no-string-refs": 0,
-    "react/prefer-stateless-function": 0,
-    "generator-star-spacing": 0,
-    "react/jsx-no-bind": 0,
-    "no-tabs": 0
+    ]
   }
 }
+
