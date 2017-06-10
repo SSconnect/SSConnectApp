@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "packager": "./node_modules/react-native/packager/packager.sh",
     "packager:reset": "./node_modules/react-native/packager/packager.sh --reset-cache",
+    "build:ios": "react-native bundle --entry-file index.ios.js  --bundle-output build/out.js --assets-dest build/ --platform ios --dev false",
     "ios": "react-native run-ios --project-path ./ios",
     "flow": "node_modules/.bin/flow",
     "lint": "eslint App",
