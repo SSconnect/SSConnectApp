@@ -1,1 +1,2 @@
 *.pbxproj -text
+yarn.lock binary
