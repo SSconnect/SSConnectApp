@@ -22,8 +22,6 @@ import Indicator from "../../components/Indicator"
 import StoryCell from "../../components/StoryCell"
 import Paginator from "../../components/Paginator"
 
-import store from "../../models/StoreManager"
-
 import type { Story, Profile, Read, PageInfo } from "../../types"
 import { Scales, IconName } from "../../themes/"
 import SearchBar from "../../components/StorySearchBar"
@@ -158,12 +156,9 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderListView() {
-		const { reads } = this.props
-		const readedIds = _.map(reads, e => e.story_id)
 		return (
 			<ListView
-				renderRow={story =>
-					<StoryCell story={story} readed={readedIds.includes(story.id)} />}
+				renderRow={story => <StoryCell story={story} />}
 				dataSource={this.state.dataSource}
 				enableEmptySections
 				distanceToLoadMore={100}
@@ -185,7 +180,6 @@ const makeMapStateToProps = () => {
 	const selectStories = makeSelectStories()
 	const selectPageInfo = makeSelectPageInfo()
 	return (state, props) => ({
-		reads: selectReads(state, props),
 		stories: selectStories(state, props),
 		pageInfo: selectPageInfo(state, props),
 		profiles: selectProfiles(state, props),

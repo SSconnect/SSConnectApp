@@ -1,18 +1,17 @@
 // @flow
 
-import React from 'react'
-import { Button } from 'react-native-elements'
+import React from "react"
+import { Button } from "react-native-elements"
 
-import { IconName } from '../../themes/'
-
-type Props = {
-	icon: Object,
-	onPress: Function,
-	disabled: boolean
-}
+import { IconName } from "../../themes/"
 
 class PagingButton extends React.PureComponent {
-	props: Props
+	props: {
+		icon: Object,
+		onPress: Function,
+		disabled: boolean
+	}
+
 	static defaultProps: Props = {
 		icon: { name: IconName.threeBar },
 		onPress: () => {},

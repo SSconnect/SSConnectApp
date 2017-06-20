@@ -3,7 +3,7 @@
 import _ from "lodash"
 import store from "react-native-simple-store"
 
-import type { Story, Profile } from "../types"
+import type { Profile, Story } from "../types"
 
 const StoreKeys = {
 	profiles: "profiles",

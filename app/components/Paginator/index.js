@@ -1,12 +1,12 @@
 // @flow
 
-import React from 'react'
-import { View, Text } from 'react-native'
-import { Slider } from 'react-native-elements'
+import React from "react"
+import { View, Text } from "react-native"
+import { Slider } from "react-native-elements"
 
-import { IconName } from '../../themes/'
-import PagingButton from '../../components/PagingButton'
-import type { PageInfo } from '../../types'
+import { IconName } from "../../themes/"
+import PagingButton from "../../components/PagingButton"
+import type { PageInfo } from "../../types"
 
 type Props = {
 	pageInfo: PageInfo,
@@ -28,7 +28,7 @@ class Paginator extends React.PureComponent {
 	render() {
 		const { pageInfo, onComplete, onPressNext, onPressPrev } = this.props
 		return (
-			<View style={{ flexDirection: 'row' }}>
+			<View style={{ flexDirection: "row" }}>
 				<PagingButton
 					icon={{ name: IconName.prev }}
 					onPress={onPressPrev}
@@ -37,7 +37,7 @@ class Paginator extends React.PureComponent {
 				<Text
 					style={{
 						flex: 1,
-						textAlign: 'center',
+						textAlign: "center",
 						paddingTop: 12,
 					}}
 				>
@@ -51,7 +51,7 @@ class Paginator extends React.PureComponent {
 					maximumValue={pageInfo.total}
 					minimumValue={1}
 					onSlidingComplete={onComplete}
-					onValueChange={(value) => {
+					onValueChange={value => {
 						this.setState({ previewPage: value })
 					}}
 				/>
