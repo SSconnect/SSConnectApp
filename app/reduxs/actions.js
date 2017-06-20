@@ -42,6 +42,13 @@ export function moveProfile(from, to) {
 	}
 }
 
+export function moveProfileEnd(profiles) {
+	return {
+		type: ActionTypes.MOVE_PROFILE_END_TYPE,
+		profiles,
+	}
+}
+
 export function loadReads() {
 	return {
 		type: ActionTypes.LOAD_READS_TYPE,
