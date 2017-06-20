@@ -22,8 +22,6 @@ import Indicator from "../../components/Indicator"
 import StoryCell from "../../components/StoryCell"
 import Paginator from "../../components/Paginator"
 
-import store from "../../models/StoreManager"
-
 import type { Story, Profile, Read, PageInfo } from "../../types"
 import { Scales, IconName } from "../../themes/"
 import SearchBar from "../../components/StorySearchBar"

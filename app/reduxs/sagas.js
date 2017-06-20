@@ -6,10 +6,10 @@ import feedClient from "../services/FeedClient"
 import { ActionTypes } from "./constants"
 
 import {
+	loadConfigEnd,
 	loadProfilesEnd,
 	loadReadsEnd,
 	loadStoriesEnd,
-	loadConfigEnd,
 } from "./actions"
 
 import store from "../models/StoreManager"

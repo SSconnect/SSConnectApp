@@ -1,17 +1,16 @@
 // @flow
 
-import React from 'react'
-import { View, Text } from 'react-native'
-import Spinner from 'react-native-spinkit'
+import React from "react"
+import { Text, View } from "react-native"
+import Spinner from "react-native-spinkit"
 
-import { Colors } from '../../themes/'
-
-type Props = {
-	loading: boolean
-}
+import { Colors } from "../../themes/"
 
 class Indicator extends React.PureComponent {
-	props: Props
+	props: {
+		loading: boolean
+	}
+
 	static defaultProps: Props = {
 		loading: true,
 	}
@@ -21,7 +20,14 @@ class Indicator extends React.PureComponent {
 			return null
 		}
 		return (
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+			<View
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
+					padding: 20,
+				}}
+			>
 				<Spinner size={60} type="9CubeGrid" color={Colors.black} />
 				<Text>Loading...</Text>
 			</View>
