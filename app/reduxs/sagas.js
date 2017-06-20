@@ -6,10 +6,10 @@ import feedClient from "../services/FeedClient"
 import { ActionTypes } from "./constants"
 
 import {
-  loadProfilesEnd,
-  loadReadsEnd,
-  loadStoriesEnd,
-  loadConfigEnd,
+	loadProfilesEnd,
+	loadReadsEnd,
+	loadStoriesEnd,
+	loadConfigEnd,
 } from "./actions"
 
 import realm from "../models/RealmModel"
@@ -32,16 +32,16 @@ function* deleteProfile({ profile }: { profile: Profile }) {
 }
 
 function* addRead({ story }: { story: Story }) {
-	realm.addRead(story)
+	yield realm.addRead(story)
 }
 
 function* getReads() {
-	const reads = realm.getReads()
+	const reads = yield realm.getReads()
 	yield put(loadReadsEnd(reads))
 }
 
 function* getConfig() {
-	yield put(loadConfigEnd(realm.selectConfig()))
+	yield put(loadConfigEnd(yield realm.selectConfig()))
 }
 
 function* toggleConfigIAB() {
