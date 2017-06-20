@@ -124,10 +124,9 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderSubscribeButton() {
-		const { profile, onAddProfile } = this.props
+		const { profile, profiles, onAddProfile } = this.props
 		const { isHome } = this.state
-		debugger
-		if (isHome || this.props.profiles.includes(profile)) {
+		if (isHome || _.find(profiles, profile)) {
 			return null
 		}
 		return (
