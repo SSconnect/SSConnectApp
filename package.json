@@ -20,6 +20,7 @@
     "apisauce": "^0.13.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "native-base": "^2.1.5",
     "path": "^0.12.7",
     "react": "16.0.0-alpha.12",
     "react-dom": "^15.4.1",
