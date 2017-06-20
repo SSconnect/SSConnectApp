@@ -27,7 +27,7 @@ class TabList extends React.PureComponent {
 		this.forceUpdate()
 	}
 
-	renderListItem(profile: Profile) {
+	renderListItem(profile: Profile, i) {
 		const { onDeleteProfile } = this.props
 		return (
 			<ListItem
@@ -56,6 +56,11 @@ class TabList extends React.PureComponent {
 					</Text>
 				</Body>
 				<Right>
+					<Icon
+						name={IconName.up}
+						color={i === 0 ? "#eee" : "gray"}
+						onPress={onDeleteProfile}
+					/>
 					<Icon
 						name={IconName.delete}
 						onPress={onDeleteProfile}
