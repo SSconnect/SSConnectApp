@@ -60,7 +60,7 @@ class StoreManager {
 
 	async moveProfile(from: number, to: number) {
 		const profiles = []
-		const oldProfiles = this.getProfiles()
+		const oldProfiles = await this.getProfiles()
 		_.each(oldProfiles, v => profiles.push({ ...v }))
 		profiles.splice(to, 0, profiles.splice(from, 1)[0])
 		await store.save(StoreKeys.profiles, profiles)
