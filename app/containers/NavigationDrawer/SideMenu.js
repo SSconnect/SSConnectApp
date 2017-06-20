@@ -1,5 +1,5 @@
 import React from "react"
-import { Linking } from "react-native"
+import { Platform, Linking } from "react-native"
 import { connect } from "react-redux"
 import {
 	Body,
@@ -7,10 +7,12 @@ import {
 	CheckBox,
 	Container,
 	Content,
-	Icon,
 	ListItem,
 	Text,
+	Right,
+	Switch,
 } from "native-base"
+import { Icon } from "react-native-elements"
 import { Actions } from "react-native-router-flux"
 
 import TabList from "./TabList"
@@ -53,14 +55,17 @@ class SideMenu extends React.Component {
 					</ListItem>
 					<ListItem icon>
 						<Left>
-							<CheckBox
-								checked={config.inappbrowse}
-								onPress={onToggleConfigIAB}
-							/>
+							<Icon type="font-awesome" name="share-square-o" />
 						</Left>
 						<Body>
 							<Text>アプリブラウザで開く</Text>
 						</Body>
+						<Right>
+							<Switch
+								onValueChange={onToggleConfigIAB}
+								value={config.inappbrowse}
+							/>
+						</Right>
 					</ListItem>
 
 					<ListItem
@@ -71,11 +76,14 @@ class SideMenu extends React.Component {
 						}}
 					>
 						<Left>
-							<Icon name="pricetag" />
+							<Icon name={IconName.tag} />
 						</Left>
 						<Body>
 							<Text>作品タグ一覧</Text>
 						</Body>
+						<Right>
+							<Icon name="arrow-forward" />
+						</Right>
 					</ListItem>
 
 					<ListItem
