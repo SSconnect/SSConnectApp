@@ -1,9 +1,15 @@
 // @flow
 
-import Realm from "realm"
 import _ from "lodash"
+import store from "react-native-simple-store"
 
 import type { Story, Profile } from "../types"
+
+const StoreKeys = {
+	profiles: "profiles",
+	reads: "reads",
+	config: "config",
+}
 
 const ConfigSchema = {
 	name: "Config",
@@ -36,120 +42,61 @@ const ProfileSchema = {
 	},
 }
 
-const realm = new Realm({
-	schema: [ReadSchema, TabProfileSchema, ProfileSchema, ConfigSchema],
-	schemaVersion: 9,
-	migration: (oldRealm, newRealm) => {
-		console.log(oldRealm.schemaVersion, newRealm.schemaVersion)
-		if (oldRealm.schemaVersion <= 5) {
-			newRealm.deleteAll()
-		}
-		if (oldRealm.schemaVersion <= 6) {
-			const profiles = oldRealm.objects("TabProfile")
-			_.each(profiles, profile => {
-				if (profile.type === "search") {
-					newRealm.create("Profile", { q: profile.value })
-				} else {
-					newRealm.create("Profile", { tag: profile.value })
-				}
-			})
-		}
-		if (oldRealm.schemaVersion <= 7) {
-			oldRealm.deleteAll()
-			newRealm.deleteAll()
-		}
-		if (oldRealm.schemaVersion <= 8) {
-			newRealm.create("Config", { inappbrowse: false })
-		}
-	},
-})
-
 class RealmManager {
-	realm: Realm;
-
-	constructor(realmC: Realm) {
-		this.realm = realmC
-	}
-
 	async getProfiles() {
-		return this.realm.objects("Profile")
+		return (await store.get(StoreKeys.profiles)) || []
 	}
 
-	getReads() {
-		return this.realm.objects("Read")
+	async getReads() {
+		return (await store.get(StoreKeys.reads)) || []
 	}
 
-	addRead(story: Story) {
-		if (realm.objects("Read").filtered("story_id = $0", story.id).count === 0) {
+	async addRead(story: Story) {
+		const reads = await this.getReads()
+		if (reads.includes(story.id)) {
 			return
 		}
-		this.realm.write(() => {
-			this.realm.create("Read", { story_id: story.id })
-		})
+		store.push(StoreKeys.reads, story.id)
 	}
 
-	addProfile(profile: Profile) {
-		if (this.existsProfile(profile)) {
+	async addProfile(profile: Profile) {
+		const profiles = await this.getProfiles()
+		if (profiles.includes(profile)) {
 			throw new Error("Duplicate Insert")
 		}
-		this.realm.write(() => {
-			this.realm.create("Profile", profile)
-		})
-		return this.getProfiles()
+		await store.push(StoreKeys.profiles, profile)
 	}
 
-	deleteProfile(profile: Profile) {
-		const res = this.selectProfile(profile)
-		this.realm.write(() => {
-			this.realm.delete(res)
-		})
-		return this.getProfiles()
+	async deleteProfile(profile: Profile) {
+		const profiles = await this.getProfiles()
+		const newProfiles = _.remove(profiles, profile)
+		await store.save(StoreKeys.profiles, newProfiles)
+		return newProfiles
 	}
 
-	selectConfig() {
-		const config = this.realm.objects("Config")[0]
+	async selectConfig() {
+		const config = await store.get(StoreKeys.config)
 		if (config) {
 			return config
 		}
-		this.realm.write(() => {
-			realm.create("Config", { inappbrowse: false })
-		})
-		return { inappbrowse: false }
+		const initConfig = { inappbrowse: false }
+		await store.save(StoreKeys.config, initConfig)
+		return initConfig
 	}
 
-	toggleConfigInAppBrowse() {
-		const config = this.realm.objects("Config")[0]
-		this.realm.write(() => {
-			config.inappbrowse = !config.inappbrowse
-		})
+	async toggleConfigInAppBrowse() {
+		const config = await store.get(StoreKeys.config)
+		await store.update(StoreKeys.config, { inappbrowse: !config.inappbrowse })
 	}
 
-	selectProfile(profile: Profile) {
-		return this.realm
-      .objects("Profile")
-      .filtered(
-        "q = $0 AND tag = $1 AND blog_id = $2",
-        profile.q,
-        profile.tag,
-        profile.blog_id
-      )
-	}
-
-	moveProfile(from: number, to: number) {
+	async moveProfile(from: number, to: number) {
 		const profiles = []
 		const oldProfiles = this.getProfiles()
 		_.each(oldProfiles, v => profiles.push({ ...v }))
 		profiles.splice(to, 0, profiles.splice(from, 1)[0])
-		this.realm.write(() => {
-			this.realm.delete(oldProfiles)
-			_.each(profiles, v => this.realm.create("Profile", v))
-		})
+		await store.save(StoreKeys.profiles, profiles)
 		return profiles
-	}
-
-	existsProfile(profile: Profile): boolean {
-		return this.selectProfile(profile).length > 0
 	}
 }
 
-export default new RealmManager(realm)
+export default new RealmManager()
