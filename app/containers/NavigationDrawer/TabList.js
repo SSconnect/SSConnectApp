@@ -1,18 +1,18 @@
-import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
-import SortableListView from 'react-native-sortable-listview'
-import { Icon } from 'react-native-elements'
-import { Actions } from 'react-native-router-flux'
+import React from "react"
+import { View, TouchableOpacity, Text } from "react-native"
+import SortableListView from "react-native-sortable-listview"
+import { Icon } from "react-native-elements"
+import { Actions } from "react-native-router-flux"
 
-import { connect } from 'react-redux'
+import { connect } from "react-redux"
 
-import { moveProfile, deleteProfile } from '../../reduxs/actions'
-import { profileIcon, profileLabel } from '../../types/utils'
+import { moveProfile, deleteProfile } from "../../reduxs/actions"
+import { profileIcon, profileLabel } from "../../types/utils"
 
-import { selectProfiles } from '../../reduxs/selectors'
+import { selectProfiles } from "../../reduxs/selectors"
 
-import { Colors, IconName } from '../../themes/index'
-import type { Profile } from '../../types/index'
+import { Colors, IconName } from "../../themes/index"
+import type { Profile } from "../../types/index"
 
 type RowType = {
 	sortHandlers: any,
@@ -22,11 +22,16 @@ type RowType = {
 function RowComponent({ sortHandlers, data, onDelete }: RowType) {
 	return (
 		<TouchableOpacity
-			underlayColor={'#eee'}
+			underlayColor={"#eee"}
 			delayLongPress={200}
-			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
+			style={{
+				padding: 10,
+				backgroundColor: "#F8F8F8",
+				borderBottomWidth: 1,
+				borderColor: "#eee",
+			}}
 			onPress={() => {
-				Actions.refresh({ key: 'drawer', open: false })
+				Actions.refresh({ key: "drawer", open: false })
 				setTimeout(() => {
 					Actions.baseScreen({
 						profile: data,
@@ -36,11 +41,23 @@ function RowComponent({ sortHandlers, data, onDelete }: RowType) {
 			}}
 			{...sortHandlers}
 		>
-			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: "row",
+					justifyContent: "space-between",
+				}}
+			>
 				<Icon name={IconName.threeBar} />
-				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={profileIcon(data)} />
-					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.q || data.tag}</Text>
+				<View style={{ flex: 1, flexDirection: "row" }}>
+					<Icon
+						size={25}
+						style={{ marginLeft: 5, marginRight: 5 }}
+						name={profileIcon(data)}
+					/>
+					<Text style={{ padding: 5 }} ellipsizeMode={"middle"}>
+						{data.q || data.tag}
+					</Text>
 				</View>
 				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
 			</View>
@@ -73,17 +90,17 @@ class TabList extends React.PureComponent {
 		return (
 			<SortableListView
 				data={profiles}
-				onRowMoved={(e) => {
+				disableSorting={profiles.length <= 1}
+				onRowMoved={e => {
 					onMoveProfile(e.from, e.to)
 				}}
-				renderRow={row => (
+				renderRow={row =>
 					<RowComponent
 						data={row}
 						onDelete={() => {
 							onDeleteProfile(row)
 						}}
-					/>
-				)}
+					/>}
 			/>
 		)
 	}
