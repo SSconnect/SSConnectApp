@@ -9,16 +9,16 @@ import type { Profile, Read, PageInfo, Story } from "../../types"
 import "../../types/index"
 
 type Action = {
-  profiles: Array<Profile>,
-  profile: Profile,
-  from: number,
-  to: number,
-  type: string,
-  reads: Array<Read>,
-  story: Story,
-  stories: Array<Story>,
-  pageInfo: PageInfo
-};
+	profiles: Array<Profile>,
+	profile: Profile,
+	from: number,
+	to: number,
+	type: string,
+	reads: Array<Read>,
+	story: Story,
+	stories: Array<Story>,
+	pageInfo: PageInfo
+}
 
 // The initial state of the app
 const initialState = {
@@ -52,7 +52,7 @@ export function appReducers(state: AppState = initialState, action: Action) {
 		case ActionTypes.ADD_READ_TYPE:
 			return {
 				...state,
-				reads: _.concat(state.reads, { story_id: action.story.id }),
+				reads: _.concat(state.reads, action.story.id),
 			}
 
 		case ActionTypes.LOAD_STORIES_TYPE:
@@ -60,7 +60,7 @@ export function appReducers(state: AppState = initialState, action: Action) {
 			return { ...state, loading: true, pages }
 		case ActionTypes.LOAD_STORIES_END_TYPE:
 			pages[profileSerialKey(action.profile)].stories[action.pageInfo.page] =
-        action.stories
+				action.stories
 			pages[profileSerialKey(action.profile)].pageInfo = action.pageInfo
 			return { ...state, loading: false, pages }
 		case ActionTypes.UPDATE_PAGE_TYPE:

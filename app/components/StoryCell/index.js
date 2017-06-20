@@ -7,7 +7,7 @@ import { Actions } from "react-native-router-flux"
 
 import moment from "moment"
 
-import { selectConfig } from "../../reduxs/selectors"
+import { makeSelectReaded, selectConfig } from "../../reduxs/selectors"
 import { addRead } from "../../reduxs/actions"
 import { Colors } from "../../themes/"
 import type { Config, Story } from "../../types"
@@ -65,12 +65,16 @@ class StoryCell extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = (state, props) => ({
-	config: selectConfig(state, props),
-})
+const makeMapStateToProps = () => {
+	const selectReaded = makeSelectReaded()
+	return (state, props) => ({
+		config: selectConfig(state, props),
+		readed: selectReaded(state, props),
+	})
+}
 
 const mapDispatchToProps = dispatch => ({
 	onAddRead: story => dispatch(addRead(story)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoryCell)
+export default connect(makeMapStateToProps, mapDispatchToProps)(StoryCell)

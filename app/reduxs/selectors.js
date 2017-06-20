@@ -12,7 +12,8 @@ const inReads = state => selectGlobal(state).reads
 const inPages = state => selectGlobal(state).pages
 
 const inProfilePage = (state, props) =>
-  inPages(state)[profileSerialKey(props.profile)]
+	inPages(state)[profileSerialKey(props.profile)]
+
 const inStories = (state, props) => {
 	const pageStore = inProfilePage(state, props)
 	if (!pageStore) {
@@ -23,6 +24,11 @@ const inStories = (state, props) => {
 		return []
 	}
 	return pageStore.stories[pageInfo.page] || []
+}
+
+const inReaded = (state, props) => {
+	const reads = inReads(state)
+	return reads.includes(props.story.id)
 }
 
 const inPageInfo = (state, props) => {
@@ -39,13 +45,15 @@ const selectReads = createSelector(inReads, state => state)
 
 const makeSelectPageInfo = () => createSelector([inPageInfo], state => state)
 const makeSelectStories = () => createSelector([inStories], state => state)
+const makeSelectReaded = () => createSelector([inReaded], state => state)
 
 export {
-  selectGlobal,
-  selectConfig,
-  selectLoading,
-  selectProfiles,
-  selectReads,
-  makeSelectStories,
-  makeSelectPageInfo,
+	selectGlobal,
+	selectConfig,
+	selectLoading,
+	selectProfiles,
+	selectReads,
+	makeSelectStories,
+	makeSelectReaded,
+	makeSelectPageInfo,
 }
