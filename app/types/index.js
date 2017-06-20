@@ -63,6 +63,14 @@ export class Profile {
 		}
 		return "ホーム"
 	}
+
+	eq(obj) {
+		return { blog_id: null, q: "", tag: "", ...obj } === this.raw()
+	}
+
+	raw() {
+		return _.pick(this, ["blog_id", "q", "tag"])
+	}
 }
 
 export type PageInfo = {

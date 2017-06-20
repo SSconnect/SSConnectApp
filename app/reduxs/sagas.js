@@ -10,6 +10,7 @@ import {
 	loadProfilesEnd,
 	loadReadsEnd,
 	loadStoriesEnd,
+	deleteProfileEnd,
 } from "./actions"
 
 import store from "../models/StoreManager"
@@ -28,7 +29,9 @@ function* moveProfile({ from, to }: { from: number, to: number }) {
 }
 
 function* deleteProfile({ profile }: { profile: Profile }) {
-	yield store.deleteProfile(profile)
+	const profiles = yield store.deleteProfile(profile)
+	debugger
+	yield put(deleteProfileEnd(profiles))
 }
 
 function* addRead({ story }: { story: Story }) {
