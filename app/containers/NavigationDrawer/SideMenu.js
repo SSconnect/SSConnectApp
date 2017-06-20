@@ -1,5 +1,5 @@
 import React from "react"
-import { Platform, Linking } from "react-native"
+import { Linking } from "react-native"
 import { connect } from "react-redux"
 import {
 	Body,
