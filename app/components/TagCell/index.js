@@ -8,6 +8,7 @@ import { Icon } from "react-native-elements"
 
 import { Colors } from "../../themes/"
 import type { Tag } from "../../types"
+import { Profile } from "../../types"
 
 function TagCell({ tag }: { tag: Tag }) {
 	moment.updateLocale("ja")
@@ -15,7 +16,7 @@ function TagCell({ tag }: { tag: Tag }) {
 		<TouchableOpacity
 			onPress={() => {
 				Actions.baseScreen({
-					profile: { tag: tag.name },
+					profile: new Profile({ tag: tag.name }),
 					title: `タグ: ${tag.name}`,
 				})
 			}}

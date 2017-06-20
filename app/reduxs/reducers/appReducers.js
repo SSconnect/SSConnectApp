@@ -5,7 +5,9 @@ import type { AppState } from "../../types"
 import _ from "lodash"
 
 import { ActionTypes } from "../constants"
-import type { Profile, Read, PageInfo, Story } from "../../types"
+import type { Read, PageInfo, Story } from "../../types"
+import { Profile } from "../../types"
+
 import "../../types/index"
 
 type Action = {
@@ -36,16 +38,10 @@ export function appReducers(state: AppState = initialState, action: Action) {
 			return { ...state, profiles: action.profiles }
 		case ActionTypes.ADD_PROFILE_TYPE:
 			return { ...state, profiles: _.concat(state.profiles, action.profile) }
-		case ActionTypes.DELETE_PROFILE_TYPE:
-			return {
-				...state,
-				profiles: _.difference(state.profiles, [action.profile]),
-			}
-		case ActionTypes.MOVE_PROFILE_TYPE:
-			const { profiles } = state
-			const { to, from } = action
-			profiles.splice(to, 0, profiles.splice(from, 1)[0])
-			return { ...state, profiles }
+		case ActionTypes.DELETE_PROFILE_END_TYPE:
+			return { ...state, profiles: action.profiles }
+		case ActionTypes.MOVE_PROFILE_END_TYPE:
+			return { ...state, profiles: action.profiles }
 
 		case ActionTypes.LOAD_READS_END_TYPE:
 			return { ...state, reads: action.reads }

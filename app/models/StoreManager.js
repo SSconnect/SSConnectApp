@@ -3,7 +3,8 @@
 import _ from "lodash"
 import store from "react-native-simple-store"
 
-import type { Profile, Story } from "../types"
+import type { Story } from "../types"
+import { Profile } from "../types"
 
 const StoreKeys = {
 	profiles: "profiles",
@@ -30,7 +31,7 @@ class StoreManager {
 
 	async addProfile(profile: Profile) {
 		const profiles = await this.getProfiles()
-		if (profiles.includes(profile)) {
+		if (profiles.includes(profile.raw())) {
 			throw new Error("Duplicate Insert")
 		}
 		await store.push(StoreKeys.profiles, profile)
@@ -38,7 +39,7 @@ class StoreManager {
 
 	async deleteProfile(profile: Profile) {
 		const profiles = await this.getProfiles()
-		const newProfiles = _.remove(profiles, profile)
+		const newProfiles = _.filter(profiles, p => !_.isEqual(p, profile.raw()))
 		await store.save(StoreKeys.profiles, newProfiles)
 		return newProfiles
 	}
@@ -60,7 +61,7 @@ class StoreManager {
 
 	async moveProfile(from: number, to: number) {
 		const profiles = []
-		const oldProfiles = this.getProfiles()
+		const oldProfiles = await this.getProfiles()
 		_.each(oldProfiles, v => profiles.push({ ...v }))
 		profiles.splice(to, 0, profiles.splice(from, 1)[0])
 		await store.save(StoreKeys.profiles, profiles)

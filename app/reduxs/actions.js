@@ -27,11 +27,25 @@ export function deleteProfile(profile) {
 	}
 }
 
+export function deleteProfileEnd(profiles) {
+	return {
+		type: ActionTypes.DELETE_PROFILE_END_TYPE,
+		profiles,
+	}
+}
+
 export function moveProfile(from, to) {
 	return {
 		type: ActionTypes.MOVE_PROFILE_TYPE,
 		from,
 		to,
+	}
+}
+
+export function moveProfileEnd(profiles) {
+	return {
+		type: ActionTypes.MOVE_PROFILE_END_TYPE,
+		profiles,
 	}
 }
 

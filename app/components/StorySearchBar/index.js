@@ -5,7 +5,7 @@ import { Actions } from "react-native-router-flux"
 import { SearchBar } from "react-native-elements"
 
 import { IconName } from "../../themes/"
-import type { Profile } from "../../types"
+import { Profile } from "../../types"
 
 class StorySearchBar extends React.PureComponent {
 	props: {
@@ -22,7 +22,7 @@ class StorySearchBar extends React.PureComponent {
 					onSubmitEditing={e => {
 						const text = e.nativeEvent.text
 						Actions.baseScreen({
-							profile: { ...profile, q: text },
+							profile: new Profile({ ...profile, q: text }),
 							title: `${profile.tag}: ${text}`,
 						})
 					}}
@@ -37,7 +37,7 @@ class StorySearchBar extends React.PureComponent {
 				onSubmitEditing={e => {
 					const text = e.nativeEvent.text
 					Actions.baseScreen({
-						profile: { ...profile, q: text },
+						profile: new Profile({ ...profile, q: text }),
 						title: `タイトル検索: ${text}`,
 					})
 				}}

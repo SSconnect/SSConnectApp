@@ -1,7 +1,18 @@
 import React from "react"
-import { Linking, View } from "react-native"
+import { Linking } from "react-native"
 import { connect } from "react-redux"
-import { CheckBox, List, ListItem } from "react-native-elements"
+import {
+	Body,
+	Left,
+	CheckBox,
+	Container,
+	Content,
+	ListItem,
+	Text,
+	Right,
+	Switch,
+} from "native-base"
+import { Icon } from "react-native-elements"
 import { Actions } from "react-native-router-flux"
 
 import TabList from "./TabList"
@@ -26,38 +37,70 @@ class SideMenu extends React.Component {
 	render() {
 		const { config, onToggleConfigIAB } = this.props
 		return (
-			<View
-				style={{
-					flex: 1,
-					paddingTop: Scales.statusBarHeight,
-					paddingBottom: 10,
-				}}
-			>
-				<TabList />
-				<CheckBox
-					center
-					title="アプリで開く"
-					checked={config.inappbrowse}
-					onPress={onToggleConfigIAB}
-				/>
-				<List>
+			<Container>
+				<Content
+					style={{
+						flex: 1,
+						paddingTop: Scales.statusBarHeight,
+						paddingBottom: 10,
+					}}
+				>
+					<ListItem itemDivider>
+						<Text>お気に入り</Text>
+					</ListItem>
+					<TabList />
+
+					<ListItem itemDivider>
+						<Text>設定</Text>
+					</ListItem>
+					<ListItem icon>
+						<Left>
+							<Icon type="font-awesome" name="share-square-o" />
+						</Left>
+						<Body>
+							<Text>アプリブラウザで開く</Text>
+						</Body>
+						<Right>
+							<Switch
+								onValueChange={onToggleConfigIAB}
+								value={config.inappbrowse}
+							/>
+						</Right>
+					</ListItem>
+
 					<ListItem
-						title="タグ一覧"
-						leftIcon={{ name: IconName.tag }}
+						icon
 						onPress={() => {
 							Actions.refresh({ key: "drawer", open: false })
 							setTimeout(() => Actions.tagsScreen())
 						}}
-					/>
+					>
+						<Left>
+							<Icon name={IconName.tag} />
+						</Left>
+						<Body>
+							<Text>作品タグ一覧</Text>
+						</Body>
+						<Right>
+							<Icon name="arrow-forward" />
+						</Right>
+					</ListItem>
+
 					<ListItem
-						title="開発者・リクエスト"
-						leftIcon={{ name: IconName.send }}
+						icon
 						onPress={() => {
 							Linking.openURL("https://sites.google.com/view/ssconnect/サポート")
 						}}
-					/>
-				</List>
-			</View>
+					>
+						<Left>
+							<Icon name={IconName.send} />
+						</Left>
+						<Body>
+							<Text>開発者・リクエスト</Text>
+						</Body>
+					</ListItem>
+				</Content>
+			</Container>
 		)
 	}
 }

@@ -1,17 +1,17 @@
 // @flow
 
-import React from 'react'
-import 'react-native'
-import { connect } from 'react-redux'
-import { Tabs, Tab, Icon } from 'react-native-elements'
-import _ from 'lodash'
+import React from "react"
+import "react-native"
+import { connect } from "react-redux"
+import { Tabs, Tab, Icon } from "react-native-elements"
+import _ from "lodash"
 
-import BaseScreen from '../Base'
+import BaseScreen from "../Base"
 
-import type { Profile } from '../../types'
+import { Profile } from "../../types"
 
-import { selectProfiles } from '../../reduxs/selectors'
-import { profileSerialKey, profileLabel, profileIcon } from '../../types/utils'
+import { selectProfiles } from "../../reduxs/selectors"
+import { profileSerialKey } from "../../types/utils"
 
 type Props = {
 	profiles: Array<Profile>
@@ -38,11 +38,11 @@ class MainScreen extends React.PureComponent {
 
 		const iconProps = {
 			containerStyle: {
-				justifyContent: 'center',
-				alignItems: 'center',
+				justifyContent: "center",
+				alignItems: "center",
 				marginTop: 0,
 			},
-			name: profileIcon(profile),
+			name: profile.icon(),
 			size: 24,
 		}
 		return (
@@ -52,13 +52,13 @@ class MainScreen extends React.PureComponent {
 				style={{
 					padding: 5,
 				}}
-				title={profileLabel(profile)}
+				title={profile.label()}
 				titleStyle={{
 					margin: 0,
 					marginBottom: 5,
 				}}
 				renderIcon={() => <Icon {...iconProps} />}
-				renderSelectedIcon={() => <Icon color={'#6296f9'} {...iconProps} />}
+				renderSelectedIcon={() => <Icon color={"#6296f9"} {...iconProps} />}
 				onPress={() => this.setState({ selectedTab: key })}
 			>
 				<BaseScreen profile={profile} />
@@ -72,7 +72,7 @@ class MainScreen extends React.PureComponent {
 
 		return (
 			<Tabs>
-				{this.renderTab({ q: '', tag: '' })}
+				{this.renderTab(new Profile({ q: "", tag: "" }))}
 				{tabs}
 			</Tabs>
 		)

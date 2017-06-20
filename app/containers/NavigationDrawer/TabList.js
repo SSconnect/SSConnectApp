@@ -1,52 +1,17 @@
-import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
-import SortableListView from 'react-native-sortable-listview'
-import { Icon } from 'react-native-elements'
-import { Actions } from 'react-native-router-flux'
+import React from "react"
+import { Text } from "react-native"
+import { Icon } from "react-native-elements"
+import { Actions } from "react-native-router-flux"
 
-import { connect } from 'react-redux'
+import { connect } from "react-redux"
 
-import { moveProfile, deleteProfile } from '../../reduxs/actions'
-import { profileIcon, profileLabel } from '../../types/utils'
+import { deleteProfile, moveProfile } from "../../reduxs/actions"
 
-import { selectProfiles } from '../../reduxs/selectors'
+import { selectProfiles } from "../../reduxs/selectors"
 
-import { Colors, IconName } from '../../themes/index'
-import type { Profile } from '../../types/index'
-
-type RowType = {
-	sortHandlers: any,
-	data: Profile,
-	onDelete: Function
-}
-function RowComponent({ sortHandlers, data, onDelete }: RowType) {
-	return (
-		<TouchableOpacity
-			underlayColor={'#eee'}
-			delayLongPress={200}
-			style={{ padding: 10, backgroundColor: '#F8F8F8', borderBottomWidth: 1, borderColor: '#eee' }}
-			onPress={() => {
-				Actions.refresh({ key: 'drawer', open: false })
-				setTimeout(() => {
-					Actions.baseScreen({
-						profile: data,
-						title: profileLabel(data),
-					})
-				})
-			}}
-			{...sortHandlers}
-		>
-			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-				<Icon name={IconName.threeBar} />
-				<View style={{ flex: 1, flexDirection: 'row' }}>
-					<Icon size={25} name={profileIcon(data)} />
-					<Text style={{ padding: 5 }} ellipsizeMode={'middle'}>{data.q || data.tag}</Text>
-				</View>
-				<Icon name={IconName.delete} onPress={onDelete} color={Colors.red} />
-			</View>
-		</TouchableOpacity>
-	)
-}
+import { Colors, IconName } from "../../themes/index"
+import type { Profile } from "../../types/index"
+import { Body, Content, Left, ListItem, Right } from "native-base"
 
 type Props = {
 	profiles: Array<Profile>,
@@ -61,8 +26,52 @@ class TabList extends React.PureComponent {
 		this.forceUpdate()
 	}
 
+	renderListItem(profile: Profile, i) {
+		const { onDeleteProfile, onMoveProfile } = this.props
+		return (
+			<ListItem
+				icon
+				key={profile.q + profile.tag + profile.blog_id}
+				onPress={() => {
+					Actions.refresh({ key: "drawer", open: false })
+					setTimeout(() => {
+						Actions.baseScreen({
+							profile,
+							title: profile.label(),
+						})
+					})
+				}}
+			>
+				<Left>
+					<Icon
+						size={25}
+						style={{ marginLeft: 5, marginRight: 5 }}
+						name={profile.icon()}
+					/>
+				</Left>
+				<Body>
+					<Text style={{ padding: 5 }} ellipsizeMode={"middle"}>
+						{profile.q || profile.tag}
+					</Text>
+				</Body>
+				<Right>
+					<Icon
+						name={IconName.up}
+						onPress={() => onMoveProfile(i, i - 1)}
+						color={i === 0 ? "#eee" : "gray"}
+					/>
+					<Icon
+						name={IconName.delete}
+						onPress={() => onDeleteProfile(profile)}
+						color={Colors.red}
+					/>
+				</Right>
+			</ListItem>
+		)
+	}
+
 	render() {
-		const { profiles, onMoveProfile, onDeleteProfile } = this.props
+		const { profiles } = this.props
 		if (profiles.length === 0) {
 			return (
 				<Text style={{ padding: 10 }}>
@@ -71,20 +80,9 @@ class TabList extends React.PureComponent {
 			)
 		}
 		return (
-			<SortableListView
-				data={profiles}
-				onRowMoved={(e) => {
-					onMoveProfile(e.from, e.to)
-				}}
-				renderRow={row => (
-					<RowComponent
-						data={row}
-						onDelete={() => {
-							onDeleteProfile(row)
-						}}
-					/>
-				)}
-			/>
+			<Content>
+				{_.map(profiles, this.renderListItem.bind(this))}
+			</Content>
 		)
 	}
 }
