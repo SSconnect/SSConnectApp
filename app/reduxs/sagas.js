@@ -1,6 +1,6 @@
 // @flow
 
-import { fork, put, takeLatest } from "redux-saga/effects"
+import { put, takeLatest } from "redux-saga/effects"
 import feedClient from "../services/FeedClient"
 
 import { ActionTypes } from "./constants"
@@ -12,40 +12,40 @@ import {
 	loadConfigEnd,
 } from "./actions"
 
-import realm from "../models/RealmModel"
+import store from "../models/StoreManager"
 import type { Profile, Story } from "../types/index"
 
 function* addProfile({ profile }: { profile: Profile }) {
-	yield realm.addProfile(profile)
+	yield store.addProfile(profile)
 }
 function* getProfiles() {
-	const stories = yield realm.getProfiles()
+	const stories = yield store.getProfiles()
 	yield put(loadProfilesEnd(stories))
 }
 
 function* moveProfile({ from, to }: { from: number, to: number }) {
-	yield realm.moveProfile(from, to)
+	yield store.moveProfile(from, to)
 }
 
 function* deleteProfile({ profile }: { profile: Profile }) {
-	yield realm.deleteProfile(profile)
+	yield store.deleteProfile(profile)
 }
 
 function* addRead({ story }: { story: Story }) {
-	yield realm.addRead(story)
+	yield store.addRead(story)
 }
 
 function* getReads() {
-	const reads = yield realm.getReads()
+	const reads = yield store.getReads()
 	yield put(loadReadsEnd(reads))
 }
 
 function* getConfig() {
-	yield put(loadConfigEnd(yield realm.selectConfig()))
+	yield put(loadConfigEnd(yield store.selectConfig()))
 }
 
 function* toggleConfigIAB() {
-	yield realm.toggleConfigInAppBrowse()
+	yield store.toggleConfigInAppBrowse()
 }
 
 function* getStories({ profile, page }: { profile: Profile, page: number }) {

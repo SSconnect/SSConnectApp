@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import { loadProfiles, loadConfig, loadReads } from "../../reduxs/actions"
 import { selectProfiles } from "../../reduxs/selectors"
 
-import realm from "../../models/RealmModel"
+import realm from "../../models/StoreManager"
 import NavigationRouter from "../../routers/NavigationRouter"
 
 import type { Profile } from "../../types"
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
 	welcome: {
 		fontSize: 20,
 		textAlign: "center",
-    // fontFamily: Fonts.type.base,
-    // margin: Metrics.baseMargin,
+		// fontFamily: Fonts.type.base,
+		// margin: Metrics.baseMargin,
 	},
 	myImage: {
 		width: 200,
@@ -35,23 +35,23 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
-  profiles: Array<Profile>,
-  loadProfiles: Function,
-  loadReads: Function,
-  loadConfig: Function
-};
+	profiles: Array<Profile>,
+	loadProfiles: Function,
+	loadReads: Function,
+	loadConfig: Function
+}
 
 class RootContainer extends React.Component {
-	props: Props;
+	props: Props
 
 	componentDidMount() {
 		realm.getReads()
-    // if redux persist is not active fire startup action
-    // if (!ReduxPersist.active) {
+		// if redux persist is not active fire startup action
+		// if (!ReduxPersist.active) {
 		this.props.loadProfiles()
 		this.props.loadReads()
 		this.props.loadConfig()
-    // }
+		// }
 	}
 
 	componentWillReceiveProps() {

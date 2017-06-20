@@ -11,38 +11,7 @@ const StoreKeys = {
 	config: "config",
 }
 
-const ConfigSchema = {
-	name: "Config",
-	properties: {
-		inappbrowse: { type: "bool", default: false },
-	},
-}
-
-const ReadSchema = {
-	name: "Read",
-	properties: {
-		story_id: "int",
-	},
-}
-
-const TabProfileSchema = {
-	name: "TabProfile",
-	properties: {
-		value: "string",
-		type: "string",
-	},
-}
-
-const ProfileSchema = {
-	name: "Profile",
-	properties: {
-		blog_id: { type: "int", optional: true },
-		q: { type: "string", optional: true },
-		tag: { type: "string", optional: true },
-	},
-}
-
-class RealmManager {
+class StoreManager {
 	async getProfiles() {
 		return (await store.get(StoreKeys.profiles)) || []
 	}
@@ -99,4 +68,4 @@ class RealmManager {
 	}
 }
 
-export default new RealmManager()
+export default new StoreManager()
