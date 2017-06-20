@@ -6,7 +6,6 @@ import { Actions } from "react-native-router-flux"
 import { connect } from "react-redux"
 
 import { deleteProfile, moveProfile } from "../../reduxs/actions"
-import { profileIcon, profileLabel } from "../../types/utils"
 
 import { selectProfiles } from "../../reduxs/selectors"
 
@@ -28,7 +27,7 @@ class TabList extends React.PureComponent {
 	}
 
 	renderListItem(profile: Profile, i) {
-		const { onDeleteProfile } = this.props
+		const { onDeleteProfile, onMoveProfile } = this.props
 		return (
 			<ListItem
 				icon
@@ -38,7 +37,7 @@ class TabList extends React.PureComponent {
 					setTimeout(() => {
 						Actions.baseScreen({
 							profile,
-							title: profileLabel(profile),
+							title: profile.label(),
 						})
 					})
 				}}
@@ -47,7 +46,7 @@ class TabList extends React.PureComponent {
 					<Icon
 						size={25}
 						style={{ marginLeft: 5, marginRight: 5 }}
-						name={profileIcon(profile)}
+						name={profile.icon()}
 					/>
 				</Left>
 				<Body>
@@ -58,12 +57,12 @@ class TabList extends React.PureComponent {
 				<Right>
 					<Icon
 						name={IconName.up}
+						onPress={() => onMoveProfile(i, i - 1)}
 						color={i === 0 ? "#eee" : "gray"}
-						onPress={onDeleteProfile}
 					/>
 					<Icon
 						name={IconName.delete}
-						onPress={onDeleteProfile}
+						onPress={() => onDeleteProfile(profile)}
 						color={Colors.red}
 					/>
 				</Right>

@@ -3,6 +3,8 @@ import { createSelector } from "reselect"
 import { profileSerialKey } from "../types/utils"
 
 import type { GlobalState, AppState, ConfigState } from "../types"
+import _ from "lodash"
+import { Profile } from "../types"
 
 const selectGlobal: (state: GlobalState) => AppState = state => state.app
 const selectConfig: (state: GlobalState) => ConfigState = state => state.config
@@ -40,7 +42,9 @@ const inPageInfo = (state, props) => {
 }
 
 const selectLoading = createSelector(selectGlobal, state => state.loading)
-const selectProfiles = createSelector(inProfiles, state => state)
+const selectProfiles = createSelector(inProfiles, state =>
+	_.map(state, p => new Profile(p))
+)
 const selectReads = createSelector(inReads, state => state)
 
 const makeSelectPageInfo = () => createSelector([inPageInfo], state => state)

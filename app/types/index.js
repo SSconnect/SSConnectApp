@@ -1,5 +1,6 @@
 // @flow
 
+import IconName from "../themes/IconName"
 export type Blog = {
 	id: number,
 	title: string,
@@ -32,10 +33,36 @@ export type Read = {
 	story_id: number
 }
 
-export type Profile = {
-	blog_id?: number,
-	q: string,
+export class Profile {
+	blog_id: ?number
+	q: string
 	tag: string
+
+	constructor(obj) {
+		Object.assign(this, { blog_id: null, q: "", tag: "", ...obj })
+	}
+
+	icon() {
+		if (this.tag && this.q) {
+			return IconName.favTag
+		} else if (this.tag) {
+			return IconName.tag
+		} else if (this.q) {
+			return IconName.search
+		}
+		return IconName.home
+	}
+
+	label() {
+		if (this.tag && this.q) {
+			return this.q
+		} else if (this.tag) {
+			return this.tag
+		} else if (this.q) {
+			return this.q
+		}
+		return "ホーム"
+	}
 }
 
 export type PageInfo = {
