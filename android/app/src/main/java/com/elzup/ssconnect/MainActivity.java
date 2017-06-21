@@ -1,4 +1,4 @@
-package com.ssconnect;
+package com.elzup.ssconnect;
 
 import com.facebook.react.ReactActivity;
 
