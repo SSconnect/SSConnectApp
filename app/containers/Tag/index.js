@@ -1,15 +1,15 @@
 // @flow
 
-import React from 'react'
-import { View, ListView } from 'react-native'
-import { SearchBar } from 'react-native-elements'
+import React from "react"
+import { View, ListView } from "react-native"
+import { SearchBar } from "react-native-elements"
 
-import Indicator from '../../components/Indicator'
-import TagCell from '../../components/TagCell'
+import Indicator from "../../components/Indicator"
+import TagCell from "../../components/TagCell"
 
-import feedClient from '../../services/FeedClient'
-import type { Article, Tag } from '../../types'
-import { Scales } from '../../themes/'
+import feedClient from "../../services/FeedClient"
+import type { Article, Tag } from "../../types"
+import { Scales } from "../../themes/"
 
 type Props = {
 	q: string
@@ -34,7 +34,7 @@ class TagScreen extends React.PureComponent {
 		this.state = {
 			dataSource: new ListView.DataSource({ rowHasChanged }).cloneWithRows([]),
 			loading: true,
-			q: props.q || '',
+			q: props.q || "",
 		}
 		this.renderRow = this.renderRow.bind(this)
 	}
@@ -63,7 +63,7 @@ class TagScreen extends React.PureComponent {
 			<View style={{ marginTop: Scales.navBarHeight }}>
 				<SearchBar
 					lightTheme
-					icon={{ name: 'videogame-asset' }}
+					icon={{ name: "videogame-asset" }}
 					onSubmitEditing={() => {
 						// TODO e.nativeEvent.text
 					}}
@@ -74,7 +74,7 @@ class TagScreen extends React.PureComponent {
 					dataSource={this.state.dataSource}
 					canLoadMore
 					enableEmptySections
-					renderFooter={() => <Indicator />}
+					renderFooter={() => <Indicator loading={true} />}
 					distanceToLoadMore={100}
 				/>
 			</View>

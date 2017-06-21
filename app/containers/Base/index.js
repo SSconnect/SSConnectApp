@@ -11,7 +11,6 @@ import config from "../../configs"
 
 import { addProfile, loadStories } from "../../reduxs/actions"
 import {
-	selectReads,
 	selectProfiles,
 	selectLoading,
 	makeSelectStories,
