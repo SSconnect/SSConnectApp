@@ -2,7 +2,7 @@
 
 import React from "react"
 import { Text, View } from "react-native"
-import Spinner from "react-native-spinkit"
+import Spinner from "native-base"
 
 import { Colors } from "../../themes/"
 
@@ -28,7 +28,7 @@ class Indicator extends React.PureComponent {
 					padding: 20,
 				}}
 			>
-				<Spinner size={60} type="9CubeGrid" color={Colors.black} />
+				<Spinner color={Colors.black} />
 				<Text>Loading...</Text>
 			</View>
 		)
