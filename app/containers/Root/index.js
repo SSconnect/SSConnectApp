@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import { loadProfiles, loadConfig, loadReads } from "../../reduxs/actions"
 import { selectProfiles } from "../../reduxs/selectors"
 
-import realm from "../../models/StoreManager"
+import store from "../../models/StoreManager"
 import NavigationRouter from "../../routers/NavigationRouter"
 
 import type { Profile } from "../../types"
@@ -45,7 +45,7 @@ class RootContainer extends React.Component {
 	props: Props
 
 	componentDidMount() {
-		realm.getReads()
+		store.getReads()
 		// if redux persist is not active fire startup action
 		// if (!ReduxPersist.active) {
 		this.props.loadProfiles()

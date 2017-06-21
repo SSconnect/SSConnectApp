@@ -133,7 +133,6 @@ android {
 dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-spinkit')
-    compile project(':react-native-billing')
     compile "com.android.support:support-core-utils:25.0.0"
 }
 
