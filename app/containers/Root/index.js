@@ -10,6 +10,7 @@ import { selectProfiles } from "../../reduxs/selectors"
 
 import store from "../../models/StoreManager"
 import NavigationRouter from "../../routers/NavigationRouter"
+import { NavigationDrawer } from "../NavigationDrawer"
 
 import { Profile } from "../../types"
 
@@ -65,11 +66,11 @@ class RootContainer extends React.Component {
 			new Profile({ q: "", tag: "" }), // Home
 			...profiles,
 		]
-		const Tabs = makeHomeTabs({ profiles: tabProfiles })
+		// const Tabs = makeHomeTabs({ profiles: tabProfiles })
 		return (
 			<View style={styles.applicationView}>
 				<StatusBar barStyle="default" />
-				<Tabs />
+				<NavigationDrawer />
 			</View>
 		)
 	}

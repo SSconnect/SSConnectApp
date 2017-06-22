@@ -91,11 +91,7 @@ class BaseScreen extends React.PureComponent {
 		return (
 			<Container>
 				<Header searchBar>
-					<Left>
-						<Button transparent onClick={Actions.pop}>
-							<Icon name="chevron-left" />
-						</Button>
-					</Left>
+					<Left />
 					<Body>
 						<Title>{profile.label()}</Title>
 					</Body>
