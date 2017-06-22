@@ -38,7 +38,12 @@ class Paginator extends React.PureComponent {
 			<Content style={{ margin: 10 }}>
 				<Row>
 					<Left>
-						<Button iconLeft light onPress={onPressPrev}>
+						<Button
+							iconLeft
+							light
+							onPress={onPressPrev}
+							disabled={!pageInfo.prev}
+						>
 							<Icon name="arrow-back" />
 							<Text>Back</Text>
 						</Button>
@@ -55,7 +60,12 @@ class Paginator extends React.PureComponent {
 						</Text>
 					</Body>
 					<Right>
-						<Button iconRight light onPress={onPressNext}>
+						<Button
+							iconRight
+							light
+							onPress={onPressNext}
+							disabled={!pageInfo.next}
+						>
 							<Text>Next</Text>
 							<Icon name="arrow-forward" />
 						</Button>
