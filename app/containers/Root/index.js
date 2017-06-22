@@ -3,7 +3,7 @@
 import React from "react"
 import { View, StatusBar, StyleSheet } from "react-native"
 import { connect } from "react-redux"
-import HomeTabs from "../HomeTabs"
+import { makeHomeTabs } from "../HomeTabs"
 
 import { loadProfiles, loadConfig, loadReads } from "../../reduxs/actions"
 import { selectProfiles } from "../../reduxs/selectors"
@@ -11,7 +11,7 @@ import { selectProfiles } from "../../reduxs/selectors"
 import store from "../../models/StoreManager"
 import NavigationRouter from "../../routers/NavigationRouter"
 
-import type { Profile } from "../../types"
+import { Profile } from "../../types"
 
 // Styles
 const styles = StyleSheet.create({
@@ -60,10 +60,16 @@ class RootContainer extends React.Component {
 	}
 
 	render() {
+		const { profiles } = this.props
+		const tabProfiles = [
+			new Profile({ q: "", tag: "" }), // Home
+			...profiles,
+		]
+		const Tabs = makeHomeTabs({ profiles: tabProfiles })
 		return (
 			<View style={styles.applicationView}>
 				<StatusBar barStyle="default" />
-				<HomeTabs />
+				<Tabs />
 			</View>
 		)
 	}
