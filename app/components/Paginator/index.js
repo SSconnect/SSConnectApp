@@ -1,11 +1,18 @@
 // @flow
 
 import React from "react"
-import { View, Text } from "react-native"
 import { Slider } from "react-native-elements"
+import {
+	Content,
+	Row,
+	Left,
+	Right,
+	Body,
+	Button,
+	Icon,
+	Text,
+} from "native-base"
 
-import { IconName } from "../../themes/"
-import PagingButton from "../../components/PagingButton"
 import type { PageInfo } from "../../types"
 
 type Props = {
@@ -28,39 +35,47 @@ class Paginator extends React.PureComponent {
 	render() {
 		const { pageInfo, onComplete, onPressNext, onPressPrev } = this.props
 		return (
-			<View style={{ flexDirection: "row" }}>
-				<PagingButton
-					icon={{ name: IconName.prev }}
-					onPress={onPressPrev}
-					disabled={!pageInfo.prev}
-				/>
-				<Text
-					style={{
-						flex: 1,
-						textAlign: "center",
-						paddingTop: 12,
-					}}
-				>
-					{this.state.previewPage}/{pageInfo.total}
-				</Text>
-				<Slider
-					value={pageInfo.page}
-					style={{ flex: 4 }}
-					step={1}
-					thumbTintColor="#333"
-					maximumValue={pageInfo.total}
-					minimumValue={1}
-					onSlidingComplete={onComplete}
-					onValueChange={value => {
-						this.setState({ previewPage: value })
-					}}
-				/>
-				<PagingButton
-					icon={{ name: IconName.next }}
-					onPress={onPressNext}
-					disabled={!pageInfo.next}
-				/>
-			</View>
+			<Content style={{ margin: 10 }}>
+				<Row>
+					<Left>
+						<Button iconLeft light onPress={onPressPrev}>
+							<Icon name="arrow-back" />
+							<Text>Back</Text>
+						</Button>
+					</Left>
+					<Body>
+						<Text
+							style={{
+								flex: 1,
+								textAlign: "center",
+								paddingTop: 12,
+							}}
+						>
+							{this.state.previewPage}/{pageInfo.total}
+						</Text>
+					</Body>
+					<Right>
+						<Button iconRight light onPress={onPressNext}>
+							<Text>Next</Text>
+							<Icon name="arrow-forward" />
+						</Button>
+					</Right>
+				</Row>
+				<Row>
+					<Slider
+						value={pageInfo.page}
+						style={{ flex: 1 }}
+						step={1}
+						thumbTintColor="#333"
+						maximumValue={pageInfo.total}
+						minimumValue={1}
+						onSlidingComplete={onComplete}
+						onValueChange={value => {
+							this.setState({ previewPage: value })
+						}}
+					/>
+				</Row>
+			</Content>
 		)
 	}
 }

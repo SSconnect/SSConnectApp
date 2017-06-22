@@ -2,7 +2,7 @@
 
 import React from "react"
 import { View, Text, ListView, ScrollView, Alert } from "react-native"
-import { Button } from "react-native-elements"
+import { Actions } from "react-native-router-flux"
 
 import { connect } from "react-redux"
 import _ from "lodash"
@@ -11,7 +11,6 @@ import config from "../../configs"
 
 import { addProfile, loadStories } from "../../reduxs/actions"
 import {
-	selectReads,
 	selectProfiles,
 	selectLoading,
 	makeSelectStories,
@@ -25,6 +24,17 @@ import Paginator from "../../components/Paginator"
 import type { Story, Profile, Read, PageInfo } from "../../types"
 import { Scales, IconName } from "../../themes/"
 import SearchBar from "../../components/StorySearchBar"
+import {
+	Body,
+	Button,
+	Container,
+	Content,
+	Header,
+	Left,
+	Right,
+	Title,
+} from "native-base"
+import Icon from "react-native-vector-icons/FontAwesome"
 
 type Props = {
 	profile: Profile,
@@ -79,12 +89,27 @@ class BaseScreen extends React.PureComponent {
 	render() {
 		const { profile } = this.props
 		return (
-			<ScrollView style={{ marginTop: Scales.navBarHeight }}>
-				<SearchBar profile={profile} />
-				{this.renderMain()}
-				<Indicator loading={this.props.loading} />
-				{this.renderNoHit()}
-			</ScrollView>
+			<Container>
+				<Header searchBar>
+					<Left>
+						<Button transparent onClick={Actions.pop}>
+							<Icon name="chevron-left" />
+						</Button>
+					</Left>
+					<Body>
+						<Title>{profile.label()}</Title>
+					</Body>
+					<Right />
+				</Header>
+				<Content>
+					<ScrollView>
+						<SearchBar profile={profile} />
+						{this.renderMain()}
+						<Indicator loading={this.props.loading} />
+						{this.renderNoHit()}
+					</ScrollView>
+				</Content>
+			</Container>
 		)
 	}
 
