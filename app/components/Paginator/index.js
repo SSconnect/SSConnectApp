@@ -38,7 +38,7 @@ class Paginator extends React.PureComponent {
 			<Content style={{ margin: 10 }}>
 				<Row>
 					<Left>
-						<Button iconLeft light onPress={onPressNext}>
+						<Button iconLeft light onPress={onPressPrev}>
 							<Icon name="arrow-back" />
 							<Text>Back</Text>
 						</Button>
