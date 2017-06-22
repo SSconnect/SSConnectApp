@@ -3,6 +3,7 @@
 import React from "react"
 import { View, StatusBar, StyleSheet } from "react-native"
 import { connect } from "react-redux"
+import HomeTabs from "../HomeTabs"
 
 import { loadProfiles, loadConfig, loadReads } from "../../reduxs/actions"
 import { selectProfiles } from "../../reduxs/selectors"
@@ -62,7 +63,7 @@ class RootContainer extends React.Component {
 		return (
 			<View style={styles.applicationView}>
 				<StatusBar barStyle="default" />
-				<NavigationRouter profiles={this.props.profiles} />
+				<HomeTabs />
 			</View>
 		)
 	}
