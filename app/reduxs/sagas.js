@@ -1,6 +1,6 @@
 // @flow
 
-import { put, takeLatest } from "redux-saga/effects"
+import { put, takeLatest, takeEvery } from "redux-saga/effects"
 import feedClient from "../services/FeedClient"
 
 import { ActionTypes } from "./constants"
@@ -68,7 +68,7 @@ function* appData() {
 
 	yield takeLatest(ActionTypes.LOAD_READS_TYPE, getReads)
 	yield takeLatest(ActionTypes.ADD_READ_TYPE, addRead)
-	yield takeLatest(ActionTypes.LOAD_STORIES_TYPE, getStories)
+	yield takeEvery(ActionTypes.LOAD_STORIES_TYPE, getStories)
 
 	yield takeLatest(ActionTypes.LOAD_CONFIG_TYPE, getConfig)
 	yield takeLatest(ActionTypes.TOGGLE_IAB_CONFIG_TYPE, toggleConfigIAB)
