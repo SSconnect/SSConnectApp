@@ -66,11 +66,12 @@ class RootContainer extends React.Component {
 			new Profile({ q: "", tag: "" }), // Home
 			...profiles,
 		]
-		// const Tabs = makeHomeTabs({ profiles: tabProfiles })
+		const Tabs = makeHomeTabs({ profiles: tabProfiles })
+		const Drawer = NavigationDrawer(Tabs)
 		return (
 			<View style={styles.applicationView}>
 				<StatusBar barStyle="default" />
-				<NavigationDrawer />
+				<Drawer />
 			</View>
 		)
 	}
