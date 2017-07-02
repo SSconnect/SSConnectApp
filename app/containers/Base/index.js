@@ -1,28 +1,28 @@
 // @flow
 
 import React from "react"
-import { View, Text, ListView, ScrollView, Alert } from "react-native"
-import { Actions } from "react-native-router-flux"
+import { Alert, Linking, ListView, ScrollView, Text, View } from "react-native"
 
 import { connect } from "react-redux"
 import _ from "lodash"
 
 import config from "../../configs"
 
-import { addProfile, loadStories } from "../../reduxs/actions"
+import { addProfile, addRead, loadStories } from "../../reduxs/actions"
 import {
-	selectProfiles,
-	selectLoading,
-	makeSelectStories,
 	makeSelectPageInfo,
+	makeSelectStories,
+	selectConfig,
+	selectLoading,
+	selectProfiles,
 } from "../../reduxs/selectors"
 
 import Indicator from "../../components/Indicator"
 import StoryCell from "../../components/StoryCell"
 import Paginator from "../../components/Paginator"
 
-import type { Story, Profile, Read, PageInfo } from "../../types"
-import { Scales, IconName } from "../../themes/"
+import type { Config, PageInfo, Profile, Read, Story } from "../../types"
+import { IconName } from "../../themes/"
 import SearchBar from "../../components/StorySearchBar"
 import {
 	Body,
@@ -34,18 +34,7 @@ import {
 	Right,
 	Title,
 } from "native-base"
-import Icon from "react-native-vector-icons/FontAwesome"
-
-type Props = {
-	profile: Profile,
-	onAddProfile: Function,
-	onLoadStories: Function,
-	reads: Array<Read>,
-	profiles: Array<Profile>,
-	loading: boolean,
-	pageInfo: PageInfo,
-	stories: Array<Story>
-}
+import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition"
 
 type State = {
 	dataSource: any,
@@ -54,7 +43,19 @@ type State = {
 }
 
 class BaseScreen extends React.PureComponent {
-	props: Props
+	props: {
+		profile: Profile,
+		onAddProfile: Function,
+		onLoadStories: Function,
+		reads: Array<Read>,
+		onAddRead: Function,
+		profiles: Array<Profile>,
+		loading: boolean,
+		pageInfo: PageInfo,
+		stories: Array<Story>,
+		config: Config,
+		navigation: NavigationScreenProp
+	}
 	state: State = {
 		dataSource: new ListView.DataSource({
 			rowHasChanged: BaseScreen.rowHasChanged,
@@ -90,13 +91,6 @@ class BaseScreen extends React.PureComponent {
 		const { profile } = this.props
 		return (
 			<Container>
-				<Header searchBar>
-					<Left />
-					<Body>
-						<Title>{profile.label()}</Title>
-					</Body>
-					<Right />
-				</Header>
 				<Content>
 					<ScrollView>
 						<SearchBar profile={profile} />
@@ -177,9 +171,26 @@ class BaseScreen extends React.PureComponent {
 	}
 
 	renderListView() {
+		const { onAddRead, config, navigation } = this.props
 		return (
 			<ListView
-				renderRow={story => <StoryCell story={story} />}
+				renderRow={story =>
+					<StoryCell
+						story={story}
+						onPress={() => {
+							onAddRead(story)
+							const uri = story.articles[0].url
+							if (config.inappbrowse) {
+								navigation.navigate("WebScreen", {
+									title: story.title,
+									uri,
+									direction: "vertical",
+								})
+							} else {
+								Linking.openURL(uri)
+							}
+						}}
+					/>}
 				dataSource={this.state.dataSource}
 				enableEmptySections
 				distanceToLoadMore={100}
@@ -205,11 +216,13 @@ const makeMapStateToProps = () => {
 		pageInfo: selectPageInfo(state, props),
 		profiles: selectProfiles(state, props),
 		loading: selectLoading(state, props),
+		config: selectConfig(state, props),
 	})
 }
 
 const mapDispatchToProps = dispatch => ({
 	onAddProfile: (profile: Profile) => dispatch(addProfile(profile)),
+	onAddRead: story => dispatch(addRead(story)),
 	onLoadStories: (profile: Profile, page: number) =>
 		dispatch(loadStories(profile, page)),
 })

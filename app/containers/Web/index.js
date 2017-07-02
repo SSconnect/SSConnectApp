@@ -12,23 +12,22 @@ import { Scales } from "../../themes"
 const styles = StyleSheet.create({
 	applicationView: {
 		flex: 1,
-		marginTop: Scales.navBarHeight,
 	},
 })
 
 type Props = {
-  uri: string
-};
+	uri: string
+}
 
 type State = {
-  height: number
-};
+	height: number
+}
 
 class WebScreen extends React.Component {
-	props: Props;
+	props: Props
 	state: State = {
 		height: 40,
-	};
+	}
 
 	componentDidMount() {}
 
@@ -52,21 +51,21 @@ class WebScreen extends React.Component {
 						right: 0,
 						height,
 					}}
-        >
+				>
 					<Button
 						style={{ flex: 1 }}
 						backgroundColor="#ddd"
 						onPress={() => {
 							this.setState({ height: height + 10 })
 						}}
-          />
+					/>
 					<Button
 						style={{ flex: 1 }}
 						backgroundColor="#ddd"
 						onPress={() => {
 							this.setState({ height: Math.max(height - 10, 40) })
 						}}
-          />
+					/>
 					<View style={{ flex: 2 }} />
 					<Button
 						style={{ flex: 2 }}
@@ -79,7 +78,7 @@ class WebScreen extends React.Component {
 							Actions.pop()
 							Linking.openURL(uri)
 						}}
-          />
+					/>
 				</View>
 			</View>
 		)
