@@ -83,7 +83,7 @@ class TagScreen extends React.PureComponent {
 
 	/* eslint class-methods-use-this:0 */
 	renderRow(tag: Tag) {
-		return <TagCell tag={tag} />
+		return <TagCell tag={tag} onClick={() => {}} />
 	}
 }
 
