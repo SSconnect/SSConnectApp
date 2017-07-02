@@ -1,12 +1,9 @@
 // @flow
 
 import React from "react"
-import { View, StyleSheet, WebView, Linking, Platform } from "react-native"
+import { Linking, Platform, StyleSheet, View, WebView } from "react-native"
 import { connect } from "react-redux"
 import { Button } from "react-native-elements"
-import { Actions } from "react-native-router-flux"
-
-import { Scales } from "../../themes"
 
 // Styles
 const styles = StyleSheet.create({
@@ -15,16 +12,14 @@ const styles = StyleSheet.create({
 	},
 })
 
-type Props = {
-	uri: string
-}
-
 type State = {
 	height: number
 }
 
 class WebScreen extends React.Component {
-	props: Props
+	props: {
+		navigation: NavigationScreenProp
+	}
 	state: State = {
 		height: 40,
 	}
@@ -36,7 +31,7 @@ class WebScreen extends React.Component {
 	}
 
 	render() {
-		const { uri } = this.props
+		const { uri } = this.props.navigation.state.params
 		const { height } = this.state
 		return (
 			<View style={styles.applicationView}>
@@ -75,7 +70,6 @@ class WebScreen extends React.Component {
 							name: Platform.OS === "ios" ? "safari" : "chrome",
 						}}
 						onPress={() => {
-							Actions.pop()
 							Linking.openURL(uri)
 						}}
 					/>
@@ -85,7 +79,7 @@ class WebScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state, props) => ({})
 
 const mapDispatchToProps = () => ({})
 

@@ -25,7 +25,6 @@ import type { Config, PageInfo, Profile, Read, Story } from "../../types"
 import { IconName } from "../../themes/"
 import SearchBar from "../../components/StorySearchBar"
 import {
-	Body,
 	Button,
 	Container,
 	Content,
