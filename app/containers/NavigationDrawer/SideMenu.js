@@ -13,7 +13,6 @@ import {
 	Switch,
 } from "native-base"
 import { Icon } from "react-native-elements"
-import { Actions } from "react-native-router-flux"
 
 import TabList from "./TabList"
 import { selectConfig } from "../../reduxs/selectors"
@@ -71,8 +70,7 @@ class SideMenu extends React.Component {
 					<ListItem
 						icon
 						onPress={() => {
-							Actions.refresh({ key: "drawer", open: false })
-							setTimeout(() => Actions.tagsScreen())
+							this.props.navigation.navigate("TagScreen")
 						}}
 					>
 						<Left>
