@@ -15,29 +15,5 @@
     "console": false
   },
   "rules": {
-    "comma-dangle": [
-      2,
-      "always-multiline"
-    ],
-    "indent": [
-      "error",
-      "tab",
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "react/jsx-indent": [
-      2,
-      "tab"
-    ],
-    "react/jsx-indent-props": [
-      2,
-      "tab"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ]
   }
 }
-
