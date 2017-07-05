@@ -10,6 +10,7 @@ import TagCell from "../../components/TagCell";
 import feedClient from "../../services/FeedClient";
 import type { Article, Tag } from "../../types";
 import { Scales } from "../../themes/";
+import { Profile } from "../../types/";
 
 type Props = {
   q: string
@@ -83,7 +84,18 @@ class TagScreen extends React.PureComponent {
 
   /* eslint class-methods-use-this:0 */
   renderRow(tag: Tag) {
-    return <TagCell tag={tag} onClick={() => {}} />;
+    const { navigation } = this.props;
+    return (
+      <TagCell
+        tag={tag}
+        onPress={() => {
+          navigation.navigate("BaseScreen", {
+            profile: new Profile({ tag: tag.name }),
+            title: `タグ: ${tag.name}`
+          });
+        }}
+      />
+    );
   }
 }
 

@@ -5,12 +5,12 @@ import {
   Body,
   Left,
   CheckBox,
-  Container,
   Content,
   ListItem,
   Text,
   Right,
-  Switch
+  Switch,
+  Container
 } from "native-base";
 import { Icon } from "react-native-elements";
 
@@ -20,10 +20,12 @@ import { toggleConfigIAB } from "../../reduxs/actions";
 
 import { IconName, Scales } from "../../themes";
 import { Config } from "../../types";
+import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition";
 
 type Props = {
   config: Config,
-  onToggleConfigIAB: Function
+  onToggleConfigIAB: Function,
+  navigation: NavigationScreenProp
 };
 
 class SideMenu extends React.Component {
@@ -34,7 +36,7 @@ class SideMenu extends React.Component {
   }
 
   render() {
-    const { config, onToggleConfigIAB } = this.props;
+    const { config, onToggleConfigIAB, navigation } = this.props;
     return (
       <Container>
         <Content
@@ -47,7 +49,14 @@ class SideMenu extends React.Component {
           <ListItem itemDivider>
             <Text>お気に入り</Text>
           </ListItem>
-          <TabList />
+          <TabList
+            navigateScreen={profile => {
+              navigation.navigate("BaseScreen", {
+                profile,
+                title: profile.label()
+              });
+            }}
+          />
 
           <ListItem itemDivider>
             <Text>設定</Text>

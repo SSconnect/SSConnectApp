@@ -1,7 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
 import { Icon } from "react-native-elements";
-import { Actions } from "react-native-router-flux";
 
 import { connect } from "react-redux";
 
@@ -15,7 +14,8 @@ import { Body, Content, Left, ListItem, Right } from "native-base";
 
 type Props = {
   profiles: Array<Profile>,
-  onMoveProfile: (from, to) => {},
+  navigateScreen: Function,
+  onMoveProfile: (from: number, to: number) => {},
   onDeleteProfile: Function
 };
 
@@ -27,20 +27,12 @@ class TabList extends React.PureComponent {
   }
 
   renderListItem(profile: Profile, i) {
-    const { onDeleteProfile, onMoveProfile } = this.props;
+    const { onDeleteProfile, onMoveProfile, navigateScreen } = this.props;
     return (
       <ListItem
         icon
         key={profile.q + profile.tag + profile.blog_id}
-        onPress={() => {
-          Actions.refresh({ key: "drawer", open: false });
-          setTimeout(() => {
-            Actions.baseScreen({
-              profile,
-              title: profile.label()
-            });
-          });
-        }}
+        onPress={() => navigateScreen(profile)}
       >
         <Left>
           <Icon

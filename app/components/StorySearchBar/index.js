@@ -1,7 +1,6 @@
 // @flow
 
 import React from "react";
-import { Actions } from "react-native-router-flux";
 import { SearchBar } from "react-native-elements";
 
 import { IconName } from "../../themes/";
@@ -13,19 +12,13 @@ class StorySearchBar extends React.PureComponent {
   };
 
   render() {
-    const { profile } = this.props;
+    const { profile, onSubmit } = this.props;
     if (profile.tag) {
       return (
         <SearchBar
           lightTheme
           icon={{ name: IconName.tag }}
-          onSubmitEditing={e => {
-            const text = e.nativeEvent.text;
-            Actions.baseScreen({
-              profile: new Profile({ ...profile, q: text }),
-              title: `${profile.tag}: ${text}`
-            });
-          }}
+          onSubmitEditing={e => onSubmit(e, `${profile.tag}: ${text}`)}
           placeholder={`"${profile.tag}"タグでタイトル検索`}
         />
       );
@@ -34,13 +27,7 @@ class StorySearchBar extends React.PureComponent {
       <SearchBar
         lightTheme
         icon={{ name: IconName.search }}
-        onSubmitEditing={e => {
-          const text = e.nativeEvent.text;
-          Actions.baseScreen({
-            profile: new Profile({ ...profile, q: text }),
-            title: `タイトル検索: ${text}`
-          });
-        }}
+        onSubmitEditing={e => onSubmit(e, `タイトル検索: ${e.nativeEvent.text}`)}
         placeholder={"タイトル検索"}
       />
     );

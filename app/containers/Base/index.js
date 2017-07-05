@@ -87,12 +87,20 @@ class BaseScreen extends React.PureComponent {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, navigation } = this.props;
     return (
       <Container>
         <Content>
           <ScrollView>
-            <SearchBar profile={profile} />
+            <SearchBar
+              profile={profile}
+              onSubmit={(e, title) => {
+                navigation.navigate("BaseScreen", {
+                  profile: new Profile({ ...profile, q: e.nativeEvent.text }),
+                  title
+                });
+              }}
+            />
             {this.renderMain()}
             <Indicator loading={this.props.loading} />
             {this.renderNoHit()}

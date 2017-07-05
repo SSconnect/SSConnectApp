@@ -1,15 +1,14 @@
 // @flow
 
 import React from "react";
-import { View, StatusBar, StyleSheet } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import { makeHomeTabs } from "../HomeTabs";
 
-import { loadProfiles, loadConfig, loadReads } from "../../reduxs/actions";
+import { loadConfig, loadProfiles, loadReads } from "../../reduxs/actions";
 import { selectProfiles } from "../../reduxs/selectors";
 
 import store from "../../models/StoreManager";
-import NavigationRouter from "../../routers/NavigationRouter";
 import { NavigationDrawer } from "../NavigationDrawer";
 
 import { Profile } from "../../types";

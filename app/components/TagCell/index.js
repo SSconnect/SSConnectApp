@@ -3,24 +3,15 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import moment from "moment";
-import { Actions } from "react-native-router-flux";
 import { Icon } from "react-native-elements";
 
 import { Colors } from "../../themes/";
 import type { Tag } from "../../types";
-import { Profile } from "../../types";
 
-function TagCell({ tag }: { tag: Tag }) {
+function TagCell({ tag, onPress }: { tag: Tag, onPress: Function }) {
   moment.updateLocale("ja");
   return (
-    <TouchableOpacity
-      onPress={() => {
-        Actions.baseScreen({
-          profile: new Profile({ tag: tag.name }),
-          title: `タグ: ${tag.name}`
-        });
-      }}
-    >
+    <TouchableOpacity onPress={onPress}>
       <View
         style={{
           padding: 10,

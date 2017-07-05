@@ -15,5 +15,6 @@
     "console": false
   },
   "rules": {
+    "no-undef": "error"
   }
 }

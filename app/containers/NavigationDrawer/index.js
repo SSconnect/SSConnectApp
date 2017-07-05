@@ -9,6 +9,12 @@ import WebScreen from "../Web";
 import BaseScreen from "../Base";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+function MappedBaseScreen(allProps) {
+  const { navigation, ...otherProps } = allProps;
+  const { state: { params } } = navigation;
+  return <BaseScreen {...params} navigation={navigation} {...otherProps} />;
+}
+
 export const NavigationDrawer = Tabs =>
   DrawerNavigator(
     {
@@ -37,7 +43,7 @@ export const NavigationDrawer = Tabs =>
             screen: TagScreen
           },
           BaseScreen: {
-            screen: BaseScreen
+            screen: MappedBaseScreen
           }
         })
       }
