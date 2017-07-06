@@ -19,7 +19,12 @@ import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition";
 
 import config from "../../configs";
 
-import { addProfile, addRead, loadStories } from "../../reduxs/actions";
+import {
+  addProfile,
+  addRead,
+  loadStories,
+  deleteProfile
+} from "../../reduxs/actions";
 import {
   makeSelectPageInfo,
   makeSelectStories,
@@ -51,6 +56,7 @@ type Props = {
   pageInfo: PageInfo,
   stories: Array<Story>,
   config: Config,
+  onDeleteProfile: Function,
   navigation: NavigationScreenProp
 };
 
@@ -74,19 +80,31 @@ class BaseScreen extends React.PureComponent {
     if (!navigation.state.params.props) {
       return null;
     }
-    const { profile, profiles, onAddProfile } = navigation.state.params.props;
+    const {
+      profile,
+      profiles,
+      onAddProfile,
+      onDeleteProfile
+    } = navigation.state.params.props;
     return {
       title: profile.label(),
       headerRight: BaseScreen.renderSubscribeButton({
         profile,
         active: _.find(profiles, profile),
         profileFull: profiles.length >= config.LIMITS.PROFILE_MAX.FREE,
-        onAddProfile
+        onAddProfile,
+        onDeleteProfile
       })
     };
   };
 
-  static renderSubscribeButton({ profile, active, profileFull, onAddProfile }) {
+  static renderSubscribeButton({
+    profile,
+    active,
+    profileFull,
+    onAddProfile,
+    onDeleteProfile
+  }) {
     if (profile.isHome()) {
       return null;
     }
@@ -97,6 +115,10 @@ class BaseScreen extends React.PureComponent {
           color={active ? "black" : "#CCC"}
           size={20}
           onPress={() => {
+            if (active) {
+              onDeleteProfile(profile);
+              return;
+            }
             if (profileFull) {
               Alert.alert("失敗", "タグは 3つまでしか登録できません。(Free プラン)");
               return;
@@ -245,6 +267,7 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = dispatch => ({
   onAddProfile: (profile: Profile) => dispatch(addProfile(profile)),
   onAddRead: story => dispatch(addRead(story)),
+  onDeleteProfile: profile => dispatch(deleteProfile(profile)),
   onLoadStories: (profile: Profile, page: number) =>
     dispatch(loadStories(profile, page))
 });
