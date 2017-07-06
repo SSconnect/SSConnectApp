@@ -56,7 +56,8 @@ export const NavigationDrawer = Tabs =>
             })
           },
           BaseScreen: {
-            screen: MappedBaseScreen
+            screen: MappedBaseScreen,
+            navigationOptions: BaseScreen.navigationOptions
           }
         })
       }

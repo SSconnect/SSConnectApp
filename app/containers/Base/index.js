@@ -69,19 +69,21 @@ class BaseScreen extends React.PureComponent {
     stories: []
   };
 
-  static navigationProps = {
-    header: ({ state }) => {
-      const { profile, profiles, onAddProfile } = state.params.props;
-      return {
-        title: profile.label(),
-        headerRight: BaseScreen.renderSubscribeButton({
-          profile,
-          active: _.find(profiles, profile),
-          profileFull: profiles.length >= config.LIMITS.PROFILE_MAX.FREE,
-          onAddProfile
-        })
-      };
+  static navigationOptions = ({ navigation }) => {
+    debugger;
+    if (!navigation.state.params.props) {
+      return null;
     }
+    const { profile, profiles, onAddProfile } = navigation.state.params.props;
+    return {
+      title: profile.label(),
+      headerRight: BaseScreen.renderSubscribeButton({
+        profile,
+        active: _.find(profiles, profile),
+        profileFull: profiles.length >= config.LIMITS.PROFILE_MAX.FREE,
+        onAddProfile
+      })
+    };
   };
 
   static renderSubscribeButton({ profile, active, profileFull, onAddProfile }) {
