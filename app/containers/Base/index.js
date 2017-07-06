@@ -14,6 +14,7 @@ import {
   Right,
   Title
 } from "native-base";
+import FAIcon from "react-native-vector-icons/FontAwesome";
 import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition";
 
 import config from "../../configs";
@@ -70,7 +71,6 @@ class BaseScreen extends React.PureComponent {
   };
 
   static navigationOptions = ({ navigation }) => {
-    debugger;
     if (!navigation.state.params.props) {
       return null;
     }
@@ -91,13 +91,11 @@ class BaseScreen extends React.PureComponent {
       return null;
     }
     return (
-      <View>
-        <Button
-          raised
-          backgroundColor="black"
-          title="ブックマーク"
-          icon={{ name: IconName.add }}
-          active={active}
+      <View style={{ paddingRight: 20 }}>
+        <FAIcon
+          name={IconName.heart}
+          color={active ? "black" : "#CCC"}
+          size={20}
           onPress={() => {
             if (profileFull) {
               Alert.alert("失敗", "タグは 3つまでしか登録できません。(Free プラン)");

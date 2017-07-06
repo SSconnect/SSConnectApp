@@ -30,6 +30,7 @@ export const NavigationDrawer = Tabs =>
                 <Icon
                   style={{ marginLeft: 20 }}
                   name="bars"
+                  size={20}
                   onPress={() => navigation.navigate("DrawerOpen")}
                 />
               )
@@ -50,6 +51,7 @@ export const NavigationDrawer = Tabs =>
                 <Icon
                   style={{ marginLeft: 20 }}
                   name="bars"
+                  size={20}
                   onPress={() => navigation.navigate("DrawerOpen")}
                 />
               )

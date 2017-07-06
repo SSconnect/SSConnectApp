@@ -12,6 +12,7 @@ const iconName = {
   delete: "delete-forever",
   up: "arrow-upward",
   next: "navigate-next",
+  heart: "heart",
   prev: "chevron-left"
 };
 
