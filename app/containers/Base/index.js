@@ -41,20 +41,22 @@ type State = {
   isHome: boolean
 };
 
+type Props = {
+  profile: Profile,
+  onAddProfile: Function,
+  onLoadStories: Function,
+  reads: Array<Read>,
+  onAddRead: Function,
+  profiles: Array<Profile>,
+  loading: boolean,
+  pageInfo: PageInfo,
+  stories: Array<Story>,
+  config: Config,
+  navigation: NavigationScreenProp
+};
+
 class BaseScreen extends React.PureComponent {
-  props: {
-    profile: Profile,
-    onAddProfile: Function,
-    onLoadStories: Function,
-    reads: Array<Read>,
-    onAddRead: Function,
-    profiles: Array<Profile>,
-    loading: boolean,
-    pageInfo: PageInfo,
-    stories: Array<Story>,
-    config: Config,
-    navigation: NavigationScreenProp
-  };
+  props: Props;
   state: State = {
     dataSource: new ListView.DataSource({
       rowHasChanged: BaseScreen.rowHasChanged
