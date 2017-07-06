@@ -46,6 +46,33 @@ class SideMenu extends React.Component {
             paddingBottom: 10
           }}
         >
+          <ListItem
+            icon
+            onPress={() => {
+              this.props.navigation.navigate("Main");
+            }}
+          >
+            <Left>
+              <Icon name={IconName.home} />
+            </Left>
+            <Body>
+              <Text>ホーム</Text>
+            </Body>
+          </ListItem>
+          <ListItem
+            icon
+            onPress={() => {
+              this.props.navigation.navigate("TagScreen");
+            }}
+          >
+            <Left>
+              <Icon name={IconName.list} />
+            </Left>
+            <Body>
+              <Text>作品タグ一覧</Text>
+            </Body>
+          </ListItem>
+
           <ListItem itemDivider>
             <Text>お気に入り</Text>
           </ListItem>
@@ -73,23 +100,6 @@ class SideMenu extends React.Component {
                 onValueChange={onToggleConfigIAB}
                 value={config.inappbrowse}
               />
-            </Right>
-          </ListItem>
-
-          <ListItem
-            icon
-            onPress={() => {
-              this.props.navigation.navigate("TagScreen");
-            }}
-          >
-            <Left>
-              <Icon name={IconName.tag} />
-            </Left>
-            <Body>
-              <Text>作品タグ一覧</Text>
-            </Body>
-            <Right>
-              <Icon name="arrow-forward" />
             </Right>
           </ListItem>
 

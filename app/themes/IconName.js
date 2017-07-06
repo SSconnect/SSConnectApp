@@ -13,6 +13,7 @@ const iconName = {
   up: "arrow-upward",
   next: "navigate-next",
   heart: "heart",
+  list: "list",
   prev: "chevron-left"
 };
 
