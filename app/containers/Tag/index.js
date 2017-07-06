@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import { View, ListView } from "react-native";
+import { ListView } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 import Indicator from "../../components/Indicator";
@@ -11,6 +11,7 @@ import feedClient from "../../services/FeedClient";
 import type { Article, Tag } from "../../types";
 import { Scales } from "../../themes/";
 import { Profile } from "../../types/";
+import { View } from "native-base";
 
 type Props = {
   q: string
@@ -61,7 +62,7 @@ class TagScreen extends React.PureComponent {
 
   render() {
     return (
-      <View style={{ marginTop: Scales.navBarHeight }}>
+      <View>
         <SearchBar
           lightTheme
           icon={{ name: "videogame-asset" }}

@@ -40,7 +40,16 @@ export const NavigationDrawer = Tabs =>
       Tag: {
         screen: StackNavigator({
           TagScreen: {
-            screen: TagScreen
+            screen: TagScreen,
+            navigationOptions: ({ navigation }) => ({
+              title: "作品リスト",
+              headerLeft: (
+                <Icon
+                  name="bars"
+                  onPress={() => navigation.navigate("DrawerOpen")}
+                />
+              )
+            })
           },
           BaseScreen: {
             screen: MappedBaseScreen
