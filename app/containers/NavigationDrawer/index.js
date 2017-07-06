@@ -28,6 +28,7 @@ export const NavigationDrawer = Tabs =>
               title: "ホーム",
               headerLeft: (
                 <Icon
+                  style={{ marginLeft: 20 }}
                   name="bars"
                   onPress={() => navigation.navigate("DrawerOpen")}
                 />
@@ -47,6 +48,7 @@ export const NavigationDrawer = Tabs =>
               title: "作品リスト",
               headerLeft: (
                 <Icon
+                  style={{ marginLeft: 20 }}
                   name="bars"
                   onPress={() => navigation.navigate("DrawerOpen")}
                 />
