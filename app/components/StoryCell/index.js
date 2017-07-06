@@ -4,7 +4,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 
-import moment from "moment";
+import moment from "../../configs/moment";
 
 import { makeSelectReaded } from "../../reduxs/selectors";
 import { Colors } from "../../themes/";

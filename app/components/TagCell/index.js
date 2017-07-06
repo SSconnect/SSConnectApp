@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import moment from "moment";
 import { Icon } from "react-native-elements";
 
+import moment from "../../configs/moment";
 import { Colors } from "../../themes/";
 import type { Tag } from "../../types";
 
