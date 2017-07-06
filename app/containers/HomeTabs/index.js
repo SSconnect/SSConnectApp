@@ -1,7 +1,10 @@
 // @flow
 import React from "react";
-import BaseScreen from "../Base";
+import _ from "lodash";
+
 import { TabNavigator } from "react-navigation";
+
+import BaseScreen from "../Base";
 
 export const makeHomeTabs = ({ profiles }) => {
   const tabs = _.zipObject(

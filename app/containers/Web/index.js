@@ -5,6 +5,8 @@ import { Linking, Platform, StyleSheet, View, WebView } from "react-native";
 import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 
+import type { NavigationScreenProp } from "react-navigation/src/TypeDefinition";
+
 // Styles
 const styles = StyleSheet.create({
   applicationView: {
