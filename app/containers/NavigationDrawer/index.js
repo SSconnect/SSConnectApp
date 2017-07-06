@@ -1,13 +1,15 @@
 // @flow
+import { Alert } from "react-native";
+import { DrawerNavigator, StackNavigator } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import React from "react";
 
-import { DrawerNavigator, StackNavigator } from "react-navigation";
-
+import { IconName } from "../../themes";
+import BaseScreen from "../Base";
 import SideMenu from "./SideMenu";
 import TagScreen from "../Tag";
 import WebScreen from "../Web";
-import BaseScreen from "../Base";
-import Icon from "react-native-vector-icons/FontAwesome";
+import config from "../../configs";
 
 function MappedBaseScreen(allProps) {
   const { navigation, ...otherProps } = allProps;

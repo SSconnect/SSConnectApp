@@ -36,9 +36,7 @@ import { IconName } from "../../themes/";
 import SearchBar from "../../components/StorySearchBar";
 
 type State = {
-  dataSource: any,
-  addDisable: boolean,
-  isHome: boolean
+  dataSource: any
 };
 
 type Props = {
@@ -60,9 +58,7 @@ class BaseScreen extends React.PureComponent {
   state: State = {
     dataSource: new ListView.DataSource({
       rowHasChanged: BaseScreen.rowHasChanged
-    }).cloneWithRows(this.props.stories),
-    addDisable: false,
-    isHome: this.props.profile.q === "" && this.props.profile.tag === ""
+    }).cloneWithRows(this.props.stories)
   };
 
   static defaultProps = {
@@ -73,12 +69,64 @@ class BaseScreen extends React.PureComponent {
     stories: []
   };
 
+  static navigationProps = {
+    header: ({ state }) => {
+      const { profile, profiles, onAddProfile } = state.params.props;
+      return {
+        title: profile.label(),
+        headerRight: BaseScreen.renderSubscribeButton({
+          profile,
+          active: _.find(profiles, profile),
+          profileFull: profiles.length >= config.LIMITS.PROFILE_MAX.FREE,
+          onAddProfile
+        })
+      };
+    }
+  };
+
+  static renderSubscribeButton({ profile, active, profileFull, onAddProfile }) {
+    if (profile.isHome()) {
+      return null;
+    }
+    return (
+      <View>
+        <Button
+          raised
+          backgroundColor="black"
+          title="ブックマーク"
+          icon={{ name: IconName.add }}
+          active={active}
+          onPress={() => {
+            if (profileFull) {
+              Alert.alert("失敗", "タグは 3つまでしか登録できません。(Free プラン)");
+              return;
+            }
+            onAddProfile(profile);
+            if (profile.q && profile.tag) {
+              Alert.alert("完了", `「${profile.tag}|${profile.q}」を登録しました`);
+            } else if (profile.tag) {
+              Alert.alert("完了", `タグ「${profile.tag || ""}」を登録しました`);
+            } else {
+              Alert.alert("完了", `「${profile.q}」を登録しました`);
+            }
+          }}
+        />
+      </View>
+    );
+  }
+
   static rowHasChanged(r1: Story, r2: Story) {
     return r1.id !== r2.id;
   }
 
   componentWillMount() {
     this.props.onLoadStories(this.props.profile, this.props.pageInfo.page);
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      props: this.props
+    });
   }
 
   componentWillReceiveProps(newProps: Props) {
@@ -119,7 +167,6 @@ class BaseScreen extends React.PureComponent {
     return (
       <View>
         {this.renderPager()}
-        {this.renderSubscribeButton()}
         {this.renderListView()}
         {this.renderPager()}
       </View>
@@ -143,40 +190,6 @@ class BaseScreen extends React.PureComponent {
 
   handlePageChange(page) {
     this.props.onLoadStories(this.props.profile, page);
-  }
-
-  renderSubscribeButton() {
-    const { profile, profiles, onAddProfile } = this.props;
-    const { isHome } = this.state;
-    if (isHome || _.find(profiles, profile)) {
-      return null;
-    }
-    return (
-      <View style={{ margin: 5 }}>
-        <Button
-          raised
-          backgroundColor="black"
-          title="ブックマーク"
-          icon={{ name: IconName.add }}
-          disabled={this.state.addDisable}
-          onPress={() => {
-            if (this.props.profiles.length >= config.LIMITS.PROFILE_MAX.FREE) {
-              Alert.alert("失敗", "タグは 3つまでしか登録できません。(Free プラン)");
-              return;
-            }
-            onAddProfile(profile);
-            this.setState({ addDisable: true });
-            if (profile.q && profile.tag) {
-              Alert.alert("完了", `「${profile.tag}|${profile.q}」を登録しました`);
-            } else if (profile.tag) {
-              Alert.alert("完了", `タグ「${profile.tag || ""}」を登録しました`);
-            } else {
-              Alert.alert("完了", `「${profile.q}」を登録しました`);
-            }
-          }}
-        />
-      </View>
-    );
   }
 
   renderListView() {

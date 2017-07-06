@@ -18,7 +18,8 @@ class StorySearchBar extends React.PureComponent {
         <SearchBar
           lightTheme
           icon={{ name: IconName.tag }}
-          onSubmitEditing={e => onSubmit(e, `${profile.tag}: ${text}`)}
+          onSubmitEditing={e =>
+            onSubmit(e, `${profile.tag}: ${e.nativeEvent.text}`)}
           placeholder={`"${profile.tag}"タグでタイトル検索`}
         />
       );

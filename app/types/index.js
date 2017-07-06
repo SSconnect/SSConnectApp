@@ -1,5 +1,7 @@
 // @flow
 
+import _ from "lodash";
+
 import IconName from "../themes/IconName";
 export type Blog = {
   id: number,
@@ -70,6 +72,10 @@ export class Profile {
 
   raw() {
     return _.pick(this, ["blog_id", "q", "tag"]);
+  }
+
+  isHome() {
+    return this.q === "" && this.tag === "";
   }
 }
 

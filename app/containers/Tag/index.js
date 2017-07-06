@@ -9,7 +9,6 @@ import TagCell from "../../components/TagCell";
 
 import feedClient from "../../services/FeedClient";
 import type { Article, Tag } from "../../types";
-import { Scales } from "../../themes/";
 import { Profile } from "../../types/";
 import { View } from "native-base";
 
