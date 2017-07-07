@@ -1,42 +1,71 @@
-import React from 'react'
-import Drawer from 'react-native-drawer'
-import { Actions, DefaultRenderer } from 'react-native-router-flux'
+// @flow
+import { Alert } from "react-native";
+import { DrawerNavigator, StackNavigator } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
+import React from "react";
 
-import SideMenu from './SideMenu'
+import { IconName } from "../../themes";
+import BaseScreen from "../Base";
+import SideMenu from "./SideMenu";
+import TagScreen from "../Tag";
+import WebScreen from "../Web";
+import config from "../../configs";
 
-type Props = {
-	navigationState: any,
-	onNavigate: any
+function MappedBaseScreen(allProps) {
+  const { navigation, ...otherProps } = allProps;
+  const { state: { params } } = navigation;
+  return <BaseScreen {...params} navigation={navigation} {...otherProps} />;
 }
 
-class NavigationDrawer extends React.Component {
-	props: Props
-
-	render() {
-		const state = this.props.navigationState
-		const children = state.children
-		return (
-			<Drawer
-				ref="navigation"
-				content={<SideMenu />}
-				type="displace"
-				open={state.open}
-				openDrawerOffset={0.2}
-				onOpen={() => Actions.refresh({ key: state.key, open: true })}
-				onClose={() => Actions.refresh({ key: state.key, open: false })}
-				tweenHandler={ratio => ({
-					main: { opacity: Math.max(0.54, 1 - ratio) },
-				})}
-				captureGestures="open"
-				panOpenMask={0.03}
-				negotiatePan
-				acceptPan
-				tapToClose
-			>
-				<DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
-			</Drawer>
-		)
-	}
-}
-
-export default NavigationDrawer
+export const NavigationDrawer = Tabs =>
+  DrawerNavigator(
+    {
+      Main: {
+        screen: StackNavigator({
+          MainTabs: {
+            screen: Tabs,
+            navigationOptions: ({ navigation }) => ({
+              title: "ホーム",
+              headerLeft: (
+                <Icon
+                  style={{ marginLeft: 20 }}
+                  name="bars"
+                  size={20}
+                  onPress={() => navigation.navigate("DrawerOpen")}
+                />
+              )
+            })
+          },
+          WebScreen: {
+            screen: WebScreen
+          }
+        })
+      },
+      Tag: {
+        screen: StackNavigator({
+          TagScreen: {
+            screen: TagScreen,
+            navigationOptions: ({ navigation }) => ({
+              title: "作品リスト",
+              headerLeft: (
+                <Icon
+                  style={{ marginLeft: 20 }}
+                  name="bars"
+                  size={20}
+                  onPress={() => navigation.navigate("DrawerOpen")}
+                />
+              )
+            })
+          },
+          BaseScreen: {
+            screen: MappedBaseScreen,
+            navigationOptions: BaseScreen.navigationOptions
+          }
+        })
+      }
+    },
+    {
+      drawerWidth: 300,
+      contentComponent: SideMenu
+    }
+  );

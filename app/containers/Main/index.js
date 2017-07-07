@@ -1,88 +1,88 @@
 // @flow
 
-import React from "react"
-import "react-native"
-import { connect } from "react-redux"
-import { Tabs, Tab, Icon } from "react-native-elements"
-import _ from "lodash"
+import React from "react";
+import "react-native";
+import { connect } from "react-redux";
+import { Tabs, Tab, Icon } from "react-native-elements";
+import _ from "lodash";
 
-import BaseScreen from "../Base"
+import BaseScreen from "../Base";
 
-import { Profile } from "../../types"
+import { Profile } from "../../types";
 
-import { selectProfiles } from "../../reduxs/selectors"
-import { profileSerialKey } from "../../types/utils"
+import { selectProfiles } from "../../reduxs/selectors";
+import { profileSerialKey } from "../../types/utils";
 
 type Props = {
-	profiles: Array<Profile>
-}
+  profiles: Array<Profile>
+};
 
 type State = {
-	selectedTab: string
-}
+  selectedTab: string
+};
 
 class MainScreen extends React.PureComponent {
-	props: Props
-	state: State = { selectedTab: profileSerialKey({}) }
+  props: Props;
+  state: State = { selectedTab: profileSerialKey({}) };
 
-	componentDidMount() {}
+  componentDidMount() {}
 
-	componentWillReceiveProps() {
-		this.forceUpdate()
-	}
+  componentWillReceiveProps() {
+    this.forceUpdate();
+  }
 
-	renderTab(profile: Profile) {
-		const { selectedTab } = this.state
-		const key = profileSerialKey(profile)
-		const selected = selectedTab === key
+  renderTab(profile: Profile) {
+    const { selectedTab } = this.state;
+    const key = profileSerialKey(profile);
+    const selected = selectedTab === key;
 
-		const iconProps = {
-			containerStyle: {
-				justifyContent: "center",
-				alignItems: "center",
-				marginTop: 0,
-			},
-			name: profile.icon(),
-			size: 24,
-		}
-		return (
-			<Tab
-				key={key}
-				selected={selected}
-				style={{
-					padding: 5,
-				}}
-				title={profile.label()}
-				titleStyle={{
-					margin: 0,
-					marginBottom: 5,
-				}}
-				renderIcon={() => <Icon {...iconProps} />}
-				renderSelectedIcon={() => <Icon color={"#6296f9"} {...iconProps} />}
-				onPress={() => this.setState({ selectedTab: key })}
-			>
-				<BaseScreen profile={profile} />
-			</Tab>
-		)
-	}
+    const iconProps = {
+      containerStyle: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0
+      },
+      name: profile.icon(),
+      size: 24
+    };
+    return (
+      <Tab
+        key={key}
+        selected={selected}
+        style={{
+          padding: 5
+        }}
+        title={profile.label()}
+        titleStyle={{
+          margin: 0,
+          marginBottom: 5
+        }}
+        renderIcon={() => <Icon {...iconProps} />}
+        renderSelectedIcon={() => <Icon color={"#6296f9"} {...iconProps} />}
+        onPress={() => this.setState({ selectedTab: key })}
+      >
+        <BaseScreen profile={profile} />
+      </Tab>
+    );
+  }
 
-	render() {
-		const { profiles } = this.props
-		const tabs = _.map(profiles, profile => this.renderTab(profile))
+  render() {
+    const { profiles } = this.props;
+    const tabs = _.map(profiles, profile => this.renderTab(profile));
 
-		return (
-			<Tabs>
-				{this.renderTab(new Profile({ q: "", tag: "" }))}
-				{tabs}
-			</Tabs>
-		)
-	}
+    return (
+      <Tabs>
+        {this.renderTab(new Profile({ q: "", tag: "" }))}
+        {tabs}
+      </Tabs>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => ({
-	profiles: selectProfiles(state, props),
-})
+  profiles: selectProfiles(state, props)
+});
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
