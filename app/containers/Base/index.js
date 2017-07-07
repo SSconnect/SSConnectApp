@@ -1,3 +1,5 @@
+import { Icon } from "react-native-elements";
+
 // @flow
 
 import React from "react";
@@ -77,7 +79,7 @@ class BaseScreen extends React.PureComponent {
   };
 
   static navigationOptions = ({ navigation }) => {
-    if (!navigation.state.params.props) {
+    if (!navigation.state.params || !navigation.state.params.props) {
       return null;
     }
     const {
@@ -94,7 +96,8 @@ class BaseScreen extends React.PureComponent {
         profileFull: profiles.length >= config.LIMITS.PROFILE_MAX.FREE,
         onAddProfile,
         onDeleteProfile
-      })
+      }),
+      tabBarIcon: ({ tintColor }) => <Icon name={profile.icon()} />
     };
   };
 
