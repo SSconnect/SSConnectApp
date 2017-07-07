@@ -39,7 +39,8 @@ import Indicator from "../../components/Indicator";
 import StoryCell from "../../components/StoryCell";
 import Paginator from "../../components/Paginator";
 
-import type { Config, PageInfo, Profile, Read, Story } from "../../types";
+import type { Config, PageInfo, Read, Story } from "../../types";
+import { Profile } from "../../types";
 import { IconName } from "../../themes/";
 import SearchBar from "../../components/StorySearchBar";
 
