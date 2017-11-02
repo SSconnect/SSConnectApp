@@ -1,3 +1,6 @@
+
+This project move to → https://github.com/SSconnect/ssconnect
+
 # SSConnectApp
 SSconnect React Native application.
 
